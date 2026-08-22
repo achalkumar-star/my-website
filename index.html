@@ -876,7 +876,7 @@ td{
 
                 <div class="page-title">
                     <h1>🥛 Milk Entry</h1>
-                    <p>Wednesday → Tuesday. Morning and Evening milk.</p>
+                    <p>Thursday → Wednesday. Morning and Evening milk.</p>
                 </div>
 
                 <div class="panel">
@@ -889,7 +889,7 @@ td{
                         </div>
 
                         <div class="field">
-                            <label>Start Date — Wednesday</label>
+                            <label>Start Date — Thursday</label>
                             <input id="milkStartDate" type="date">
                         </div>
 
@@ -1208,7 +1208,7 @@ function updateDashboard(){
             ${formatDate(cycle.start)} → ${formatDate(cycle.end)}
         </div>
         <div style="color:var(--muted);margin-top:7px">
-            Wednesday → Tuesday
+            Thursday → Wednesday
         </div>
     `;
 }
@@ -1471,7 +1471,7 @@ function milkHistory(customer){
 
                     return `
                         <tr>
-                            <td>Wednesday → Tuesday</td>
+                            <td>Thursday → Wednesday</td>
                             <td>${formatDate(record.startDate)}</td>
                             <td>${formatDate(record.endDate)}</td>
                             <td>${formatNumber(getRecordTotal(record))} L</td>
@@ -1640,16 +1640,16 @@ function getCurrentCycle(){
        Saturday = 6
     */
 
-    let diffToWednesday = day - 3;
+    let diffToThursday = day - 4;
 
-    if(diffToWednesday < 0){
-        diffToWednesday += 7;
+    if(diffToThursday < 0){
+        diffToThursday += 7;
     }
 
     const start = new Date(now);
 
     start.setHours(0,0,0,0);
-    start.setDate(start.getDate() - diffToWednesday);
+    start.setDate(start.getDate() - diffToThursday);
 
     const end = new Date(start);
     end.setDate(end.getDate()+6);
@@ -1673,13 +1673,13 @@ function buildWeekGrid(startDateValue){
     }
 
     const days = [
-        "Wednesday",
         "Thursday",
         "Friday",
         "Saturday",
         "Sunday",
         "Monday",
-        "Tuesday"
+        "Tuesday",
+        "Wednesday"
     ];
 
     grid.innerHTML = days.map((day,index)=>{
@@ -1729,8 +1729,8 @@ document.getElementById("milkStartDate").addEventListener("change",function(){
 
     const selected = parseDate(this.value);
 
-    if(selected.getDay() !== 3){
-        toast("Start Date must be Wednesday.");
+    if(selected.getDay() !== 4){
+        toast("Start Date must be Thursday.");
         this.value = getCurrentCycle().start;
         return;
     }
@@ -1809,8 +1809,8 @@ function saveMilkRecord(){
 
     const start = parseDate(startDate);
 
-    if(start.getDay() !== 3){
-        toast("Start date must be Wednesday.");
+    if(start.getDay() !== 4){
+        toast("Start date must be Thursday.");
         return;
     }
 
