@@ -648,6 +648,29 @@ td{
     }
 }
 
+
+.a4-customer-slots{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+.a4-slot{
+    border:1px solid var(--border);
+    background:#0a1728;
+    border-radius:14px;
+    padding:14px;
+}
+.a4-slot-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+.a4-slot-title{font-weight:900;color:var(--accent)}
+.a4-slot-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}
+.a4-slot-preview{margin-top:9px;font-size:12px;color:var(--muted);min-height:18px}
+@media(max-width:700px){.a4-customer-slots{grid-template-columns:1fr}}
+
 /* PRINT */
 
 .print-area{
@@ -987,15 +1010,26 @@ td{
 
                 <div class="panel">
 
-                    <div class="search-row">
-                        <input id="billCustomerCode" placeholder="Enter Customer Code">
-                        <button class="btn green" onclick="loadBillCustomer()">🔎 LOAD BILL</button>
+                    <div class="panel" style="margin-bottom:18px">
+                        <h3>🧾 4 CUSTOMER A4 BILL SHEET</h3>
+                        <p style="color:var(--muted);margin-bottom:15px">Add up to 4 different customers. Each customer gets a separate bill box on the same A4 page.</p>
+                        <div id="a4CustomerSlots" class="a4-customer-slots"></div>
+                        <div class="form-actions">
+                            <button class="btn" onclick="addA4CustomerSlot()">➕ ADD CUSTOMER</button>
+                            <button class="btn green" onclick="printFourCustomerBills()">🖨️ PRINT 4 CUSTOMERS ON ONE A4</button>
+                            <button class="btn dark" onclick="clearA4CustomerSlots()">✕ CLEAR ALL</button>
+                        </div>
                     </div>
 
                     <div id="billPreview"></div>
 
-                    <div class="form-actions">
-                        <button class="btn" onclick="printCurrentCustomer()">🖨️ PRINT 4 BILLS ON A4</button>
+                    <div class="panel" style="margin-top:18px">
+                        <h3>🔎 Single Customer Bill</h3>
+                        <div class="search-row">
+                            <input id="billCustomerCode" placeholder="Enter Customer Code">
+                            <button class="btn green" onclick="loadBillCustomer()">🔎 LOAD BILL</button>
+                            <button class="btn" onclick="printCurrentCustomer()">🖨️ PRINT CUSTOMER</button>
+                        </div>
                     </div>
 
                 </div>
@@ -2247,92 +2281,180 @@ function prepareBillForCustomer(code){
 /* ---------------- PRINT ---------------- */
 
 function printCurrentCustomer(){
-
     if(!currentCustomer){
-
-        const code =
-            document.getElementById("billCustomerCode")?.value.trim();
-
-        if(code){
-            currentCustomer = getCustomer(code);
-        }
+        const code = document.getElementById("billCustomerCode")?.value.trim();
+        if(code) currentCustomer = getCustomer(code);
     }
-
     if(!currentCustomer){
         toast("Open a customer profile first.");
         return;
     }
-
-    printCustomerBills(currentCustomer.code);
+    printOneCustomerBill(currentCustomer);
 }
 
-function printCustomerBills(code){
+function printOneCustomerBill(customer){
+    const record = getBestBillRecord(customer);
+    if(!record){
+        toast("No milk record available for this customer.");
+        return;
+    }
+    const printArea = document.getElementById("printArea");
+    printArea.innerHTML = createPrintableBill(
+        customer,
+        record,
+        getRecordTotal(record),
+        calculateMilkBill(record),
+        calculateBalanceThroughRecord(customer,record)
+    );
+    setTimeout(()=>window.print(),100);
+}
 
+/* ---------------- 4 CUSTOMER A4 PRINT ---------------- */
+let a4CustomerCodes = [];
+
+function addA4CustomerSlot(){
+    if(a4CustomerCodes.length >= 4){
+        toast("Maximum 4 customers can be printed on one A4 page.");
+        return;
+    }
+    a4CustomerCodes.push("");
+    renderA4CustomerSlots();
+}
+
+function removeA4CustomerSlot(index){
+    a4CustomerCodes.splice(index,1);
+    renderA4CustomerSlots();
+}
+
+function clearA4CustomerSlots(){
+    a4CustomerCodes = [];
+    renderA4CustomerSlots();
+    toast("A4 customer list cleared.");
+}
+
+function updateA4CustomerCode(index,value){
+    a4CustomerCodes[index] = value.trim();
+    const preview = document.getElementById("a4Preview_"+index);
+    if(!preview) return;
+    const customer = getCustomer(a4CustomerCodes[index]);
+    if(!a4CustomerCodes[index]){
+        preview.textContent = "Enter Customer Code.";
+        return;
+    }
+    if(!customer){
+        preview.textContent = "Customer not found.";
+        return;
+    }
+    const record = getBestBillRecord(customer);
+    preview.textContent = record
+        ? `${customer.name} • ${formatNumber(getRecordTotal(record))} L • ${money(calculateMilkBill(record))}`
+        : `${customer.name} • No milk record available`;
+}
+
+function renderA4CustomerSlots(){
+    const container = document.getElementById("a4CustomerSlots");
+    if(!container) return;
+
+    if(a4CustomerCodes.length === 0){
+        container.innerHTML = `<div style="grid-column:1/-1;padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px">Click <strong>➕ ADD CUSTOMER</strong> to choose the first customer.</div>`;
+        return;
+    }
+
+    container.innerHTML = a4CustomerCodes.map((code,index)=>{
+        const customer = getCustomer(code);
+        const record = customer ? getBestBillRecord(customer) : null;
+        const preview = customer
+            ? (record
+                ? `${customer.name} • ${formatNumber(getRecordTotal(record))} L • ${money(calculateMilkBill(record))}`
+                : `${customer.name} • No milk record available`)
+            : (code ? "Customer not found." : "Enter Customer Code.");
+        return `
+            <div class="a4-slot">
+                <div class="a4-slot-head">
+                    <span class="a4-slot-title">CUSTOMER ${index+1}</span>
+                    <button class="btn red" style="padding:7px 10px" onclick="removeA4CustomerSlot(${index})">✕</button>
+                </div>
+                <input value="${escapeHtml(code)}" placeholder="Enter Customer Code" oninput="updateA4CustomerCode(${index},this.value)">
+                <div class="a4-slot-actions">
+                    <button class="btn green" style="padding:9px 12px" onclick="loadA4CustomerSlot(${index})">🔎 LOAD CUSTOMER</button>
+                </div>
+                <div id="a4Preview_${index}" class="a4-slot-preview">${preview}</div>
+            </div>
+        `;
+    }).join("");
+}
+
+function loadA4CustomerSlot(index){
+    const code = a4CustomerCodes[index]?.trim();
     const customer = getCustomer(code);
-
     if(!customer){
         toast("Customer not found.");
         return;
     }
-
+    const record = getBestBillRecord(customer);
+    if(!record){
+        toast("This customer has no milk record yet.");
+        renderA4CustomerSlots();
+        return;
+    }
     currentCustomer = customer;
+    renderA4CustomerSlots();
+    toast(`${customer.name} loaded into Customer ${index+1}.`);
+}
 
-    const records =
-        [...customer.milkRecords]
-        .sort(
-            (a,b)=>
-            parseDate(b.startDate)-parseDate(a.startDate)
-        );
+function getBestBillRecord(customer){
+    if(!customer || !Array.isArray(customer.milkRecords) || customer.milkRecords.length===0) return null;
+    const cycle = getCurrentCycle();
+    const current = customer.milkRecords.find(r=>r.startDate===cycle.start);
+    if(current) return current;
+    return [...customer.milkRecords].sort((a,b)=>parseDate(b.startDate)-parseDate(a.startDate))[0] || null;
+}
 
-    if(records.length===0){
-        toast("No milk records available for printing.");
+function printFourCustomerBills(){
+    const codes = a4CustomerCodes.filter(code=>code && code.trim());
+    if(codes.length===0){
+        toast("Add at least one customer first.");
         return;
     }
 
-    /*
-       We print the latest four weekly bills.
+    const customers = [];
+    const used = new Set();
 
-       If fewer than four exist, remaining spaces are left blank.
-    */
-
-    const selected = records.slice(0,4);
-
-    while(selected.length < 4){
-        selected.push(null);
+    for(const code of codes){
+        const customer = getCustomer(code);
+        if(!customer){
+            toast(`Customer ${code} was not found.`);
+            return;
+        }
+        if(used.has(customer.code)){
+            toast(`Customer ${customer.code} is already selected.`);
+            return;
+        }
+        const record = getBestBillRecord(customer);
+        if(!record){
+            toast(`${customer.name} has no milk record.`);
+            return;
+        }
+        used.add(customer.code);
+        customers.push({customer,record});
     }
 
-    const printArea =
-        document.getElementById("printArea");
+    while(customers.length < 4) customers.push(null);
 
-    printArea.innerHTML =
-        selected.map(record=>{
+    const printArea = document.getElementById("printArea");
+    printArea.innerHTML = customers.map(item=>{
+        if(!item) return `<div class="print-bill"></div>`;
+        const {customer,record} = item;
+        return createPrintableBill(
+            customer,
+            record,
+            getRecordTotal(record),
+            calculateMilkBill(record),
+            calculateBalanceThroughRecord(customer,record)
+        );
+    }).join("");
 
-            if(!record){
-                return `<div class="print-bill"></div>`;
-            }
-
-            const milkTotal =
-                getRecordTotal(record);
-
-            const milkBill =
-                calculateMilkBill(record);
-
-            const balance =
-                calculateBalanceThroughRecord(customer,record);
-
-            return createPrintableBill(
-                customer,
-                record,
-                milkTotal,
-                milkBill,
-                balance
-            );
-
-        }).join("");
-
-    setTimeout(()=>{
-        window.print();
-    },100);
+    setTimeout(()=>window.print(),100);
 }
 
 function calculateBalanceThroughRecord(customer,targetRecord){
@@ -2611,6 +2733,7 @@ function toast(message){
     buildWeekGrid();
 
     renderCustomerList();
+    if(a4CustomerCodes.length === 0) addA4CustomerSlot();
 
 })();
 </script>
