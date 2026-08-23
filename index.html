@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dhanalakshmi Milk Dairy</title>
+<title>Dhanalakshmi Milk Dairy • Cloud Sync</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#07111f;--panel:#0d1b2e;--panel2:#12243b;--border:#28415f;--text:#f4f8ff;--muted:#91a5bc;--accent:#61dafb;--green:#39e58c;--red:#ff6675;--yellow:#ffd166}
@@ -24,7 +24,7 @@ input,select{width:100%;padding:13px 15px;background:#091729;color:var(--text);b
 @media print{
 @page{size:A4 portrait;margin:5mm}body{background:#fff!important;color:#000!important}body *{visibility:hidden!important}#printArea,#printArea *{visibility:visible!important}#printArea{display:grid!important;position:absolute;left:0;top:0;width:100%;height:287mm;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:2.5mm;background:#fff}.print-bill{display:block!important;border:1px solid #000;padding:2.8mm;color:#000;font-family:Arial,sans-serif;font-size:9px;overflow:hidden}.print-bill h2{font-size:12px;text-align:center;margin-bottom:1px}.print-sub{text-align:center;font-size:8px;margin-bottom:2px}.print-line{display:flex;justify-content:space-between;border-bottom:1px solid #999;padding:1px 0}.print-total{font-weight:bold;font-size:10px}.print-week{width:100%;border-collapse:collapse;margin-top:2px}.print-week th,.print-week td{border:1px solid #777;padding:1.3px;font-size:7.5px;color:#000}.print-week th{font-size:7px}.print-credit{margin-top:2px;border-top:1px solid #000;padding-top:2px}.print-bill small{font-size:6.5px}.print-empty{border:0!important}
 }
-</style>
+#otpInput{display:none!important}</style>
 </head>
 <body>
 
@@ -36,18 +36,20 @@ input,select{width:100%;padding:13px 15px;background:#091729;color:var(--text);b
 <div class="login-fields">
 <input id="loginIdInput" type="text" placeholder="Enter Login ID" autocomplete="username">
 <input id="passwordInput" type="password" placeholder="Enter Password" autocomplete="current-password">
-<input id="otpInput" class="hidden" type="text" inputmode="numeric" maxlength="5" placeholder="Enter Owner OTP">
+<input type="hidden" id="Security codeInput" value="">
 <button class="btn" onclick="login()">ENTER</button>
 </div>
-<div id="otpNote" class="hidden" style="margin-top:10px;color:var(--yellow);font-size:13px">Owner verification required. Enter OTP 11223.</div>
+<div id="Security codeNote" class="hidden" style="margin-top:10px;color:var(--yellow);font-size:13px">Owner verification required. Enter Security code 11223.</div>
 <div id="loginError" class="error"></div>
 </div>
 </section>
 
-<div id="app" class="hidden">
+<div id="app" class="hidden"><div id="firebaseSecurityNotice" style="margin:10px 0;padding:10px 12px;border-radius:10px;border:1px solid #6b7280;background:#172033;color:#f8fafc;font-size:12px">
+⚠️ Firebase security is currently in testing mode. Secure Firestore rules before real business use.
+</div>
 <header class="topbar">
 <div class="brand"><div class="brand-icon">🥛</div><div><h2>DHANALAKSHMI MILK DAIRY</h2><small>Logged in as <b id="loggedInAs"></b></small></div></div>
-<div class="top-actions"><button class="btn dark" onclick="backupData()">💾 Backup</button><button class="btn red" onclick="logout()">🔒 Lock</button></div>
+<div class="top-actions"><span id="cloudStatusInline" style="color:var(--green);font-size:12px">☁️ Live sync</span><button class="btn dark" onclick="backupData()">💾 Backup</button><button class="btn red" onclick="logout()">🔒 Lock</button></div>
 </header>
 <div class="layout">
 <aside class="sidebar">
@@ -153,22 +155,147 @@ input,select{width:100%;padding:13px 15px;background:#091729;color:var(--text);b
 
 <div id="printArea" class="print-area"></div><div id="toast"></div>
 
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
 <script>
-const OWNER_ID="ACHALKUMAR", PASSWORD="1080", OWNER_OTP="11223";
-const STORAGE_KEY="dhanalakshmi_milk_dairy_database_v2";
-let database=loadDatabase(), currentCustomer=null, currentLogin="", otpMode=false, a4CustomerCodes=[];
+/* Replace these values with your Firebase Web App configuration. */
+const firebaseConfig = {
+  apiKey: "AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",
+  authDomain: "dhanalakshmi-milk-dairy.firebaseapp.com",
+  projectId: "dhanalakshmi-milk-dairy",
+  storageBucket: "dhanalakshmi-milk-dairy.firebasestorage.app",
+  messagingSenderId: "548531175682",
+  appId: "1:548531175682:web:39bf5359670e1056ac421b",
+  measurementId: "G-Y12H5PGSGT"
+};
 
-function loadDatabase(){try{let d=JSON.parse(localStorage.getItem(STORAGE_KEY));if(d&&Array.isArray(d.customers))return {...d,users:Array.isArray(d.users)?d.users:[],requests:Array.isArray(d.requests)?d.requests:[],activity:Array.isArray(d.activity)?d.activity:[],bills:Array.isArray(d.bills)?d.bills:[]}}catch(e){}return{customers:[],bills:[],users:[],requests:[],activity:[]}}
-function saveDatabase(){localStorage.setItem(STORAGE_KEY,JSON.stringify(database));updateDashboard()}
+let firebaseReady=false;
+let firebaseSyncStarted=false;
+let firebaseUnsubscribe=null;
+
+function firebaseConfigured(){
+  return firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("PASTE_") &&
+         firebaseConfig.projectId && !firebaseConfig.projectId.startsWith("PASTE_") &&
+         firebaseConfig.appId && !firebaseConfig.appId.startsWith("PASTE_");
+}
+
+function normalizeDatabase(d){
+  d=d||{};
+  return {
+    customers:Array.isArray(d.customers)?d.customers:[],
+    bills:Array.isArray(d.bills)?d.bills:[],
+    users:Array.isArray(d.users)?d.users:[],
+    requests:Array.isArray(d.requests)?d.requests:[],
+    activity:Array.isArray(d.activity)?d.activity:[]
+  };
+}
+
+function showCloudStatus(message){
+  let el=document.getElementById("cloudStatus");
+  if(!el){
+    el=document.createElement("div");
+    el.id="cloudStatus";
+    el.style.cssText="position:fixed;left:20px;bottom:20px;z-index:199;padding:9px 12px;border-radius:10px;background:#102840;border:1px solid var(--border);color:#dbeafe;font-size:12px;box-shadow:0 12px 35px #0005";
+    document.body.appendChild(el);
+  }
+  el.textContent=message;
+  const inline=document.getElementById("cloudStatusInline");
+  if(inline)inline.textContent=message;
+}
+
+async async function startFirebaseSync(){
+  if(firebaseSyncStarted)return;
+  firebaseSyncStarted=true;
+
+  if(!firebaseConfigured()){
+    firebaseReady=false;
+    showCloudStatus("⚠️ Add Firebase configuration first");
+    return;
+  }
+
+  try{
+    firebase.initializeApp(firebaseConfig);
+    const root=firebase.firestore().collection("dairy");
+    const names=["customers","bills","users","requests","activity"];
+
+    names.forEach(name=>{
+      root.doc(name).onSnapshot(snap=>{
+        if(snap.exists){
+          const data=snap.data()||{};
+          database[name]=Array.isArray(data.items)?data.items:[];
+          localStorage.setItem(STORAGE_KEY,JSON.stringify(database));
+          if(typeof updateDashboard==="function")updateDashboard();
+          if(typeof renderCustomerList==="function")renderCustomerList();
+          if(typeof renderAccess==="function" && currentUserIsOwner())renderAccess();
+          if(typeof renderActivity==="function" && currentUserIsOwner())renderActivity();
+        }
+        firebaseReady=true;
+        showCloudStatus("☁️ Cloud connected • Live sync ON");
+      },err=>{
+        console.error("Firestore "+name+" listener:",err);
+        showCloudStatus("❌ Cloud read failed");
+      });
+    });
+
+    // Migrate the old single-document database if it exists.
+    const oldMain=await root.doc("main").get();
+    if(oldMain.exists){
+      const oldData=normalizeDatabase(oldMain.data());
+      for(const name of names){
+        const existing=await root.doc(name).get();
+        if(!existing.exists)await root.doc(name).set({items:oldData[name]||[]});
+      }
+    }else{
+      for(const name of names){
+        const existing=await root.doc(name).get();
+        if(!existing.exists)await root.doc(name).set({items:database[name]||[]});
+      }
+    }
+
+    firebaseReady=true;
+    showCloudStatus("☁️ Cloud connected • Live sync ON");
+  }catch(err){
+    console.error(err);
+    firebaseReady=false;
+    showCloudStatus("❌ Firebase configuration error");
+  }
+}
+
+async function cloudSaveDatabase(){
+  if(!firebaseReady)return;
+  try{
+    const root=firebase.firestore().collection("dairy");
+    const names=["customers","bills","users","requests","activity"];
+    await Promise.all(names.map(name=>
+      root.doc(name).set({items:Array.isArray(database[name])?database[name]:[]})
+    ));
+  }catch(err){
+    console.error(err);
+    showCloudStatus("❌ Cloud save failed");
+    if(typeof toast==="function")toast("Cloud save failed. Check your internet connection.");
+  }
+}
+</script>
+<script>
+const OWNER_ID="ACHALKUMAR", PASSWORD="31122", OWNER_Security code="";
+const STORAGE_KEY="dhanalakshmi_milk_dairy_database_v2";
+let database=loadDatabase(), currentCustomer=null, currentLogin="", Security codeMode=false, a4CustomerCodes=[];
+
+function loadDatabase(){try{let d=JSON.parse(localStorage.getItem(STORAGE_KEY));if(d&&Array.isArray(d.customers))return normalizeDatabase(d)}catch(e){}return{customers:[],bills:[],users:[],requests:[],activity:[]}}
+function saveDatabase(){localStorage.setItem(STORAGE_KEY,JSON.stringify(database));updateDashboard();cloudSaveDatabase()}
 function currentUserIsOwner(){return currentLogin===OWNER_ID}
 function logAction(action,details=""){database.activity.unshift({id:Date.now()+Math.random(),loginId:currentLogin,action,details,date:new Date().toISOString()});if(database.activity.length>500)database.activity.length=500;saveDatabase()}
 function login(){
- const id=document.getElementById("loginIdInput").value.trim().toUpperCase(), pass=document.getElementById("passwordInput").value, otp=document.getElementById("otpInput").value.trim(), err=document.getElementById("loginError");
+ if(firebaseConfigured()&&!firebaseReady){
+   document.getElementById("loginError").textContent="Connecting to cloud database... Please wait.";
+   return;
+ }
+ const id=document.getElementById("loginIdInput").value.trim().toUpperCase(), pass=document.getElementById("passwordInput").value, Security code=document.getElementById("Security codeInput").value.trim(), err=document.getElementById("loginError");
  if(!id||!pass){err.textContent="Enter Login ID and Password.";return}
  if(pass!==PASSWORD){err.textContent="Incorrect password.";return}
  if(id===OWNER_ID){
-   if(!otpMode){otpMode=true;document.getElementById("otpInput").classList.remove("hidden");document.getElementById("otpNote").classList.remove("hidden");document.getElementById("otpInput").focus();return}
-   if(otp!==OWNER_OTP){err.textContent="Incorrect Owner OTP.";return}
+   if(!Security codeMode){Security codeMode=true;document.getElementById("Security codeInput").classList.remove("hidden");document.getElementById("Security codeNote").classList.remove("hidden");document.getElementById("Security codeInput").focus();return}
+   if(Security code!==OWNER_Security code){err.textContent="Incorrect Owner Security code.";return}
    currentLogin=OWNER_ID;enterApp();logAction("OWNER LOGIN","Owner login successful.");return
  }
  const user=database.users.find(u=>u.id===id&&u.status==="approved");
@@ -184,7 +311,7 @@ function setOwnerUI(){document.querySelectorAll(".owner-only,.owner-only-page").
 function logout(){sessionStorage.clear();location.reload()}
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}})
 document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}})
-document.getElementById("otpInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
+document.getElementById("Security codeInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
 
 document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 function showPage(id){if((id==="access"||id==="activity")&&!currentUserIsOwner()){toast("Owner access required.");return}document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));if(id==="customers")renderCustomerList();if(id==="access")renderAccess();if(id==="activity")renderActivity();if(id==="dashboard")updateDashboard()}
@@ -252,7 +379,9 @@ function approveUser(id){if(!currentUserIsOwner())return;let r=database.requests
 function rejectUser(id){let r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;r.status="rejected";saveDatabase();logAction("REJECT USER",id);renderAccess();toast(id+" rejected.")}
 function removeUser(id){database.users=database.users.filter(u=>u.id!==id);saveDatabase();logAction("REMOVE USER",id);renderAccess();toast(id+" removed.")}
 
-function renderActivity(){if(!currentUserIsOwner())return;let a=database.activity;document.getElementById("activityList").innerHTML=a.length?`<div class="table-wrap"><table><tr><th>Date & Time</th><th>Login ID</th><th>Action</th><th>Details</th></tr>${a.map(x=>`<tr><td>${formatDateTime(x.date)}</td><td><b>${escapeHtml(x.loginId)}</b></td><td>${escapeHtml(x.action)}</td><td>${escapeHtml(x.details)}</td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No activity yet.</p>`}
+function renderActivity(){if(!currentUserIsOwner())return;let a=database.activity;document.getElementById("activityList").innerHTML=a.length?`<div class="form-actions" style="margin-bottom:15px"><button class="btn red" onclick="deleteAllActivity()">🗑️ DELETE ALL HISTORY</button></div><div class="table-wrap"><table><tr><th>Date & Time</th><th>Login ID</th><th>Action</th><th>Details</th><th>Delete</th></tr>${a.map(x=>`<tr><td>${formatDateTime(x.date)}</td><td><b>${escapeHtml(x.loginId)}</b></td><td>${escapeHtml(x.action)}</td><td>${escapeHtml(x.details)}</td><td><button class="btn red" style="padding:7px 10px" onclick="deleteActivity('${escapeJs(x.id)}')">🗑️ DELETE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No activity yet.</p>`}
+function deleteActivity(id){if(!currentUserIsOwner())return toast("Owner access required.");if(!confirm("Delete this activity record?"))return;let before=database.activity.length;database.activity=database.activity.filter(x=>String(x.id)!==String(id));if(database.activity.length===before)return toast("Activity record not found.");saveDatabase();renderActivity();toast("Activity record deleted.")}
+function deleteAllActivity(){if(!currentUserIsOwner())return;if(!database.activity.length)return toast("No activity history to delete.");if(!confirm("Delete ALL activity history? This cannot be undone."))return;database.activity=[];saveDatabase();renderActivity();toast("All activity history deleted.")}
 
 function backupData(){let blob=new Blob([JSON.stringify(database,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="dhanalakshmi-dairy-backup.json";a.click();URL.revokeObjectURL(url);toast("Backup downloaded.")}
 function money(v){return"₹"+Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
@@ -267,10 +396,10 @@ function escapeHtml(v){return String(v).replaceAll("&","&amp;").replaceAll("<","
 function escapeJs(v){return String(v).replaceAll("\\","\\\\").replaceAll("'","\\'")}
 function toast(m){let e=document.getElementById("toast");e.textContent=m;e.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>e.classList.remove("show"),2500)}
 
-(function init(){document.getElementById("milkStartDate").value=getCurrentCycle().start;buildWeekGrid();renderCustomerList();addA4CustomerSlot();let a=sessionStorage.getItem("dairyAuthenticated"),id=sessionStorage.getItem("dairyLogin");if(a==="true"&&id){currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard()}})()
+(function init(){document.getElementById("milkStartDate").value=getCurrentCycle().start;buildWeekGrid();renderCustomerList();addA4CustomerSlot();let a=sessionStorage.getItem("dairyAuthenticated"),id=sessionStorage.getItem("dairyLogin");if(a==="true"&&id){currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard()};showCloudStatus('☁️ Connecting to cloud...');startFirebaseSync()})()
 
 /* ENTER = NEXT FIELD, SHIFT+ENTER = PREVIOUS */
-document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;let el=document.activeElement;if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput"||el.id==="otpInput")return;if(el.readOnly||el.disabled)return;e.preventDefault();let f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null),i=f.indexOf(el),n=e.shiftKey?i-1:i+1;if(f[n]){f[n].focus();if(f[n].select)f[n].select()}})
+document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;let el=document.activeElement;if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput"||el.id==="Security codeInput")return;if(el.readOnly||el.disabled)return;e.preventDefault();let f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null),i=f.indexOf(el),n=e.shiftKey?i-1:i+1;if(f[n]){f[n].focus();if(f[n].select)f[n].select()}})
 </script>
 </body>
 </html>
