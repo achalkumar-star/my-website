@@ -876,7 +876,7 @@ td{
 
                 <div class="page-title">
                     <h1>🥛 Milk Entry</h1>
-                    <p>Wednesday → Tuesday. Morning and Evening milk.</p>
+                    <p>Thursday → Wednesday. Morning and Evening milk.</p>
                 </div>
 
                 <div class="panel">
@@ -889,13 +889,18 @@ td{
                         </div>
 
                         <div class="field">
-                            <label>Start Date — Wednesday</label>
+                            <label>Start Date — Thursday</label>
                             <input id="milkStartDate" type="date">
                         </div>
 
-                        <div class="field">
+                        <div class="field" id="milkRateField">
                             <label>Milk Price Per Liter</label>
                             <input id="milkRate" type="number" min="0" step="0.01" placeholder="Enter manually">
+                        </div>
+
+                        <div class="field hidden" id="milkFatField">
+                            <label>Fat Based Entry</label>
+                            <small style="color:var(--muted);display:block;padding-top:12px">Enter Morning and Evening Fat separately for every day below.<br>6.0 Fat = ₹50.00/L • every 0.1 Fat = ₹0.40/L</small>
                         </div>
 
                         <div class="field">
@@ -1020,6 +1025,14 @@ td{
             <div class="field">
                 <label>Customer Name</label>
                 <input id="newCustomerName" placeholder="Enter customer name">
+            </div>
+
+            <div class="field">
+                <label>Milk Price Type</label>
+                <select id="newCustomerPricingType">
+                    <option value="fixed">Fixed Price</option>
+                    <option value="fat">Fat Based</option>
+                </select>
             </div>
 
         </div>
@@ -1208,7 +1221,7 @@ function updateDashboard(){
             ${formatDate(cycle.start)} → ${formatDate(cycle.end)}
         </div>
         <div style="color:var(--muted);margin-top:7px">
-            Wednesday → Tuesday
+            Thursday → Wednesday
         </div>
     `;
 }
@@ -1219,6 +1232,7 @@ function openAddCustomer(){
     document.getElementById("customerModal").classList.add("open");
     document.getElementById("newCustomerCode").value = "";
     document.getElementById("newCustomerName").value = "";
+    document.getElementById("newCustomerPricingType").value = "fixed";
     setTimeout(()=>{
         document.getElementById("newCustomerCode").focus();
     },100);
@@ -1236,6 +1250,9 @@ function saveCustomer(){
     const name =
         document.getElementById("newCustomerName").value.trim();
 
+    const pricingType =
+        document.getElementById("newCustomerPricingType").value;
+
     if(!code || !name){
         toast("Customer Code and Name are required.");
         return;
@@ -1249,6 +1266,7 @@ function saveCustomer(){
     const customer = {
         code,
         name,
+        pricingType,
         milkRecords:[],
         creditTransactions:[],
         createdAt:new Date().toISOString()
@@ -1264,6 +1282,50 @@ function saveCustomer(){
 
     showPage("customers");
     openCustomer(code);
+}
+
+function deleteCustomerProfile(code){
+
+    const customer = getCustomer(code);
+
+    if(!customer){
+        toast("Customer not found.");
+        return;
+    }
+
+    const confirmed = confirm(
+        "Delete customer profile for " + customer.name + " (" + customer.code + ")?\n\n" +
+        "This will permanently delete the customer's milk records, credits and bills from this device."
+    );
+
+    if(!confirmed){
+        return;
+    }
+
+    database.customers = database.customers.filter(
+        c => c.code !== customer.code
+    );
+
+    if(Array.isArray(database.bills)){
+        database.bills = database.bills.filter(
+            b => b.customerCode !== customer.code
+        );
+    }
+
+    if(currentCustomer && currentCustomer.code === customer.code){
+        currentCustomer = null;
+    }
+
+    saveDatabase();
+
+    const profile = document.getElementById("customerProfile");
+    if(profile){
+        profile.classList.add("hidden");
+        profile.innerHTML = "";
+    }
+
+    renderCustomerList();
+    toast("Customer profile deleted successfully.");
 }
 
 function getCustomer(code){
@@ -1311,6 +1373,10 @@ function openCustomer(code){
 
                 <div class="customer-name">
                     ${escapeHtml(customer.name)}
+                </div>
+
+                <div style="margin-top:5px;color:var(--muted);font-size:13px">
+                    ${customer.pricingType === "fat" ? "🥛 Fat Based Pricing" : "💰 Fixed Price"}
                 </div>
             </div>
 
@@ -1428,6 +1494,11 @@ function customerOverview(customer){
                     onclick="printCustomerBills('${escapeJs(customer.code)}')">
                     🖨️ Print A4
                 </button>
+
+                <button class="btn" style="background:#b91c1c;color:#fff"
+                    onclick="deleteCustomerProfile('${escapeJs(customer.code)}')">
+                    🗑️ DELETE CUSTOMER PROFILE
+                </button>
             </div>
         </div>
     `;
@@ -1471,7 +1542,7 @@ function milkHistory(customer){
 
                     return `
                         <tr>
-                            <td>Wednesday → Tuesday</td>
+                            <td>Thursday → Wednesday</td>
                             <td>${formatDate(record.startDate)}</td>
                             <td>${formatDate(record.endDate)}</td>
                             <td>${formatNumber(getRecordTotal(record))} L</td>
@@ -1640,16 +1711,16 @@ function getCurrentCycle(){
        Saturday = 6
     */
 
-    let diffToWednesday = day - 3;
+    let diffToThursday = day - 4;
 
-    if(diffToWednesday < 0){
-        diffToWednesday += 7;
+    if(diffToThursday < 0){
+        diffToThursday += 7;
     }
 
     const start = new Date(now);
 
     start.setHours(0,0,0,0);
-    start.setDate(start.getDate() - diffToWednesday);
+    start.setDate(start.getDate() - diffToThursday);
 
     const end = new Date(start);
     end.setDate(end.getDate()+6);
@@ -1673,14 +1744,12 @@ function buildWeekGrid(startDateValue){
     }
 
     const days = [
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-        "Monday",
-        "Tuesday"
+        "Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday"
     ];
+
+    const code = document.getElementById("milkCustomerCode")?.value.trim();
+    const customer = getCustomer(code);
+    const isFatBased = customer?.pricingType === "fat";
 
     grid.innerHTML = days.map((day,index)=>{
 
@@ -1693,44 +1762,37 @@ function buildWeekGrid(startDateValue){
                 <small>${formatDate(dateInputValue(date))}</small>
 
                 <div style="margin-top:8px">
-                    <label style="font-size:11px;color:#9db2c8">
-                        🌅 Morning (L)
-                    </label>
-                    <input
-                        class="morning-input"
-                        data-index="${index}"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
+                    <label style="font-size:11px;color:#9db2c8">🌅 Morning (L)</label>
+                    <input class="morning-input" data-index="${index}" type="number" min="0" step="0.01" value="0">
                 </div>
 
+                ${isFatBased ? `
                 <div style="margin-top:8px">
-                    <label style="font-size:11px;color:#9db2c8">
-                        🌆 Evening (L)
-                    </label>
-                    <input
-                        class="evening-input"
-                        data-index="${index}"
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value="0"
-                    >
+                    <label style="font-size:11px;color:#9db2c8">🥛 Morning Fat</label>
+                    <input class="morning-fat-input" data-index="${index}" type="number" min="0" step="0.1" placeholder="6.0">
+                </div>` : ""}
+
+                <div style="margin-top:8px">
+                    <label style="font-size:11px;color:#9db2c8">🌆 Evening (L)</label>
+                    <input class="evening-input" data-index="${index}" type="number" min="0" step="0.01" value="0">
                 </div>
+
+                ${isFatBased ? `
+                <div style="margin-top:8px">
+                    <label style="font-size:11px;color:#9db2c8">🥛 Evening Fat</label>
+                    <input class="evening-fat-input" data-index="${index}" type="number" min="0" step="0.1" placeholder="6.0">
+                </div>` : ""}
             </div>
         `;
 
     }).join("");
 }
-
 document.getElementById("milkStartDate").addEventListener("change",function(){
 
     const selected = parseDate(this.value);
 
-    if(selected.getDay() !== 3){
-        toast("Start Date must be Wednesday.");
+    if(selected.getDay() !== 4){
+        toast("Start Date must be Thursday.");
         this.value = getCurrentCycle().start;
         return;
     }
@@ -1740,11 +1802,17 @@ document.getElementById("milkStartDate").addEventListener("change",function(){
 
 /* ---------------- MILK ---------------- */
 
+function updateMilkPricingFields(customer){
+
+    const isFatBased = customer.pricingType === "fat";
+
+    document.getElementById("milkRateField").classList.toggle("hidden", isFatBased);
+    document.getElementById("milkFatField").classList.toggle("hidden", !isFatBased);
+}
+
 function loadMilkCustomer(){
 
-    const code =
-        document.getElementById("milkCustomerCode").value.trim();
-
+    const code = document.getElementById("milkCustomerCode").value.trim();
     const customer = getCustomer(code);
 
     if(!customer){
@@ -1752,51 +1820,38 @@ function loadMilkCustomer(){
         return;
     }
 
-    document.getElementById("milkCustomerName").value =
-        customer.name;
+    document.getElementById("milkCustomerName").value = customer.name;
+    updateMilkPricingFields(customer);
 
     const cycle = getCurrentCycle();
-
-    document.getElementById("milkStartDate").value =
-        cycle.start;
-
+    document.getElementById("milkStartDate").value = cycle.start;
     buildWeekGrid(cycle.start);
 
-    const existing =
-        customer.milkRecords.find(
-            r=>r.startDate===cycle.start
-        );
+    const existing = customer.milkRecords.find(r=>r.startDate===cycle.start);
 
     if(existing){
-
-        document.getElementById("milkRate").value =
-            existing.rate;
+        document.getElementById("milkRate").value = existing.rate || "";
 
         existing.days.forEach((day,index)=>{
+            const morning = document.querySelector(`.morning-input[data-index="${index}"]`);
+            const evening = document.querySelector(`.evening-input[data-index="${index}"]`);
+            if(morning) morning.value = day.morning ?? 0;
+            if(evening) evening.value = day.evening ?? 0;
 
-            const morning =
-                document.querySelector(`.morning-input[data-index="${index}"]`);
-
-            const evening =
-                document.querySelector(`.evening-input[data-index="${index}"]`);
-
-            morning.value = day.morning;
-            evening.value = day.evening;
-
+            const mf = document.querySelector(`.morning-fat-input[data-index="${index}"]`);
+            const ef = document.querySelector(`.evening-fat-input[data-index="${index}"]`);
+            if(mf) mf.value = day.morningFat ?? (existing.fat ?? "");
+            if(ef) ef.value = day.eveningFat ?? (existing.fat ?? "");
         });
 
         toast("Existing milk record loaded.");
-
     }else{
         toast("Customer loaded.");
     }
 }
-
 function saveMilkRecord(){
 
-    const code =
-        document.getElementById("milkCustomerCode").value.trim();
-
+    const code = document.getElementById("milkCustomerCode").value.trim();
     const customer = getCustomer(code);
 
     if(!customer){
@@ -1804,22 +1859,22 @@ function saveMilkRecord(){
         return;
     }
 
-    const startDate =
-        document.getElementById("milkStartDate").value;
-
+    const startDate = document.getElementById("milkStartDate").value;
     const start = parseDate(startDate);
 
-    if(start.getDay() !== 3){
-        toast("Start date must be Wednesday.");
+    if(start.getDay() !== 4){
+        toast("Start date must be Thursday.");
         return;
     }
 
-    const rate =
-        Number(document.getElementById("milkRate").value);
+    let rate = null;
 
-    if(rate < 0 || isNaN(rate)){
-        toast("Enter the milk price per litre.");
-        return;
+    if(customer.pricingType !== "fat"){
+        rate = Number(document.getElementById("milkRate").value);
+        if(rate < 0 || isNaN(rate)){
+            toast("Enter the fixed milk price per litre.");
+            return;
+        }
     }
 
     const end = new Date(start);
@@ -1828,29 +1883,35 @@ function saveMilkRecord(){
     const days = [];
 
     for(let i=0;i<7;i++){
+        const morning = Number(document.querySelector(`.morning-input[data-index="${i}"]`)?.value) || 0;
+        const evening = Number(document.querySelector(`.evening-input[data-index="${i}"]`)?.value) || 0;
 
-        const morning =
-            Number(
-                document.querySelector(
-                    `.morning-input[data-index="${i}"]`
-                ).value
-            ) || 0;
+        let morningFat = null;
+        let eveningFat = null;
 
-        const evening =
-            Number(
-                document.querySelector(
-                    `.evening-input[data-index="${i}"]`
-                ).value
-            ) || 0;
+        if(customer.pricingType === "fat"){
+            const mf = Number(document.querySelector(`.morning-fat-input[data-index="${i}"]`)?.value);
+            const ef = Number(document.querySelector(`.evening-fat-input[data-index="${i}"]`)?.value);
+
+            if(morning > 0 && (!isFinite(mf) || mf <= 0)){
+                toast(`Enter Morning Fat for ${["Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday"][i]}.`);
+                return;
+            }
+            if(evening > 0 && (!isFinite(ef) || ef <= 0)){
+                toast(`Enter Evening Fat for ${["Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday"][i]}.`);
+                return;
+            }
+
+            morningFat = morning > 0 ? mf : null;
+            eveningFat = evening > 0 ? ef : null;
+        }
 
         days.push({
-            date:dateInputValue(new Date(
-                start.getFullYear(),
-                start.getMonth(),
-                start.getDate()+i
-            )),
+            date:dateInputValue(new Date(start.getFullYear(),start.getMonth(),start.getDate()+i)),
             morning,
-            evening
+            evening,
+            morningFat,
+            eveningFat
         });
     }
 
@@ -1858,13 +1919,12 @@ function saveMilkRecord(){
         startDate:dateInputValue(start),
         endDate:dateInputValue(end),
         rate,
+        fat:null,
+        pricingType:customer.pricingType || "fixed",
         days
     };
 
-    const existingIndex =
-        customer.milkRecords.findIndex(
-            r=>r.startDate===record.startDate
-        );
+    const existingIndex = customer.milkRecords.findIndex(r=>r.startDate===record.startDate);
 
     if(existingIndex >= 0){
         customer.milkRecords[existingIndex] = record;
@@ -1873,13 +1933,11 @@ function saveMilkRecord(){
     }
 
     saveDatabase();
-
     currentCustomer = customer;
-
     toast("7-day milk record saved.");
-
     openCustomer(customer.code);
 }
+
 
 /* ---------------- CREDIT ---------------- */
 
@@ -2052,11 +2110,24 @@ function getOutstandingCredit(customer){
     return balance < 0 ? Math.abs(balance) : 0;
 }
 
+function fatRate(fat){
+    const f = Number(fat || 0);
+    if(!isFinite(f) || f <= 0) return 0;
+    return Math.round((50 + ((f - 6) * 4)) * 100) / 100;
+}
+
 function calculateMilkBill(record){
+
+    if(record.pricingType === "fat"){
+        return record.days.reduce((sum,day)=>{
+            const morningRate = fatRate(day.morningFat);
+            const eveningRate = fatRate(day.eveningFat);
+            return sum + (Number(day.morning||0) * morningRate) + (Number(day.evening||0) * eveningRate);
+        },0);
+    }
 
     return getRecordTotal(record) * Number(record.rate || 0);
 }
-
 function getRecordTotal(record){
 
     return record.days.reduce(
@@ -2300,139 +2371,53 @@ function getTotalCreditThroughDate(customer,endDate){
         );
 }
 
-function createPrintableBill(
-    customer,
-    record,
-    milkTotal,
-    milkBill,
-    balance
-){
+function createPrintableBill(customer,record,milkTotal,milkBill,balance){
 
-    const rows =
-        record.days.map(day=>{
+    const morningTotal = record.days.reduce((sum,day)=>sum+Number(day.morning||0),0);
+    const eveningTotal = record.days.reduce((sum,day)=>sum+Number(day.evening||0),0);
+    const isFatBased = record.pricingType === "fat";
 
-            const date =
-                formatDate(day.date);
+    const rows = record.days.map(day=>{
+        const dayName = parseDate(day.date).toLocaleDateString("en-IN",{weekday:"long"});
+        const morningCell = isFatBased
+            ? `${formatNumber(day.morning)} L<br><small>Fat ${day.morningFat ? formatNumber(day.morningFat) : "—"}</small>`
+            : `${formatNumber(day.morning)} L`;
+        const eveningCell = isFatBased
+            ? `${formatNumber(day.evening)} L<br><small>Fat ${day.eveningFat ? formatNumber(day.eveningFat) : "—"}</small>`
+            : `${formatNumber(day.evening)} L`;
+        return `<tr><td>${dayName}</td><td>${morningCell}</td><td>${eveningCell}</td><td>${formatNumber(Number(day.morning)+Number(day.evening))} L</td></tr>`;
+    }).join("");
 
-            const dayName =
-                parseDate(day.date)
-                .toLocaleDateString(
-                    "en-IN",
-                    {weekday:"short"}
-                );
-
-            return `
-                <tr>
-                    <td>${dayName}</td>
-                    <td>${date}</td>
-                    <td>${formatNumber(day.morning)} L</td>
-                    <td>${formatNumber(day.evening)} L</td>
-                    <td>${formatNumber(
-                        Number(day.morning)+Number(day.evening)
-                    )} L</td>
-                </tr>
-            `;
-
-        }).join("");
-
-    const creditRows =
-        customer.creditTransactions
-        .filter(t=>{
-            const d = new Date(t.date);
-            const start = parseDate(record.startDate);
-            const end = parseDate(record.endDate);
-
-            return d >= start && d <= new Date(
-                end.getFullYear(),
-                end.getMonth(),
-                end.getDate(),
-                23,59,59
-            );
-        })
-        .map(t=>`
-            <div class="print-line">
-                <span>${escapeHtml(t.reason)}</span>
-                <span>-${money(t.amount)}</span>
-            </div>
-        `).join("");
+    const creditRows = customer.creditTransactions.filter(t=>{
+        const d = new Date(t.date);
+        const start = parseDate(record.startDate);
+        const end = parseDate(record.endDate);
+        return d >= start && d <= new Date(end.getFullYear(),end.getMonth(),end.getDate(),23,59,59);
+    }).map(t=>`<div class="print-line"><span>${escapeHtml(t.reason)}</span><span>-${money(t.amount)}</span></div>`).join("");
 
     return `
         <div class="print-bill">
-
             <h2>DHANALAKSHMI MILK DAIRY</h2>
-
-            <div class="print-sub">
-                7-DAY MILK BILL
-            </div>
-
-            <div class="print-line">
-                <span>Customer Code</span>
-                <strong>${escapeHtml(customer.code)}</strong>
-            </div>
-
-            <div class="print-line">
-                <span>Customer Name</span>
-                <strong>${escapeHtml(customer.name)}</strong>
-            </div>
-
-            <div class="print-line">
-                <span>Start Date</span>
-                <strong>${formatDate(record.startDate)}</strong>
-            </div>
-
-            <div class="print-line">
-                <span>End Date</span>
-                <strong>${formatDate(record.endDate)}</strong>
-            </div>
+            <div class="print-sub">7-DAY MILK BILL</div>
+            <div class="print-line"><span>Customer Code</span><strong>${escapeHtml(customer.code)}</strong></div>
+            <div class="print-line"><span>Customer Name</span><strong>${escapeHtml(customer.name)}</strong></div>
+            <div class="print-sub">${formatDate(record.startDate)} → ${formatDate(record.endDate)}</div>
 
             <table class="print-week">
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Morning</th>
-                        <th>Evening</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    ${rows}
-                </tbody>
+                <thead><tr><th>Day</th><th>Morning</th><th>Evening</th><th>Total</th></tr></thead>
+                <tbody>${rows}</tbody>
             </table>
 
-            <div class="print-line print-total">
-                <span>Total Milk</span>
-                <span>${formatNumber(milkTotal)} L</span>
-            </div>
+            <div class="print-line print-total"><span>Morning Total Milk</span><span>${formatNumber(morningTotal)} L</span></div>
+            <div class="print-line print-total"><span>Evening Total Milk</span><span>${formatNumber(eveningTotal)} L</span></div>
+            <div class="print-line print-total"><span>Total Milk</span><span>${formatNumber(milkTotal)} L</span></div>
+
+            ${creditRows ? `<div class="print-credit"><strong>Credit Taken</strong>${creditRows}</div>` : ""}
 
             <div class="print-line print-total">
-                <span>Milk Bill</span>
-                <span>${money(milkBill)}</span>
+                <span>${balance >= 0 ? "Amount" : "Balance"}</span>
+                <span>${money(Math.abs(balance))}</span>
             </div>
-
-            ${
-                creditRows
-                ?
-                `
-                <div class="print-credit">
-                    <strong>Credit Taken</strong>
-                    ${creditRows}
-                </div>
-                `
-                :
-                ""
-            }
-
-            <div class="print-line print-total">
-                <span>Balance</span>
-                <span>${formatBalance(balance)}</span>
-            </div>
-
-            <!-- IMPORTANT:
-                 PRICE PER LITRE IS INTENTIONALLY NOT PRINTED.
-            -->
-
         </div>
     `;
 }
