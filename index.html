@@ -755,7 +755,7 @@ td{
         <p>Digital Dairy Management System</p>
 
         <div class="password-box">
-            <input id="passwordInput" type="password" placeholder="Enter password" maxlength="20">
+            <input id="passwordInput" type="password" placeholder="Enter password" maxlength="20" autocomplete="current-password">
             <button class="btn" onclick="login()">ENTER</button>
         </div>
 
@@ -1141,8 +1141,13 @@ function logout(){
 }
 
 document.getElementById("passwordInput").addEventListener("keydown",function(e){
-    if(e.key === "Enter") login();
+    if(e.key === "Enter"){
+        e.preventDefault();
+        login();
+    }
 });
+
+document.getElementById("passwordInput").focus();
 
 /* ---------------- NAVIGATION ---------------- */
 
@@ -2608,6 +2613,46 @@ function toast(message){
     renderCustomerList();
 
 })();
+</script>
+
+
+<script>
+/* ENTER KEY = NEXT FIELD
+   Pressing Enter in an input/select moves to the next editable field,
+   like pressing Tab. Shift+Enter moves to the previous field.
+   Buttons keep their normal Enter behavior.
+*/
+document.addEventListener("keydown", function(e){
+    if(e.key !== "Enter") return;
+
+    const el = document.activeElement;
+    if(!el) return;
+
+    const tag = el.tagName;
+    if(tag !== "INPUT" && tag !== "SELECT" && tag !== "TEXTAREA") return;
+    if(el.type === "button" || el.type === "submit" || el.readOnly || el.disabled) return;
+
+    // Keep the login password Enter behavior: it logs in.
+    if(el.id === "passwordInput") return;
+
+    // Do not insert a newline in textareas.
+    e.preventDefault();
+
+    const focusable = Array.from(document.querySelectorAll(
+        'input:not([disabled]):not([readonly]), select:not([disabled]), textarea:not([disabled])'
+    )).filter(x => x.offsetParent !== null && x.tabIndex !== -1);
+
+    const index = focusable.indexOf(el);
+    if(index === -1) return;
+
+    const nextIndex = e.shiftKey ? index - 1 : index + 1;
+    if(nextIndex >= 0 && nextIndex < focusable.length){
+        focusable[nextIndex].focus();
+        if(focusable[nextIndex].select && focusable[nextIndex].tagName === "INPUT"){
+            focusable[nextIndex].select();
+        }
+    }
+});
 </script>
 
 </body>
