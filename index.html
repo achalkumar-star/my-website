@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07111f">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Dhanalakshmi Milk Dairy • Cloud Sync</title>
 
 <style>
@@ -21,7 +19,6 @@
  --green:#39e58c;
  --red:#ff6675;
  --yellow:#ffd166;
- --purple:#b78cff;
 }
 
 body{
@@ -38,6 +35,8 @@ button,input,select{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 
+/* ================= LOGIN ================= */
+
 #loginScreen{
  min-height:100vh;
  display:flex;
@@ -47,11 +46,11 @@ button{cursor:pointer}
 }
 
 .login-card{
- width:min(460px,100%);
+ width:min(480px,100%);
  background:#0d1b2ef2;
  border:1px solid var(--border);
  border-radius:28px;
- padding:40px;
+ padding:38px;
  box-shadow:0 20px 60px #0008;
  text-align:center;
 }
@@ -69,10 +68,20 @@ button{cursor:pointer}
  color:#092039;
 }
 
-.login-card h1{font-size:27px;margin-bottom:8px}
-.login-card p{color:var(--muted);margin-bottom:28px}
+.login-card h1{
+ font-size:27px;
+ margin-bottom:8px;
+}
 
-.login-fields{display:grid;gap:10px}
+.login-card p{
+ color:var(--muted);
+ margin-bottom:25px;
+}
+
+.login-fields{
+ display:grid;
+ gap:10px;
+}
 
 input,select{
  width:100%;
@@ -87,6 +96,15 @@ input,select{
 input:focus,select:focus{
  border-color:var(--accent);
  box-shadow:0 0 0 3px #61dafb14;
+}
+
+.login-card input{
+ background:#091729;
+}
+
+.login-card input:first-child{
+ background:#e9f0ff;
+ color:#101820;
 }
 
 .btn{
@@ -107,14 +125,27 @@ input:focus,select:focus{
 .btn.green{background:var(--green)}
 .btn.red{background:var(--red)}
 .btn.yellow{background:var(--yellow)}
-.btn.purple{background:var(--purple)}
 .btn.dark{background:#203650;color:#fff}
+
+.login-main-btn{
+ width:100%;
+ margin-top:2px;
+ font-size:15px;
+}
+
+.login-owner{
+ margin-top:16px;
+ color:#9db2c8;
+ font-size:12px;
+}
 
 .error{
  color:var(--red);
  margin-top:15px;
  min-height:20px;
 }
+
+/* ================= APP ================= */
 
 .topbar{
  position:sticky;
@@ -158,16 +189,9 @@ input:focus,select:focus{
  align-items:center;
 }
 
-#networkStatus{
- font-size:12px;
- padding:8px 10px;
- border-radius:9px;
- background:#102840;
-}
-
 .layout{
  display:grid;
- grid-template-columns:250px 1fr;
+ grid-template-columns:240px 1fr;
  min-height:calc(100vh - 76px);
 }
 
@@ -175,14 +199,6 @@ input:focus,select:focus{
  border-right:1px solid var(--border);
  padding:20px 14px;
  background:#09172999;
-}
-
-.nav-section{
- color:#637a94;
- font-size:10px;
- font-weight:900;
- letter-spacing:1px;
- padding:12px 12px 7px;
 }
 
 .nav-btn{
@@ -213,9 +229,15 @@ input:focus,select:focus{
 .page{display:none}
 .page.active{display:block}
 
-.page-title{margin-bottom:20px}
+.page-title{
+ margin-bottom:20px;
+}
+
 .page-title h1{font-size:28px}
-.page-title p{color:var(--muted);margin-top:5px}
+.page-title p{
+ color:var(--muted);
+ margin-top:5px;
+}
 
 .stats{
  display:grid;
@@ -264,7 +286,9 @@ input:focus,select:focus{
  gap:10px;
 }
 
-.quick-actions button{min-height:65px}
+.quick-actions button{
+ min-height:65px;
+}
 
 .form-grid{
  display:grid;
@@ -294,7 +318,9 @@ input:focus,select:focus{
  margin-bottom:20px;
 }
 
-.search-row input{max-width:450px}
+.search-row input{
+ max-width:450px;
+}
 
 .customer-header{
  display:flex;
@@ -404,45 +430,64 @@ td{font-size:14px}
  color:var(--yellow);
 }
 
-.badge.blue{
- background:#61dafb1f;
- color:var(--accent);
+/* ================= EMPLOYEE HOME ================= */
+
+.employee-welcome{
+ padding:28px;
+ border-radius:22px;
+ border:1px solid var(--border);
+ background:
+ linear-gradient(135deg,#102d47,#0b192b);
+ margin-bottom:20px;
 }
 
-.badge.purple{
- background:#b78cff1f;
- color:var(--purple);
+.employee-welcome h1{
+ font-size:30px;
+ margin-bottom:8px;
 }
 
-.modal{
- position:fixed;
- inset:0;
- z-index:100;
- background:#000b;
- display:none;
- align-items:center;
- justify-content:center;
+.employee-welcome p{
+ color:var(--muted);
+}
+
+.employee-actions{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:15px;
+}
+
+.employee-action{
+ min-height:110px;
+ border-radius:18px;
+ border:1px solid var(--border);
+ background:#102238;
+ color:#fff;
+ text-align:left;
  padding:20px;
 }
 
-.modal.open{display:flex}
-
-.modal-card{
- width:min(800px,100%);
- max-height:90vh;
- overflow:auto;
- background:#0d1b2e;
- border:1px solid var(--border);
- border-radius:20px;
- padding:22px;
+.employee-action:hover{
+ border-color:var(--accent);
+ transform:translateY(-2px);
 }
 
-.modal-head{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:20px;
+.employee-action .big{
+ display:block;
+ font-size:30px;
+ margin-bottom:8px;
 }
+
+.employee-action b{
+ font-size:16px;
+}
+
+.employee-action small{
+ display:block;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+/* ================= MILK ================= */
 
 .week-grid{
  display:grid;
@@ -462,12 +507,16 @@ td{font-size:14px}
  margin-bottom:8px;
 }
 
-.day-card small{color:var(--muted)}
+.day-card small{
+ color:var(--muted);
+}
 
 .day-card input{
  padding:9px;
  margin-top:5px;
 }
+
+/* ================= BILL ================= */
 
 .a4-customer-slots{
  display:grid;
@@ -508,65 +557,39 @@ td{font-size:14px}
  min-height:18px;
 }
 
-.employee-hero{
- padding:25px;
- border-radius:20px;
+/* ================= MODAL ================= */
+
+.modal{
+ position:fixed;
+ inset:0;
+ z-index:100;
+ background:#000b;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+}
+
+.modal.open{display:flex}
+
+.modal-card{
+ width:min(800px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#0d1b2e;
  border:1px solid var(--border);
- background:
- linear-gradient(135deg,#102b46,#0c1b2d);
+ border-radius:20px;
+ padding:22px;
+}
+
+.modal-head{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
  margin-bottom:20px;
 }
 
-.employee-hero h2{
- font-size:28px;
- margin-bottom:8px;
-}
-
-.employee-hero p{
- color:var(--muted);
-}
-
-.notice{
- padding:14px;
- border:1px solid var(--border);
- border-radius:14px;
- background:#102840;
- margin-bottom:15px;
-}
-
-.notification{
- padding:14px;
- border:1px solid var(--border);
- border-radius:13px;
- margin-bottom:10px;
- background:#0a1728;
-}
-
-.notification small{
- color:var(--muted);
- display:block;
- margin-top:5px;
-}
-
-.activity-category-bar{
- display:flex;
- gap:8px;
- flex-wrap:wrap;
- margin-bottom:15px;
-}
-
-.activity-filter{
- padding:9px 13px;
- border-radius:10px;
- border:1px solid var(--border);
- background:#0d1d32;
- color:#c7d5e5;
-}
-
-.activity-filter.active{
- background:var(--accent);
- color:#06111d;
-}
+/* ================= TOAST ================= */
 
 #toast{
  position:fixed;
@@ -588,59 +611,9 @@ td{font-size:14px}
  opacity:1;
 }
 
+/* ================= PRINT ================= */
+
 .print-area{display:none}
-
-@media(max-width:1000px){
- .layout{grid-template-columns:1fr}
-
- .sidebar{
-  border-right:0;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  overflow:auto;
-  gap:8px;
- }
-
- .nav-section{display:none}
-
- .nav-btn{
-  width:auto;
-  white-space:nowrap;
-  margin:0;
- }
-
- .stats{grid-template-columns:repeat(2,1fr)}
- .dashboard-grid{grid-template-columns:1fr}
- .week-grid{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:600px){
- .topbar{
-  align-items:flex-start;
-  flex-direction:column;
- }
-
- .main{padding:15px}
-
- .stats,.form-grid{
-  grid-template-columns:1fr;
- }
-
- .full{grid-column:auto}
-
- .search-row{flex-direction:column}
-
- .customer-header{
-  flex-direction:column;
-  align-items:flex-start;
- }
-
- .balance{text-align:left}
-
- .week-grid,.a4-customer-slots{
-  grid-template-columns:1fr;
- }
-}
 
 @media print{
  @page{
@@ -657,7 +630,8 @@ td{font-size:14px}
   visibility:hidden!important;
  }
 
- #printArea,#printArea *{
+ #printArea,
+ #printArea *{
   visibility:visible!important;
  }
 
@@ -722,7 +696,9 @@ td{font-size:14px}
   color:#000;
  }
 
- .print-week th{font-size:7px}
+ .print-week th{
+  font-size:7px;
+ }
 
  .print-credit{
   margin-top:2px;
@@ -730,865 +706,1039 @@ td{font-size:14px}
   padding-top:2px;
  }
 
- .print-bill small{font-size:6.5px}
+ .print-bill small{
+  font-size:6.5px;
+ }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+ .layout{
+  grid-template-columns:1fr;
+ }
+
+ .sidebar{
+  border-right:0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  overflow:auto;
+  gap:8px;
+ }
+
+ .nav-btn{
+  width:auto;
+  white-space:nowrap;
+  margin:0;
+ }
+
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .dashboard-grid{
+  grid-template-columns:1fr;
+ }
+
+ .week-grid{
+  grid-template-columns:repeat(2,1fr);
+ }
+
+ .employee-actions{
+  grid-template-columns:repeat(2,1fr);
+ }
+}
+
+@media(max-width:600px){
+
+ .topbar{
+  align-items:flex-start;
+  flex-direction:column;
+ }
+
+ .main{
+  padding:15px;
+ }
+
+ .stats,
+ .form-grid{
+  grid-template-columns:1fr;
+ }
+
+ .full{
+  grid-column:auto;
+ }
+
+ .search-row{
+  flex-direction:column;
+ }
+
+ .customer-header{
+  flex-direction:column;
+  align-items:flex-start;
+ }
+
+ .balance{
+  text-align:left;
+ }
+
+ .week-grid,
+ .a4-customer-slots,
+ .employee-actions{
+  grid-template-columns:1fr;
+ }
+
+ .login-card{
+  padding:28px 20px;
+ }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- =========================================================
+ LOGIN SCREEN
+========================================================= -->
+
 <section id="loginScreen">
-<div class="login-card">
 
-<div class="logo">🥛</div>
+ <div class="login-card">
 
-<h1>DHANALAKSHMI MILK DAIRY</h1>
-<p>Digital Dairy Management System</p>
+  <div class="logo">🥛</div>
 
-<div class="login-fields">
+  <h1>DHANALAKSHMI MILK DAIRY</h1>
 
-<input
- id="loginIdInput"
- type="text"
- placeholder="Enter Login ID"
- autocomplete="username">
+  <p>Digital Dairy Management System</p>
 
-<input
- id="passwordInput"
- type="password"
- placeholder="Enter Password"
- autocomplete="current-password">
+  <div class="login-fields">
 
-<input
- id="securityCodeInput"
- class="hidden"
- type="password"
- inputmode="numeric"
- placeholder="Enter Owner Security Code">
+   <!-- LOGIN ID -->
+   <input
+    id="loginIdInput"
+    type="text"
+    placeholder="Enter Login ID"
+    autocomplete="username">
 
-<button class="btn" onclick="login()">ENTER</button>
+   <!-- OWNER SECURITY CODE -->
+   <input
+    id="securityCodeInput"
+    type="password"
+    inputmode="numeric"
+    placeholder="Enter Owner Security Code"
+    autocomplete="one-time-code">
 
-</div>
+   <!-- EMPLOYEE PASSWORD -->
+   <input
+    id="passwordInput"
+    type="password"
+    placeholder="Enter Employee Password"
+    autocomplete="current-password">
 
-<div
- id="securityCodeNote"
- class="hidden"
- style="margin-top:10px;color:var(--yellow);font-size:13px">
-Owner verification required.
-</div>
+   <button
+    class="btn login-main-btn"
+    onclick="login()">
+    🔐 LOGIN / REQUEST ACCESS
+   </button>
 
-<div id="loginError" class="error"></div>
+  </div>
 
-<div style="margin-top:18px;color:var(--muted);font-size:11px">
-Employees can request access using their Login ID.
-</div>
+  <div class="login-owner">
+   Owner ID: <b>ACHALKUMAR</b>
+  </div>
 
-</div>
+  <div id="loginError" class="error"></div>
+
+ </div>
+
 </section>
 
 
-<!-- APPLICATION -->
+<!-- =========================================================
+ MAIN APP
+========================================================= -->
+
 <div id="app" class="hidden">
 
+ <div
+  id="firebaseSecurityNotice"
+  style="
+  margin:10px 0;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #6b7280;
+  background:#172033;
+  color:#f8fafc;
+  font-size:12px">
+
+  ⚠️ Firebase security is currently in testing mode.
+  Secure Firestore rules before real business use.
+
+ </div>
+
+
+ <header class="topbar">
+
+  <div class="brand">
+
+   <div class="brand-icon">🥛</div>
+
+   <div>
+    <h2>DHANALAKSHMI MILK DAIRY</h2>
+    <small>
+     Logged in as <b id="loggedInAs"></b>
+    </small>
+   </div>
+
+  </div>
+
+  <div class="top-actions">
+
+   <span
+    id="cloudStatusInline"
+    style="color:var(--green);font-size:12px">
+    ☁️ Connecting...
+   </span>
+
+   <button
+    class="btn dark"
+    onclick="backupData()">
+    💾 Backup
+   </button>
+
+   <button
+    class="btn red"
+    onclick="logout()">
+    🔒 Lock
+   </button>
+
+  </div>
+
+ </header>
+
+
+ <div class="layout">
+
+  <!-- =====================================================
+  SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar">
+
+   <button
+    class="nav-btn active"
+    data-page="dashboard">
+    🏠 Dashboard
+   </button>
+
+   <button
+    class="nav-btn employee-home-nav"
+    data-page="employeeHome">
+    👨‍💼 Employee Home
+   </button>
+
+   <button
+    class="nav-btn"
+    data-page="customers">
+    👤 Customers
+   </button>
+
+   <button
+    class="nav-btn"
+    data-page="milk">
+    🥛 Milk Entry
+   </button>
+
+   <button
+    class="nav-btn"
+    data-page="credit">
+    💰 Credit
+   </button>
+
+   <button
+    class="nav-btn"
+    data-page="bills">
+    🧾 Bills
+   </button>
+
+   <button
+    class="nav-btn owner-only"
+    data-page="access">
+    🔐 Access Management
+   </button>
+
+   <button
+    class="nav-btn owner-only"
+    data-page="activity">
+    📝 Activity History
+   </button>
+
+  </aside>
+
+
+  <main class="main">
+
+   <!-- =====================================================
+   OWNER DASHBOARD
+   ====================================================== -->
+
+   <section id="dashboard" class="page active">
+
+    <div class="page-title">
+     <h1>Digital Dairy Dashboard</h1>
+     <p>
+      Complete overview of DHANALAKSHMI MILK DAIRY
+     </p>
+    </div>
+
+    <div class="stats">
+
+     <div class="stat">
+      <span>👥 CUSTOMERS</span>
+      <strong id="statCustomers">0</strong>
+     </div>
+
+     <div class="stat">
+      <span>🥛 TODAY'S MILK</span>
+      <strong id="statMilk">0 L</strong>
+     </div>
+
+     <div class="stat">
+      <span>💰 OUTSTANDING CREDIT</span>
+      <strong id="statCredit">₹0</strong>
+     </div>
+
+     <div class="stat">
+      <span>🧾 BILLS</span>
+      <strong id="statBills">0</strong>
+     </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+     <div class="panel">
+
+      <h3>⚡ Quick Actions</h3>
+
+      <div class="quick-actions">
+
+       <button
+        class="btn"
+        onclick="showPage('customers');openAddCustomer()">
+        ➕ NEW CUSTOMER
+       </button>
+
+       <button
+        class="btn green"
+        onclick="showPage('customers');focusSearch()">
+        🔎 FIND CUSTOMER
+       </button>
+
+       <button
+        class="btn"
+        onclick="showPage('milk')">
+        🥛 ENTER MILK
+       </button>
+
+       <button
+        class="btn yellow"
+        onclick="showPage('credit')">
+        💰 ADD CREDIT
+       </button>
+
+       <button
+        class="btn dark"
+        onclick="showPage('bills')">
+        🧾 BILL CENTER
+       </button>
+
+       <button
+        class="btn green"
+        onclick="showPage('bills')">
+        🖨️ PRINT 6 BILLS
+       </button>
+
+      </div>
+
+     </div>
+
+
+     <div class="panel">
+
+      <h3>📅 Current Cycle</h3>
+
+      <div id="cycleInfo"></div>
+
+     </div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   EMPLOYEE HOME
+   ====================================================== -->
+
+   <section id="employeeHome" class="page">
+
+    <div class="employee-welcome">
+
+     <h1>👨‍💼 Employee Home</h1>
+
+     <p>
+      Welcome to DHANALAKSHMI MILK DAIRY.
+      Use the options below to manage daily dairy work.
+     </p>
+
+    </div>
+
+
+    <div class="stats">
+
+     <div class="stat">
+      <span>👥 CUSTOMERS</span>
+      <strong id="employeeCustomers">0</strong>
+     </div>
+
+     <div class="stat">
+      <span>🥛 TODAY'S MILK</span>
+      <strong id="employeeMilk">0 L</strong>
+     </div>
+
+     <div class="stat">
+      <span>💰 CREDIT</span>
+      <strong id="employeeCredit">₹0</strong>
+     </div>
+
+     <div class="stat">
+      <span>🧾 BILLS</span>
+      <strong id="employeeBills">0</strong>
+     </div>
+
+    </div>
+
+
+    <div class="panel">
+
+     <h3>⚡ Employee Work Center</h3>
+
+     <div class="employee-actions">
+
+      <button
+       class="employee-action"
+       onclick="showPage('customers');focusSearch()">
+
+       <span class="big">👤</span>
+       <b>Find Customer</b>
+       <small>
+        Search using Customer Code
+       </small>
+
+      </button>
+
+
+      <button
+       class="employee-action"
+       onclick="showPage('milk')">
+
+       <span class="big">🥛</span>
+       <b>Milk Entry</b>
+       <small>
+        Morning & Evening milk
+       </small>
+
+      </button>
+
+
+      <button
+       class="employee-action"
+       onclick="showPage('credit')">
+
+       <span class="big">💰</span>
+       <b>Customer Credit</b>
+       <small>
+        Record money taken
+       </small>
+
+      </button>
+
+
+      <button
+       class="employee-action"
+       onclick="showPage('bills')">
+
+       <span class="big">🧾</span>
+       <b>Bill Center</b>
+       <small>
+        View and print bills
+       </small>
+
+      </button>
+
+
+      <button
+       class="employee-action"
+       onclick="showPage('customers');openAddCustomer()">
+
+       <span class="big">➕</span>
+       <b>Add Customer</b>
+       <small>
+        Create new customer profile
+       </small>
+
+      </button>
+
+
+      <button
+       class="employee-action"
+       onclick="backupData()">
+
+       <span class="big">💾</span>
+       <b>Backup</b>
+       <small>
+        Save database backup
+       </small>
+
+      </button>
+
+     </div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   CUSTOMERS
+   ====================================================== -->
+
+   <section id="customers" class="page">
+
+    <div class="page-title">
+     <h1>👤 Customer Management</h1>
+     <p>
+      Customer Code is the main key for every profile.
+     </p>
+    </div>
+
+
+    <div class="panel">
+
+     <div class="search-row">
+
+      <input
+       id="customerSearch"
+       placeholder="Enter Customer Code">
+
+      <button
+       class="btn green"
+       onclick="searchCustomer()">
+       🔎 OPEN PROFILE
+      </button>
+
+      <button
+       class="btn"
+       onclick="openAddCustomer()">
+       ➕ ADD CUSTOMER
+      </button>
+
+     </div>
+
+
+     <div
+      id="customerProfile"
+      class="hidden">
+     </div>
+
+     <div id="customerList"></div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   MILK
+   ====================================================== -->
+
+   <section id="milk" class="page">
+
+    <div class="page-title">
+     <h1>🥛 Milk Entry</h1>
+     <p>
+      Thursday → Wednesday.
+      Morning and Evening milk.
+     </p>
+    </div>
+
+
+    <div class="panel">
+
+     <div class="form-grid">
+
+      <div class="field">
+       <label>Customer Code</label>
+       <input
+        id="milkCustomerCode"
+        placeholder="Example: 10001">
+      </div>
+
+
+      <div class="field">
+       <label>Start Date — Thursday</label>
+       <input
+        id="milkStartDate"
+        type="date">
+      </div>
+
+
+      <div
+       class="field"
+       id="milkRateField">
+
+       <label>Milk Price Per Liter</label>
+
+       <input
+        id="milkRate"
+        type="number"
+        min="0"
+        step=".01">
+
+      </div>
+
+
+      <div
+       class="field hidden"
+       id="milkFatField">
+
+       <label>Fat Based Entry</label>
+
+       <div
+        style="color:var(--muted);padding-top:8px">
+
+        6.0 Fat = ₹50/L
+        • every 0.1 Fat = ₹0.40/L
+
+       </div>
+
+      </div>
+
+
+      <div class="field">
+
+       <label>Customer Name</label>
+
+       <input
+        id="milkCustomerName"
+        readonly>
+
+      </div>
+
+     </div>
+
+
+     <div style="margin-top:20px">
+
+      <h3>7-Day Milk Record</h3>
+
+      <br>
+
+      <div
+       id="weekGrid"
+       class="week-grid">
+      </div>
+
+     </div>
+
+
+     <div class="form-actions">
+
+      <button
+       class="btn green"
+       onclick="saveMilkRecord()">
+       💾 SAVE 7-DAY RECORD
+      </button>
+
+      <button
+       class="btn dark"
+       onclick="loadMilkCustomer()">
+       🔎 LOAD CUSTOMER
+      </button>
+
+     </div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   CREDIT
+   ====================================================== -->
+
+   <section id="credit" class="page">
+
+    <div class="page-title">
+
+     <h1>💰 Customer Credit</h1>
+
+     <p>
+      Record money taken by the customer from the dairy.
+     </p>
+
+    </div>
+
+
+    <div class="panel">
+
+     <div class="form-grid">
+
+      <div class="field">
+
+       <label>Customer Code</label>
+
+       <input
+        id="creditCustomerCode"
+        placeholder="Example: 10001">
+
+      </div>
+
+
+      <div class="field">
+
+       <label>Credit Amount</label>
+
+       <input
+        id="creditAmount"
+        type="number"
+        min="0"
+        step=".01">
+
+      </div>
+
+
+      <div class="field">
+
+       <label>Reason</label>
+
+       <select id="creditReason">
+
+        <option>Recharge</option>
+        <option>Cattle Food</option>
+        <option>Baki</option>
+        <option>Shop</option>
+        <option>Cylinder</option>
+        <option>Other</option>
+
+       </select>
+
+      </div>
+
+
+      <div
+       class="field hidden"
+       id="otherReasonField">
+
+       <label>Other Reason</label>
+
+       <input id="otherReason">
+
+      </div>
+
+     </div>
+
+
+     <div class="form-actions">
+
+      <button
+       class="btn yellow"
+       onclick="addCredit()">
+       💰 SAVE CREDIT
+      </button>
+
+      <button
+       class="btn dark"
+       onclick="loadCreditCustomer()">
+       🔎 LOAD CUSTOMER
+      </button>
+
+     </div>
+
+
+     <div
+      id="creditCustomerInfo"
+      style="margin-top:20px">
+     </div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   BILLS
+   ====================================================== -->
+
+   <section id="bills" class="page">
+
+    <div class="page-title">
+
+     <h1>🧾 Bill Center</h1>
+
+     <p>
+      6 different customer bills on one A4 page.
+     </p>
+
+    </div>
+
+
+    <div class="panel">
+
+     <h3>🧾 6 CUSTOMER A4 BILL SHEET</h3>
+
+     <p
+      style="color:var(--muted);margin-bottom:15px">
+
+      Choose up to 6 customers.
+      Each bill uses one compact box
+      on the same A4 page.
+
+     </p>
+
+
+     <div
+      id="a4CustomerSlots"
+      class="a4-customer-slots">
+     </div>
+
+
+     <div class="form-actions">
+
+      <button
+       class="btn"
+       onclick="addA4CustomerSlot()">
+       ➕ ADD CUSTOMER
+      </button>
+
+      <button
+       class="btn green"
+       onclick="printSixCustomerBills()">
+       🖨️ PRINT 6 ON ONE A4
+      </button>
+
+      <button
+       class="btn dark"
+       onclick="clearA4CustomerSlots()">
+       ✕ CLEAR ALL
+      </button>
+
+     </div>
+
+    </div>
+
+
+    <div
+     class="panel"
+     style="margin-top:18px">
+
+     <h3>🔎 Single Customer Bill</h3>
+
+     <div class="search-row">
+
+      <input
+       id="billCustomerCode"
+       placeholder="Enter Customer Code">
+
+      <button
+       class="btn green"
+       onclick="loadBillCustomer()">
+       🔎 LOAD BILL
+      </button>
+
+      <button
+       class="btn"
+       onclick="printCurrentCustomer()">
+       🖨️ PRINT CUSTOMER
+      </button>
+
+     </div>
+
+
+     <div id="billPreview"></div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   ACCESS
+   ====================================================== -->
+
+   <section
+    id="access"
+    class="page owner-only-page">
+
+    <div class="page-title">
+
+     <h1>🔐 Access Management</h1>
+
+     <p>
+      Only the OWNER can approve or reject Login IDs.
+     </p>
+
+    </div>
+
+
+    <div class="panel">
+
+     <h3>Pending Requests</h3>
+
+     <div id="pendingRequests"></div>
+
+
+     <h3 style="margin-top:25px">
+      Approved Users
+     </h3>
+
+     <div id="approvedUsers"></div>
+
+    </div>
+
+   </section>
+
+
+   <!-- =====================================================
+   ACTIVITY
+   ====================================================== -->
+
+   <section
+    id="activity"
+    class="page owner-only-page">
+
+    <div class="page-title">
+
+     <h1>📝 Activity History</h1>
+
+     <p>
+      See who changed what and when.
+     </p>
+
+    </div>
+
+
+    <div class="panel">
+
+     <div id="activityList"></div>
+
+    </div>
+
+   </section>
+
+  </main>
+
+ </div>
+
+</div>
+
+
+<!-- =========================================================
+ ADD CUSTOMER MODAL
+========================================================= -->
+
 <div
- id="firebaseSecurityNotice"
- class="notice"
- style="margin:10px">
-⚠️ Firebase security is currently in testing mode. Secure Firestore rules before real business use.
+ id="customerModal"
+ class="modal">
+
+ <div class="modal-card">
+
+  <div class="modal-head">
+
+   <h2>➕ Add Customer</h2>
+
+   <button
+    class="btn dark"
+    onclick="closeModal()">
+    ✕
+   </button>
+
+  </div>
+
+
+  <div class="form-grid">
+
+   <div class="field">
+
+    <label>Customer Code</label>
+
+    <input id="newCustomerCode">
+
+   </div>
+
+
+   <div class="field">
+
+    <label>Customer Name</label>
+
+    <input id="newCustomerName">
+
+   </div>
+
+
+   <div class="field">
+
+    <label>Milk Price Type</label>
+
+    <select id="newCustomerPricingType">
+
+     <option value="fixed">
+      Fixed Price
+     </option>
+
+     <option value="fat">
+      Fat Based
+     </option>
+
+    </select>
+
+   </div>
+
+  </div>
+
+
+  <div class="form-actions">
+
+   <button
+    class="btn green"
+    onclick="saveCustomer()">
+    💾 SAVE CUSTOMER
+   </button>
+
+  </div>
+
+ </div>
+
 </div>
 
-<header class="topbar">
-
-<div class="brand">
-
-<div class="brand-icon">🥛</div>
-
-<div>
-<h2>DHANALAKSHMI MILK DAIRY</h2>
-
-<small>
-Logged in as <b id="loggedInAs"></b>
-</small>
-</div>
-
-</div>
-
-<div class="top-actions">
-
-<span id="networkStatus">🟢 Online</span>
-
-<span
- id="cloudStatusInline"
- style="color:var(--green);font-size:12px">
-☁️ Connecting...
-</span>
-
-<button class="btn dark" onclick="backupData()">💾 Backup</button>
-
-<button class="btn red" onclick="logout()">🔒 Lock</button>
-
-</div>
-
-</header>
-
-
-<div class="layout">
-
-<aside class="sidebar">
-
-<div class="nav-section">MAIN</div>
-
-<button
- class="nav-btn employee-home-btn"
- data-page="employeeHome">
-👨‍💼 Employee Home
-</button>
-
-<button
- class="nav-btn owner-home-btn"
- data-page="dashboard">
-🏠 Owner Dashboard
-</button>
-
-<button class="nav-btn" data-page="customers">
-👤 Customers
-</button>
-
-<button class="nav-btn" data-page="milk">
-🥛 Milk Entry
-</button>
-
-<button class="nav-btn" data-page="credit">
-💰 Credit
-</button>
-
-<button class="nav-btn" data-page="bills">
-🧾 Bills
-</button>
-
-
-<div class="nav-section owner-only">OWNER</div>
-
-<button class="nav-btn owner-only" data-page="access">
-🔐 Access Management
-</button>
-
-<button class="nav-btn owner-only" data-page="activity">
-📝 Activity History
-</button>
-
-<button class="nav-btn owner-only" data-page="settings">
-⚙️ Owner Settings
-</button>
-
-</aside>
-
-
-<main class="main">
-
-
-<!-- EMPLOYEE HOME -->
-<section id="employeeHome" class="page">
-
-<div class="employee-hero">
-
-<h2>👨‍💼 Employee Home</h2>
-
-<p>
-Welcome, <b id="employeeWelcome"></b>.
-Manage customers, milk entries, credits and bills from here.
-</p>
 
 <div
- id="lastLoginText"
- style="margin-top:8px;color:var(--muted);font-size:13px">
+ id="printArea"
+ class="print-area">
 </div>
-
-</div>
-
-
-<div id="employeeAnnouncement"></div>
-
-
-<div class="stats">
-
-<div class="stat">
-<span>👥 CUSTOMERS</span>
-<strong id="employeeCustomers">0</strong>
-</div>
-
-<div class="stat">
-<span>🥛 TODAY'S MILK</span>
-<strong id="employeeMilk">0 L</strong>
-</div>
-
-<div class="stat">
-<span>💰 OUTSTANDING CREDIT</span>
-<strong id="employeeCredit">₹0</strong>
-</div>
-
-<div class="stat">
-<span>🧾 BILLS</span>
-<strong id="employeeBills">0</strong>
-</div>
-
-</div>
-
-
-<div class="dashboard-grid">
-
-<div class="panel">
-
-<h3>⚡ Employee Quick Actions</h3>
-
-<div class="quick-actions">
-
-<button
- class="btn"
- onclick="showPage('customers');openAddCustomer()">
-➕ NEW CUSTOMER
-</button>
-
-<button
- class="btn green"
- onclick="showPage('customers');focusSearch()">
-🔎 FIND CUSTOMER
-</button>
-
-<button
- class="btn"
- onclick="showPage('milk')">
-🥛 ENTER MILK
-</button>
-
-<button
- class="btn yellow"
- onclick="showPage('credit')">
-💰 ADD CREDIT
-</button>
-
-<button
- class="btn dark"
- onclick="showPage('bills')">
-🧾 BILL CENTER
-</button>
-
-<button
- class="btn green"
- onclick="showPage('bills')">
-🖨️ PRINT BILLS
-</button>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>📅 Current Cycle</h3>
-
-<div id="employeeCycleInfo"></div>
-
-</div>
-
-</div>
-
-
-<div class="panel" style="margin-top:20px">
-
-<h3>🔔 Notifications</h3>
-
-<div id="employeeNotifications"></div>
-
-</div>
-
-</section>
-
-
-<!-- OWNER DASHBOARD -->
-<section id="dashboard" class="page">
-
-<div class="page-title">
-<h1>Digital Dairy Dashboard</h1>
-<p>Complete overview of DHANALAKSHMI MILK DAIRY</p>
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<span>👥 CUSTOMERS</span>
-<strong id="statCustomers">0</strong>
-</div>
-
-<div class="stat">
-<span>🥛 TODAY'S MILK</span>
-<strong id="statMilk">0 L</strong>
-</div>
-
-<div class="stat">
-<span>💰 OUTSTANDING CREDIT</span>
-<strong id="statCredit">₹0</strong>
-</div>
-
-<div class="stat">
-<span>🧾 BILLS</span>
-<strong id="statBills">0</strong>
-</div>
-
-</div>
-
-
-<div class="dashboard-grid">
-
-<div class="panel">
-
-<h3>⚡ Quick Actions</h3>
-
-<div class="quick-actions">
-
-<button class="btn"
-onclick="showPage('customers');openAddCustomer()">
-➕ NEW CUSTOMER
-</button>
-
-<button class="btn green"
-onclick="showPage('customers');focusSearch()">
-🔎 FIND CUSTOMER
-</button>
-
-<button class="btn"
-onclick="showPage('milk')">
-🥛 ENTER MILK
-</button>
-
-<button class="btn yellow"
-onclick="showPage('credit')">
-💰 ADD CREDIT
-</button>
-
-<button class="btn dark"
-onclick="showPage('bills')">
-🧾 BILL CENTER
-</button>
-
-<button class="btn green"
-onclick="showPage('bills')">
-🖨️ PRINT 6 BILLS
-</button>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>📅 Current Cycle</h3>
-
-<div id="cycleInfo"></div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- CUSTOMERS -->
-<section id="customers" class="page">
-
-<div class="page-title">
-<h1>👤 Customer Management</h1>
-<p>Customer Code is the main key for every profile.</p>
-</div>
-
-<div class="panel">
-
-<div class="search-row">
-
-<input
- id="customerSearch"
- placeholder="Enter Customer Code">
-
-<button
- class="btn green"
- onclick="searchCustomer()">
-🔎 OPEN PROFILE
-</button>
-
-<button
- class="btn"
- onclick="openAddCustomer()">
-➕ ADD CUSTOMER
-</button>
-
-</div>
-
-<div id="customerProfile" class="hidden"></div>
-
-<div id="customerList"></div>
-
-</div>
-
-</section>
-
-
-<!-- MILK -->
-<section id="milk" class="page">
-
-<div class="page-title">
-<h1>🥛 Milk Entry</h1>
-<p>Thursday → Wednesday. Morning and Evening milk.</p>
-</div>
-
-<div class="panel">
-
-<div class="form-grid">
-
-<div class="field">
-<label>Customer Code</label>
-<input id="milkCustomerCode" placeholder="Example: 10001">
-</div>
-
-<div class="field">
-<label>Start Date — Thursday</label>
-<input id="milkStartDate" type="date">
-</div>
-
-<div class="field" id="milkRateField">
-<label>Milk Price Per Liter</label>
-<input id="milkRate" type="number" min="0" step=".01">
-</div>
-
-<div class="field hidden" id="milkFatField">
-<label>Fat Based Entry</label>
-<div style="color:var(--muted);padding-top:8px">
-6.0 Fat = ₹50/L • every 0.1 Fat = ₹0.40/L
-</div>
-</div>
-
-<div class="field">
-<label>Customer Name</label>
-<input id="milkCustomerName" readonly>
-</div>
-
-</div>
-
-
-<div style="margin-top:20px">
-
-<h3>7-Day Milk Record</h3>
-
-<br>
-
-<div id="weekGrid" class="week-grid"></div>
-
-</div>
-
-
-<div class="form-actions">
-
-<button
- class="btn green"
- onclick="saveMilkRecord()">
-💾 SAVE 7-DAY RECORD
-</button>
-
-<button
- class="btn dark"
- onclick="loadMilkCustomer()">
-🔎 LOAD CUSTOMER
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- CREDIT -->
-<section id="credit" class="page">
-
-<div class="page-title">
-<h1>💰 Customer Credit</h1>
-<p>Record money taken by the customer from the dairy.</p>
-</div>
-
-<div class="panel">
-
-<div class="form-grid">
-
-<div class="field">
-<label>Customer Code</label>
-<input id="creditCustomerCode" placeholder="Example: 10001">
-</div>
-
-<div class="field">
-<label>Credit Amount</label>
-<input id="creditAmount" type="number" min="0" step=".01">
-</div>
-
-<div class="field">
-<label>Reason</label>
-
-<select id="creditReason">
-
-<option>Recharge</option>
-<option>Cattle Food</option>
-<option>Baki</option>
-<option>Shop</option>
-<option>Cylinder</option>
-<option>Other</option>
-
-</select>
-
-</div>
-
-<div class="field hidden" id="otherReasonField">
-<label>Other Reason</label>
-<input id="otherReason">
-</div>
-
-</div>
-
-
-<div class="form-actions">
-
-<button
- class="btn yellow"
- onclick="addCredit()">
-💰 SAVE CREDIT
-</button>
-
-<button
- class="btn dark"
- onclick="loadCreditCustomer()">
-🔎 LOAD CUSTOMER
-</button>
-
-</div>
-
-<div id="creditCustomerInfo" style="margin-top:20px"></div>
-
-</div>
-
-</section>
-
-
-<!-- BILLS -->
-<section id="bills" class="page">
-
-<div class="page-title">
-<h1>🧾 Bill Center</h1>
-<p>6 different customer bills on one A4 page.</p>
-</div>
-
-<div class="panel">
-
-<h3>🧾 6 CUSTOMER A4 BILL SHEET</h3>
-
-<p style="color:var(--muted);margin-bottom:15px">
-Choose up to 6 customers. Each bill uses one compact box on the same A4 page.
-</p>
-
-<div id="a4CustomerSlots" class="a4-customer-slots"></div>
-
-<div class="form-actions">
-
-<button
- class="btn"
- onclick="addA4CustomerSlot()">
-➕ ADD CUSTOMER
-</button>
-
-<button
- class="btn green"
- onclick="printSixCustomerBills()">
-🖨️ PRINT 6 ON ONE A4
-</button>
-
-<button
- class="btn dark"
- onclick="clearA4CustomerSlots()">
-✕ CLEAR ALL
-</button>
-
-</div>
-
-</div>
-
-
-<div class="panel" style="margin-top:18px">
-
-<h3>🔎 Single Customer Bill</h3>
-
-<div class="search-row">
-
-<input
- id="billCustomerCode"
- placeholder="Enter Customer Code">
-
-<button
- class="btn green"
- onclick="loadBillCustomer()">
-🔎 LOAD BILL
-</button>
-
-<button
- class="btn"
- onclick="printCurrentCustomer()">
-🖨️ PRINT CUSTOMER
-</button>
-
-</div>
-
-<div id="billPreview"></div>
-
-</div>
-
-</section>
-
-
-<!-- ACCESS -->
-<section id="access" class="page owner-only-page">
-
-<div class="page-title">
-<h1>🔐 Access Management</h1>
-<p>Only the OWNER can approve or reject Login IDs.</p>
-</div>
-
-<div class="panel">
-
-<h3>Pending Requests</h3>
-
-<div id="pendingRequests"></div>
-
-<h3 style="margin-top:25px">Approved Employees</h3>
-
-<div id="approvedUsers"></div>
-
-</div>
-
-</section>
-
-
-<!-- ACTIVITY -->
-<section id="activity" class="page owner-only-page">
-
-<div class="page-title">
-
-<h1>📝 Activity History</h1>
-
-<p>
-Activities are separated into Employee, Customer, Milk, Credit,
-Bill, Access, Security and Cloud/Sync categories.
-</p>
-
-</div>
-
-<div class="panel">
-
-<div class="activity-category-bar">
-
-<button class="activity-filter active" onclick="setActivityFilter('ALL',this)">
-ALL
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('EMPLOYEE',this)">
-👨‍💼 Employee
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('CUSTOMER',this)">
-👤 Customer
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('MILK',this)">
-🥛 Milk
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('CREDIT',this)">
-💰 Credit
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('BILL',this)">
-🧾 Bill
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('ACCESS',this)">
-🔐 Access
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('SECURITY',this)">
-🛡️ Security
-</button>
-
-<button class="activity-filter" onclick="setActivityFilter('CLOUD',this)">
-☁️ Cloud
-</button>
-
-</div>
-
-<div id="activityList"></div>
-
-</div>
-
-</section>
-
-
-<!-- OWNER SETTINGS -->
-<section id="settings" class="page owner-only-page">
-
-<div class="page-title">
-
-<h1>⚙️ Owner Settings</h1>
-
-<p>Owner-only settings and dairy announcements.</p>
-
-</div>
-
-
-<div class="dashboard-grid">
-
-<div class="panel">
-
-<h3>🔑 Change Owner Password</h3>
-
-<div class="form-grid">
-
-<div class="field">
-<label>Current Password</label>
-<input id="oldOwnerPassword" type="password">
-</div>
-
-<div class="field">
-<label>New Password</label>
-<input id="newOwnerPassword" type="password">
-</div>
-
-</div>
-
-<div class="form-actions">
-
-<button class="btn yellow" onclick="changeOwnerPassword()">
-🔑 CHANGE PASSWORD
-</button>
-
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>📢 Employee Announcement</h3>
-
-<textarea
- id="announcementText"
- style="width:100%;min-height:120px;padding:13px;border-radius:12px;background:#091729;color:white;border:1px solid var(--border)"
- placeholder="Write announcement for employees..."></textarea>
-
-<div class="form-actions">
-
-<button class="btn green" onclick="saveAnnouncement()">
-📢 SEND ANNOUNCEMENT
-</button>
-
-<button class="btn dark" onclick="clearAnnouncement()">
-✕ CLEAR
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel" style="margin-top:20px">
-
-<h3>👨‍💼 Employee ID Management</h3>
-
-<div id="employeeManagement"></div>
-
-</div>
-
-</section>
-
-</main>
-
-</div>
-</div>
-
-
-<!-- CUSTOMER MODAL -->
-<div id="customerModal" class="modal">
-
-<div class="modal-card">
-
-<div class="modal-head">
-
-<h2>➕ Add Customer</h2>
-
-<button class="btn dark" onclick="closeModal()">✕</button>
-
-</div>
-
-
-<div class="form-grid">
-
-<div class="field">
-<label>Customer Code</label>
-<input id="newCustomerCode">
-</div>
-
-<div class="field">
-<label>Customer Name</label>
-<input id="newCustomerName">
-</div>
-
-<div class="field">
-<label>Milk Price Type</label>
-
-<select id="newCustomerPricingType">
-
-<option value="fixed">
-Fixed Price
-</option>
-
-<option value="fat">
-Fat Based
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="form-actions">
-
-<button class="btn green" onclick="saveCustomer()">
-💾 SAVE CUSTOMER
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div id="printArea" class="print-area"></div>
 
 <div id="toast"></div>
 
 
-<!-- FIREBASE -->
+<!-- =========================================================
+ FIREBASE
+========================================================= -->
+
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
 
 
@@ -1611,12 +1761,12 @@ let firebaseSyncStarted=false;
 function firebaseConfigured(){
 
  return !!(
- firebaseConfig.apiKey &&
- !firebaseConfig.apiKey.startsWith("PASTE_") &&
- firebaseConfig.projectId &&
- !firebaseConfig.projectId.startsWith("PASTE_") &&
- firebaseConfig.appId &&
- !firebaseConfig.appId.startsWith("PASTE_")
+  firebaseConfig.apiKey &&
+  !firebaseConfig.apiKey.startsWith("PASTE_") &&
+  firebaseConfig.projectId &&
+  !firebaseConfig.projectId.startsWith("PASTE_") &&
+  firebaseConfig.appId &&
+  !firebaseConfig.appId.startsWith("PASTE_")
  );
 
 }
@@ -1628,16 +1778,11 @@ function normalizeDatabase(d){
 
  return{
 
- customers:Array.isArray(d.customers)?d.customers:[],
- bills:Array.isArray(d.bills)?d.bills:[],
- users:Array.isArray(d.users)?d.users:[],
- requests:Array.isArray(d.requests)?d.requests:[],
- activity:Array.isArray(d.activity)?d.activity:[],
- settings:d.settings||{
-  announcement:"",
-  announcementDate:"",
-  ownerPassword:"31122"
- }
+  customers:Array.isArray(d.customers)?d.customers:[],
+  bills:Array.isArray(d.bills)?d.bills:[],
+  users:Array.isArray(d.users)?d.users:[],
+  requests:Array.isArray(d.requests)?d.requests:[],
+  activity:Array.isArray(d.activity)?d.activity:[]
 
  };
 
@@ -1645,11 +1790,6 @@ function normalizeDatabase(d){
 
 
 function showCloudStatus(message){
-
- const inline=document.getElementById("cloudStatusInline");
-
- if(inline)
- inline.textContent=message;
 
  let el=document.getElementById("cloudStatus");
 
@@ -1660,13 +1800,18 @@ function showCloudStatus(message){
   el.id="cloudStatus";
 
   el.style.cssText=
-  "position:fixed;left:20px;bottom:20px;z-index:199;padding:9px 12px;border-radius:10px;background:#102840;border:1px solid #28415f;color:#dbeafe;font-size:12px;box-shadow:0 12px 35px #0005";
+  "position:fixed;left:20px;bottom:20px;z-index:199;padding:9px 12px;border-radius:10px;background:#102840;border:1px solid var(--border);color:#dbeafe;font-size:12px;box-shadow:0 12px 35px #0005";
 
   document.body.appendChild(el);
 
  }
 
  el.textContent=message;
+
+ const inline=document.getElementById("cloudStatusInline");
+
+ if(inline)
+  inline.textContent=message;
 
 }
 
@@ -1690,39 +1835,32 @@ async function startFirebaseSync(){
  try{
 
   if(!firebase.apps.length)
-  firebase.initializeApp(firebaseConfig);
+   firebase.initializeApp(firebaseConfig);
 
-  const root=firebase.firestore().collection("dairy");
+  const root=
+   firebase.firestore().collection("dairy");
 
   const names=[
    "customers",
    "bills",
    "users",
    "requests",
-   "activity",
-   "settings"
+   "activity"
   ];
 
 
   for(const name of names){
 
-   const snap=await root.doc(name).get();
+   const snap=
+    await root.doc(name).get();
 
    if(!snap.exists){
 
-    let value=[];
-
-    if(name==="settings")
-    value=database.settings;
-
-    else
-    value=Array.isArray(database[name])?database[name]:[];
-
-    await root.doc(name).set(
-     name==="settings"
-     ? value
-     : {items:value}
-    );
+    await root.doc(name).set({
+     items:Array.isArray(database[name])
+      ?database[name]
+      :[]
+    });
 
    }
 
@@ -1734,32 +1872,39 @@ async function startFirebaseSync(){
    root.doc(name).onSnapshot(
     snap=>{
 
-     if(!snap.exists)return;
+     if(snap.exists){
 
-     const data=snap.data()||{};
-
-     if(name==="settings"){
-
-      database.settings=data;
-
-     }else{
+      const data=snap.data()||{};
 
       database[name]=
        Array.isArray(data.items)
        ?data.items
        :[];
 
+      localStorage.setItem(
+       STORAGE_KEY,
+       JSON.stringify(database)
+      );
+
+      updateDashboard();
+      renderCustomerList();
+      renderA4CustomerSlots();
+
+      if(
+       typeof renderAccess==="function" &&
+       currentUserIsOwner()
+      )
+       renderAccess();
+
+      if(
+       typeof renderActivity==="function" &&
+       currentUserIsOwner()
+      )
+       renderActivity();
+
      }
 
-
-     localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(database)
-     );
-
      firebaseReady=true;
-
-     updateAllScreens();
 
      showCloudStatus(
       "☁️ Cloud connected • Live sync ON"
@@ -1779,6 +1924,7 @@ async function startFirebaseSync(){
      );
 
     }
+
    );
 
   });
@@ -1814,7 +1960,8 @@ async function cloudSaveDatabase(){
 
  try{
 
-  const root=firebase.firestore().collection("dairy");
+  const root=
+   firebase.firestore().collection("dairy");
 
   const names=[
    "customers",
@@ -1824,24 +1971,22 @@ async function cloudSaveDatabase(){
    "activity"
   ];
 
-
   await Promise.all(
 
    names.map(name=>
+
     root.doc(name).set({
-     items:Array.isArray(database[name])
-     ?database[name]
-     :[]
+
+     items:
+      Array.isArray(database[name])
+      ?database[name]
+      :[]
+
     })
+
    )
 
   );
-
-
-  await root.doc("settings").set(
-   database.settings||{}
-  );
-
 
  }catch(err){
 
@@ -1854,6 +1999,10 @@ async function cloudSaveDatabase(){
    "❌ Cloud save failed"
   );
 
+  toast(
+   "Cloud save failed. Check your internet connection."
+  );
+
  }
 
 }
@@ -1863,14 +2012,23 @@ async function cloudSaveDatabase(){
 
 <script>
 
+/* =========================================================
+ LOGIN SETTINGS
+========================================================= */
+
 const OWNER_ID="ACHALKUMAR";
 
-const DEFAULT_PASSWORD="31122";
+/* OWNER PASSWORD */
+const OWNER_PASSWORD="31122";
 
+/* OWNER SECURITY CODE */
 const OWNER_SECURITY_CODE="11223";
 
+/* EMPLOYEE PASSWORD */
+const EMPLOYEE_PASSWORD="31122";
+
 const STORAGE_KEY=
-"dhanalakshmi_milk_dairy_database_v4";
+"dhanalakshmi_milk_dairy_database_v2";
 
 
 let database=loadDatabase();
@@ -1879,23 +2037,29 @@ let currentCustomer=null;
 
 let currentLogin="";
 
-let securityCodeMode=false;
+let currentRole="";
 
 let a4CustomerCodes=[];
 
-let activityFilter="ALL";
 
+/* =========================================================
+ DATABASE
+========================================================= */
 
 function loadDatabase(){
 
  try{
 
-  const d=JSON.parse(
-   localStorage.getItem(STORAGE_KEY)
-  );
+  const d=
+   JSON.parse(
+    localStorage.getItem(STORAGE_KEY)
+   );
 
-  if(d&&Array.isArray(d.customers))
-  return normalizeDatabase(d);
+  if(
+   d &&
+   Array.isArray(d.customers)
+  )
+   return normalizeDatabase(d);
 
  }catch(e){
 
@@ -1906,8 +2070,13 @@ function loadDatabase(){
 
  }
 
-
- return normalizeDatabase({});
+ return{
+  customers:[],
+  bills:[],
+  users:[],
+  requests:[],
+  activity:[]
+ };
 
 }
 
@@ -1919,7 +2088,9 @@ function saveDatabase(){
   JSON.stringify(database)
  );
 
- updateAllScreens();
+ updateDashboard();
+
+ updateEmployeeHome();
 
  cloudSaveDatabase();
 
@@ -1928,41 +2099,27 @@ function saveDatabase(){
 
 function currentUserIsOwner(){
 
- return currentLogin===OWNER_ID;
+ return currentRole==="owner";
 
 }
 
 
-function getCurrentUser(){
+function currentUserIsEmployee(){
 
- if(currentUserIsOwner())
- return {
-  id:OWNER_ID,
-  name:"Owner",
-  status:"approved"
- };
-
- return database.users.find(
-  u=>u.id===currentLogin
- );
+ return currentRole==="employee";
 
 }
 
 
-function employeePassword(user){
+/* =========================================================
+ ACTIVITY
+========================================================= */
 
- return user?.password || DEFAULT_PASSWORD;
-
-}
-
-
-function logAction(category,action,details=""){
+function logAction(action,details=""){
 
  database.activity.unshift({
 
   id:Date.now()+Math.random(),
-
-  category,
 
   loginId:currentLogin,
 
@@ -1974,118 +2131,73 @@ function logAction(category,action,details=""){
 
  });
 
- if(database.activity.length>1000)
- database.activity.length=1000;
+ if(database.activity.length>500)
+  database.activity.length=500;
 
  saveDatabase();
 
 }
 
 
+/* =========================================================
+ LOGIN
+========================================================= */
+
 function login(){
 
  const id=
- document.getElementById("loginIdInput")
- .value.trim()
- .toUpperCase();
+  document
+  .getElementById("loginIdInput")
+  .value
+  .trim()
+  .toUpperCase();
 
- const pass=
- document.getElementById("passwordInput")
- .value;
+ const security=
+  document
+  .getElementById("securityCodeInput")
+  .value
+  .trim();
 
- const securityCode=
- document.getElementById("securityCodeInput")
- .value.trim();
+ const password=
+  document
+  .getElementById("passwordInput")
+  .value;
 
- const err=
- document.getElementById("loginError");
-
-
- if(!id||!pass){
-
-  err.textContent=
-  "Enter Login ID and Password.";
-
-  return;
-
- }
+ const error=
+  document.getElementById("loginError");
 
 
- let expectedPassword=
- DEFAULT_PASSWORD;
+ error.textContent="";
 
 
- if(id===OWNER_ID){
+ if(!id){
 
-  expectedPassword=
-  database.settings?.ownerPassword ||
-  DEFAULT_PASSWORD;
-
- }
-
-
- const employee=
- database.users.find(
-  u=>u.id===id
- );
-
-
- if(employee)
- expectedPassword=
- employeePassword(employee);
-
-
- if(pass!==expectedPassword){
-
-  logLoginAttempt(
-   id,
-   "FAILED PASSWORD"
-  );
-
-  err.textContent=
-  "Incorrect password.";
+  error.textContent=
+   "Enter Login ID.";
 
   return;
 
  }
 
 
+ /* OWNER */
+
  if(id===OWNER_ID){
 
-  if(!securityCodeMode){
+  if(security!==OWNER_SECURITY_CODE){
 
-   securityCodeMode=true;
-
-   document
-   .getElementById("securityCodeInput")
-   .classList.remove("hidden");
-
-   document
-   .getElementById("securityCodeNote")
-   .classList.remove("hidden");
-
-   document
-   .getElementById("securityCodeInput")
-   .focus();
-
-   err.textContent="";
+   error.textContent=
+    "Incorrect Owner Security Code.";
 
    return;
 
   }
 
 
-  if(
-   securityCode!==OWNER_SECURITY_CODE
-  ){
+  if(password!==OWNER_PASSWORD){
 
-   logLoginAttempt(
-    id,
-    "FAILED SECURITY CODE"
-   );
-
-   err.textContent=
-   "Incorrect Owner Security Code.";
+   error.textContent=
+    "Incorrect owner password.";
 
    return;
 
@@ -2094,10 +2206,11 @@ function login(){
 
   currentLogin=OWNER_ID;
 
+  currentRole="owner";
+
   enterApp();
 
   logAction(
-   "SECURITY",
    "OWNER LOGIN",
    "Owner login successful."
   );
@@ -2107,20 +2220,36 @@ function login(){
  }
 
 
- if(employee&&employee.status==="approved"){
+ /* EMPLOYEE */
+
+ if(password!==EMPLOYEE_PASSWORD){
+
+  error.textContent=
+   "Incorrect employee password.";
+
+  return;
+
+ }
+
+
+ const user=
+  database.users.find(
+   u=>
+    u.id===id &&
+    u.status==="approved"
+  );
+
+
+ if(user){
 
   currentLogin=id;
 
-  employee.lastLogin=
-  new Date().toISOString();
-
-  saveDatabase();
+  currentRole="employee";
 
   enterApp();
 
   logAction(
-   "EMPLOYEE",
-   "LOGIN",
+   "EMPLOYEE LOGIN",
    "Employee logged in."
   );
 
@@ -2129,15 +2258,21 @@ function login(){
  }
 
 
- if(
-  !database.requests.some(
-   r=>r.id===id&&r.status==="pending"
-  )
- ){
+ /* NEW EMPLOYEE REQUEST */
+
+ const alreadyRequested=
+  database.requests.some(
+   r=>
+    r.id===id &&
+    r.status==="pending"
+  );
+
+
+ if(!alreadyRequested){
 
   database.requests.push({
 
-   id,
+   id:id,
 
    name:id,
 
@@ -2152,13 +2287,8 @@ function login(){
  }
 
 
- logLoginAttempt(
-  id,
-  "ACCESS REQUEST"
- );
-
- err.textContent=
- "Access request sent. Owner approval is required.";
+ error.textContent=
+  "Access request sent. Owner approval is required.";
 
  document.getElementById(
   "passwordInput"
@@ -2167,36 +2297,9 @@ function login(){
 }
 
 
-function logLoginAttempt(id,result){
-
- database.activity.unshift({
-
-  id:Date.now()+Math.random(),
-
-  category:"SECURITY",
-
-  loginId:id,
-
-  action:"LOGIN ATTEMPT",
-
-  details:result,
-
-  date:new Date().toISOString()
-
- });
-
- if(database.activity.length>1000)
- database.activity.length=1000;
-
- localStorage.setItem(
-  STORAGE_KEY,
-  JSON.stringify(database)
- );
-
- cloudSaveDatabase();
-
-}
-
+/* =========================================================
+ ENTER APP
+========================================================= */
 
 function enterApp(){
 
@@ -2210,95 +2313,83 @@ function enterApp(){
   currentLogin
  );
 
-
- document
- .getElementById("loginScreen")
- .classList.add("hidden");
-
- document
- .getElementById("app")
- .classList.remove("hidden");
+ sessionStorage.setItem(
+  "dairyRole",
+  currentRole
+ );
 
 
  document
- .getElementById("loggedInAs")
- .textContent=currentLogin;
+  .getElementById("loginScreen")
+  .classList
+  .add("hidden");
+
+
+ document
+  .getElementById("app")
+  .classList
+  .remove("hidden");
+
+
+ document
+  .getElementById("loggedInAs")
+  .textContent=
+  currentLogin;
 
 
  setOwnerUI();
 
- updateAllScreens();
+ updateDashboard();
+
+ updateEmployeeHome();
 
  buildWeekGrid();
 
  renderA4CustomerSlots();
 
 
- if(currentUserIsOwner()){
+ if(currentUserIsEmployee()){
 
-  showPage("dashboard");
+  showPage("employeeHome");
 
  }else{
 
-  showPage("employeeHome");
+  showPage("dashboard");
 
  }
 
 }
 
 
+/* =========================================================
+ ROLE UI
+========================================================= */
+
 function setOwnerUI(){
 
- const owner=currentUserIsOwner();
+ document
+  .querySelectorAll(".owner-only,.owner-only-page")
+  .forEach(x=>
+   x.classList.toggle(
+    "hidden",
+    !currentUserIsOwner()
+   )
+  );
 
  document
- .querySelectorAll(".owner-only")
- .forEach(x=>
-  x.classList.toggle(
-   "hidden",
-   !owner
-  )
- );
-
- document
- .querySelectorAll(".owner-only-page")
- .forEach(x=>
-  x.classList.toggle(
-   "hidden",
-   !owner
-  )
- );
-
- document
- .querySelectorAll(".owner-home-btn")
- .forEach(x=>
-  x.classList.toggle(
-   "hidden",
-   !owner
-  )
- );
-
- document
- .querySelectorAll(".employee-home-btn")
- .forEach(x=>
-  x.classList.toggle(
-   "hidden",
-   owner
-  )
- );
+  .querySelectorAll(".employee-home-nav")
+  .forEach(x=>
+   x.classList.remove("hidden")
+  );
 
 }
 
 
-function logout(){
+/* =========================================================
+ LOGOUT
+========================================================= */
 
- logAction(
-  currentUserIsOwner()
-  ?"SECURITY"
-  :"EMPLOYEE",
-  "LOGOUT",
-  "User logged out."
- );
+function logout(){
 
  sessionStorage.clear();
 
@@ -2307,29 +2398,35 @@ function logout(){
 }
 
 
-/* NAVIGATION */
+/* =========================================================
+ NAVIGATION
+========================================================= */
 
 document
-.querySelectorAll(".nav-btn")
-.forEach(b=>
- b.addEventListener(
-  "click",
-  ()=>showPage(b.dataset.page)
- )
-);
+ .querySelectorAll(".nav-btn")
+ .forEach(b=>
+
+  b.addEventListener(
+   "click",
+   ()=>{
+    showPage(b.dataset.page);
+   }
+  )
+
+ );
 
 
 function showPage(id){
 
  if(
-  ["access","activity","settings","dashboard"]
-  .includes(id)
-  &&
+  (id==="access" ||
+   id==="activity") &&
   !currentUserIsOwner()
  ){
 
-  if(id!=="dashboard")
-  toast("Owner access required.");
+  toast(
+   "Owner access required."
+  );
 
   return;
 
@@ -2337,13 +2434,14 @@ function showPage(id){
 
 
  document
- .querySelectorAll(".page")
- .forEach(p=>
-  p.classList.remove("active")
- );
+  .querySelectorAll(".page")
+  .forEach(
+   p=>p.classList.remove("active")
+  );
 
 
- const page=document.getElementById(id);
+ const page=
+  document.getElementById(id);
 
  if(!page)return;
 
@@ -2351,37 +2449,37 @@ function showPage(id){
 
 
  document
- .querySelectorAll(".nav-btn")
- .forEach(b=>
-  b.classList.toggle(
-   "active",
-   b.dataset.page===id
-  )
- );
+  .querySelectorAll(".nav-btn")
+  .forEach(
+   b=>
+    b.classList.toggle(
+     "active",
+     b.dataset.page===id
+    )
+  );
 
 
  if(id==="customers")
- renderCustomerList();
+  renderCustomerList();
 
  if(id==="access")
- renderAccess();
+  renderAccess();
 
  if(id==="activity")
- renderActivity();
-
- if(id==="settings")
- renderSettings();
-
- if(id==="employeeHome")
- renderEmployeeHome();
+  renderActivity();
 
  if(id==="dashboard")
- updateDashboard();
+  updateDashboard();
+
+ if(id==="employeeHome")
+  updateEmployeeHome();
 
 }
 
 
-/* DASHBOARD */
+/* =========================================================
+ DASHBOARD
+========================================================= */
 
 function updateDashboard(){
 
@@ -2391,30 +2489,34 @@ function updateDashboard(){
 
  const today=new Date();
 
- const cycle=getCurrentCycle();
+ const cycle=
+  getCurrentCycle();
 
 
  database.customers.forEach(c=>{
 
   const r=
-  (c.milkRecords||[])
-  .find(
-   x=>x.startDate===cycle.start
-  );
+   (c.milkRecords||[])
+   .find(
+    x=>x.startDate===cycle.start
+   );
 
 
   if(r){
 
    const i=
-   findDayIndex(r.days,today);
+    findDayIndex(
+     r.days,
+     today
+    );
 
    if(i>=0){
 
     milk+=
-    (+r.days[i].morning||0);
+     (+r.days[i].morning||0);
 
     milk+=
-    (+r.days[i].evening||0);
+     (+r.days[i].evening||0);
 
    }
 
@@ -2422,267 +2524,180 @@ function updateDashboard(){
 
 
   credit+=
-  getOutstandingCredit(c);
+   getOutstandingCredit(c);
 
  });
 
 
  document
- .getElementById("statCustomers")
- .textContent=
- database.customers.length;
+  .getElementById("statCustomers")
+  .textContent=
+  database.customers.length;
 
 
  document
- .getElementById("statMilk")
- .textContent=
- formatNumber(milk)+" L";
+  .getElementById("statMilk")
+  .textContent=
+  formatNumber(milk)+" L";
 
 
  document
- .getElementById("statCredit")
- .textContent=
- money(credit);
+  .getElementById("statCredit")
+  .textContent=
+  money(credit);
 
 
  document
- .getElementById("statBills")
- .textContent=
- database.bills.length;
+  .getElementById("statBills")
+  .textContent=
+  database.bills.length;
 
 
  document
- .getElementById("cycleInfo")
- .innerHTML=
- `<b style="font-size:22px">
+  .getElementById("cycleInfo")
+  .innerHTML=
+ `
+ <b style="font-size:22px">
  ${formatDate(cycle.start)}
  →
  ${formatDate(cycle.end)}
  </b>
+
  <div style="color:var(--muted);margin-top:7px">
  Thursday → Wednesday
- </div>`;
+ </div>
+ `;
 
 }
 
 
-/* EMPLOYEE HOME */
+/* =========================================================
+ EMPLOYEE HOME
+========================================================= */
 
-function renderEmployeeHome(){
+function updateEmployeeHome(){
 
- if(currentUserIsOwner())return;
+ const ids=[
+  "employeeCustomers",
+  "employeeMilk",
+  "employeeCredit",
+  "employeeBills"
+ ];
 
-
- const user=getCurrentUser();
-
-
- document
- .getElementById("employeeWelcome")
- .textContent=
- user?.name||currentLogin;
-
-
- const last=
- user?.lastLogin;
-
-
- document
- .getElementById("lastLoginText")
- .textContent=
- last
- ?"Last login: "+formatDateTime(last)
- :"First login";
+ if(!document.getElementById(ids[0]))
+  return;
 
 
  let milk=0;
 
  let credit=0;
 
- const cycle=getCurrentCycle();
-
  const today=new Date();
+
+ const cycle=
+  getCurrentCycle();
 
 
  database.customers.forEach(c=>{
 
   const r=
-  (c.milkRecords||[])
-  .find(
-   x=>x.startDate===cycle.start
-  );
+   (c.milkRecords||[])
+   .find(
+    x=>x.startDate===cycle.start
+   );
 
 
   if(r){
 
    const i=
-   findDayIndex(r.days,today);
+    findDayIndex(
+     r.days,
+     today
+    );
 
    if(i>=0){
 
     milk+=
-    Number(r.days[i].morning||0);
+     Number(
+      r.days[i].morning||0
+     );
 
     milk+=
-    Number(r.days[i].evening||0);
+     Number(
+      r.days[i].evening||0
+     );
 
    }
 
   }
 
+
   credit+=
-  getOutstandingCredit(c);
+   getOutstandingCredit(c);
 
  });
 
 
  document
- .getElementById("employeeCustomers")
- .textContent=
- database.customers.length;
+  .getElementById("employeeCustomers")
+  .textContent=
+  database.customers.length;
 
 
  document
- .getElementById("employeeMilk")
- .textContent=
- formatNumber(milk)+" L";
+  .getElementById("employeeMilk")
+  .textContent=
+  formatNumber(milk)+" L";
 
 
  document
- .getElementById("employeeCredit")
- .textContent=
- money(credit);
+  .getElementById("employeeCredit")
+  .textContent=
+  money(credit);
 
 
  document
- .getElementById("employeeBills")
- .textContent=
- database.bills.length;
-
-
- document
- .getElementById("employeeCycleInfo")
- .innerHTML=
- `<b style="font-size:21px">
- ${formatDate(cycle.start)}
- →
- ${formatDate(cycle.end)}
- </b>
- <div style="color:var(--muted);margin-top:7px">
- Thursday → Wednesday
- </div>`;
-
-
- const announcement=
- database.settings?.announcement||"";
-
-
- document
- .getElementById("employeeAnnouncement")
- .innerHTML=
- announcement
- ?`<div class="notice">
- 📢 <b>Owner Announcement</b>
- <div style="margin-top:7px">
- ${escapeHtml(announcement)}
- </div>
- <small style="display:block;margin-top:7px;color:var(--muted)">
- ${database.settings.announcementDate
- ?formatDateTime(database.settings.announcementDate)
- :""
- }
- </small>
- </div>`
- :"";
-
-
- renderEmployeeNotifications();
+  .getElementById("employeeBills")
+  .textContent=
+  database.bills.length;
 
 }
 
 
-function renderEmployeeNotifications(){
-
- const box=
- document.getElementById(
-  "employeeNotifications"
- );
-
-
- const notifications=[];
-
-
- const pending=
- database.requests.filter(
-  r=>r.status==="pending"
- ).length;
-
-
- if(pending&&currentUserIsOwner())
- notifications.push(
-  "There are "+pending+
-  " pending employee access request(s)."
- );
-
-
- if(!database.customers.length)
- notifications.push(
-  "No customers have been added yet."
- );
-
-
- if(!notifications.length){
-
-  box.innerHTML=
-  `<div style="color:var(--muted)">
-  ✅ No new notifications.
-  </div>`;
-
-  return;
-
- }
-
-
- box.innerHTML=
- notifications.map(
-  n=>`<div class="notification">
-  🔔 ${escapeHtml(n)}
-  </div>`
- ).join("");
-
-}
-
-
-/* CUSTOMER */
+/* =========================================================
+ CUSTOMER MODAL
+========================================================= */
 
 function openAddCustomer(){
 
  document
- .getElementById("customerModal")
- .classList.add("open");
-
-
- [
-  "newCustomerCode",
-  "newCustomerName"
- ].forEach(
-  id=>
-  document.getElementById(id).value=""
- );
+  .getElementById("customerModal")
+  .classList
+  .add("open");
 
 
  document
- .getElementById(
-  "newCustomerPricingType"
- )
- .value="fixed";
+  .getElementById("newCustomerCode")
+  .value="";
+
+
+ document
+  .getElementById("newCustomerName")
+  .value="";
+
+
+ document
+  .getElementById("newCustomerPricingType")
+  .value="fixed";
 
 
  setTimeout(
-  ()=>
-  document
-  .getElementById("newCustomerCode")
-  .focus(),
- 100
+  ()=>{
+   document
+    .getElementById("newCustomerCode")
+    .focus();
+  },
+  100
  );
 
 }
@@ -2691,8 +2706,9 @@ function openAddCustomer(){
 function closeModal(){
 
  document
- .getElementById("customerModal")
- .classList.remove("open");
+  .getElementById("customerModal")
+  .classList
+  .remove("open");
 
 }
 
@@ -2700,31 +2716,39 @@ function closeModal(){
 function saveCustomer(){
 
  const code=
- document.getElementById(
-  "newCustomerCode"
- ).value.trim();
+  document
+  .getElementById("newCustomerCode")
+  .value
+  .trim();
 
  const name=
- document.getElementById(
-  "newCustomerName"
- ).value.trim();
+  document
+  .getElementById("newCustomerName")
+  .value
+  .trim();
 
  const pricingType=
- document.getElementById(
-  "newCustomerPricingType"
- ).value;
+  document
+  .getElementById("newCustomerPricingType")
+  .value;
 
 
- if(!code||!name)
- return toast(
-  "Customer Code and Name are required."
- );
+ if(!code||!name){
+
+  return toast(
+   "Customer Code and Name are required."
+  );
+
+ }
 
 
- if(getCustomer(code))
- return toast(
-  "Customer Code already exists."
- );
+ if(getCustomer(code)){
+
+  return toast(
+   "Customer Code already exists."
+  );
+
+ }
 
 
  const c={
@@ -2739,7 +2763,8 @@ function saveCustomer(){
 
   creditTransactions:[],
 
-  createdAt:new Date().toISOString()
+  createdAt:
+   new Date().toISOString()
 
  };
 
@@ -2750,7 +2775,6 @@ function saveCustomer(){
 
 
  logAction(
-  "CUSTOMER",
   "ADD CUSTOMER",
   `${code} - ${name}`
  );
@@ -2762,15 +2786,23 @@ function saveCustomer(){
 
  openCustomer(code);
 
- toast("Customer saved.");
+ toast(
+  "Customer saved."
+ );
 
 }
 
 
+/* =========================================================
+ CUSTOMER FUNCTIONS
+========================================================= */
+
 function getCustomer(code){
 
  return database.customers.find(
-  c=>c.code===String(code).trim()
+  c=>
+   c.code===
+   String(code).trim()
  );
 
 }
@@ -2779,14 +2811,17 @@ function getCustomer(code){
 function searchCustomer(){
 
  const code=
- document.getElementById(
-  "customerSearch"
- ).value.trim();
+  document
+  .getElementById("customerSearch")
+  .value
+  .trim();
 
  if(code)
- openCustomer(code);
+  openCustomer(code);
  else
- toast("Enter a Customer Code.");
+  toast(
+   "Enter a Customer Code."
+  );
 
 }
 
@@ -2794,11 +2829,12 @@ function searchCustomer(){
 function focusSearch(){
 
  setTimeout(
-  ()=>
-  document
-  .getElementById("customerSearch")
-  .focus(),
- 100
+  ()=>{
+   document
+    .getElementById("customerSearch")
+    .focus();
+  },
+  100
  );
 
 }
@@ -2809,108 +2845,146 @@ function openCustomer(code){
  const c=getCustomer(code);
 
  if(!c){
-  toast("Customer not found.");
+
+  toast(
+   "Customer not found."
+  );
+
   return;
+
  }
 
 
  currentCustomer=c;
 
+
  const bal=
- calculateCustomerBalance(c);
+  calculateCustomerBalance(c);
+
 
  const p=
- document.getElementById(
-  "customerProfile"
- );
+  document.getElementById(
+   "customerProfile"
+  );
+
 
  p.classList.remove("hidden");
 
 
  p.innerHTML=
+ `
+ <div class="customer-header">
 
- `<div class="customer-header">
+  <div>
 
- <div>
+   <div class="customer-code">
+    CUSTOMER CODE:
+    ${escapeHtml(c.code)}
+   </div>
 
- <div class="customer-code">
- CUSTOMER CODE:
- ${escapeHtml(c.code)}
- </div>
+   <div class="customer-name">
+    ${escapeHtml(c.name)}
+   </div>
 
- <div class="customer-name">
- ${escapeHtml(c.name)}
- </div>
+   <div style="color:var(--muted);font-size:13px;margin-top:5px">
 
- <div style="color:var(--muted);font-size:13px;margin-top:5px">
- ${
- c.pricingType==="fat"
- ?"🥛 Fat Based Pricing"
- :"💰 Fixed Price"
- }
- </div>
+    ${
+     c.pricingType==="fat"
+     ?"🥛 Fat Based Pricing"
+     :"💰 Fixed Price"
+    }
 
- </div>
+   </div>
 
- <div class="balance">
+  </div>
 
- <small>
- OUTSTANDING BALANCE
- </small>
 
- <strong class="${bal<0?"negative":"positive"}">
- ${formatBalance(bal)}
- </strong>
+  <div class="balance">
 
- </div>
+   <small>
+    OUTSTANDING BALANCE
+   </small>
+
+   <strong
+    class="${
+     bal<0
+     ?"negative"
+     :"positive"
+    }">
+
+    ${formatBalance(bal)}
+
+   </strong>
+
+  </div>
 
  </div>
 
 
  <div class="tabs">
 
- <button class="tab-btn active"
- onclick="openCustomerTab('overview',this)">
- Overview
- </button>
+  <button
+   class="tab-btn active"
+   onclick="openCustomerTab('overview',this)">
+   Overview
+  </button>
 
- <button class="tab-btn"
- onclick="openCustomerTab('milkHistory',this)">
- 🥛 Milk
- </button>
+  <button
+   class="tab-btn"
+   onclick="openCustomerTab('milkHistory',this)">
+   🥛 Milk
+  </button>
 
- <button class="tab-btn"
- onclick="openCustomerTab('creditHistory',this)">
- 💰 Credit
- </button>
+  <button
+   class="tab-btn"
+   onclick="openCustomerTab('creditHistory',this)">
+   💰 Credit
+  </button>
 
- <button class="tab-btn"
- onclick="openCustomerTab('billHistory',this)">
- 🧾 Bills
- </button>
+  <button
+   class="tab-btn"
+   onclick="openCustomerTab('billHistory',this)">
+   🧾 Bills
+  </button>
 
  </div>
 
 
- <div id="overview"
- class="tab-content active">
- ${customerOverview(c)}
+ <div
+  id="overview"
+  class="tab-content active">
+
+  ${customerOverview(c)}
+
  </div>
 
- <div id="milkHistory"
- class="tab-content">
- ${milkHistory(c)}
+
+ <div
+  id="milkHistory"
+  class="tab-content">
+
+  ${milkHistory(c)}
+
  </div>
 
- <div id="creditHistory"
- class="tab-content">
- ${creditHistory(c)}
+
+ <div
+  id="creditHistory"
+  class="tab-content">
+
+  ${creditHistory(c)}
+
  </div>
 
- <div id="billHistory"
- class="tab-content">
- ${billHistory(c)}
- </div>`;
+
+ <div
+  id="billHistory"
+  class="tab-content">
+
+  ${billHistory(c)}
+
+ </div>
+ `;
 
 
  renderCustomerList();
@@ -2921,25 +2995,27 @@ function openCustomer(code){
 function openCustomerTab(id,b){
 
  document
- .querySelectorAll(
-  "#customerProfile .tab-content"
- )
- .forEach(
-  x=>x.classList.remove("active")
- );
-
- document
- .querySelectorAll(
-  "#customerProfile .tab-btn"
- )
- .forEach(
-  x=>x.classList.remove("active")
- );
+  .querySelectorAll(
+   "#customerProfile .tab-content"
+  )
+  .forEach(
+   x=>x.classList.remove("active")
+  );
 
 
  document
- .getElementById(id)
- .classList.add("active");
+  .querySelectorAll(
+   "#customerProfile .tab-btn"
+  )
+  .forEach(
+   x=>x.classList.remove("active")
+  );
+
+
+ document
+  .getElementById(id)
+  .classList.add("active");
+
 
  b.classList.add("active");
 
@@ -2949,86 +3025,115 @@ function openCustomerTab(id,b){
 function customerOverview(c){
 
  const r=
- (c.milkRecords||[])
- .find(
-  x=>x.startDate===getCurrentCycle().start
- );
+  (c.milkRecords||[])
+  .find(
+   x=>
+    x.startDate===
+    getCurrentCycle().start
+  );
+
 
  const bal=
- calculateCustomerBalance(c);
+  calculateCustomerBalance(c);
 
 
  return`
 
  <div class="stats">
 
- <div class="stat">
- <span>CURRENT 7-DAY MILK</span>
- <strong>
- ${formatNumber(
-  r?getRecordTotal(r):0
- )} L
- </strong>
- </div>
+  <div class="stat">
 
- <div class="stat">
- <span>MILK RECORD</span>
- <strong>
- ${r?"ACTIVE":"NOT SET"}
- </strong>
- </div>
+   <span>
+    CURRENT 7-DAY MILK
+   </span>
 
- <div class="stat">
- <span>CREDIT TAKEN</span>
- <strong>
- ${money(getTotalCredit(c))}
- </strong>
- </div>
+   <strong>
+    ${formatNumber(
+     r?getRecordTotal(r):0
+    )} L
+   </strong>
 
- <div class="stat">
- <span>BALANCE</span>
- <strong>
- ${formatBalance(bal)}
- </strong>
- </div>
+  </div>
+
+
+  <div class="stat">
+
+   <span>MILK RECORD</span>
+
+   <strong>
+    ${r?"ACTIVE":"NOT SET"}
+   </strong>
+
+  </div>
+
+
+  <div class="stat">
+
+   <span>CREDIT TAKEN</span>
+
+   <strong>
+    ${money(getTotalCredit(c))}
+   </strong>
+
+  </div>
+
+
+  <div class="stat">
+
+   <span>BALANCE</span>
+
+   <strong>
+    ${formatBalance(bal)}
+   </strong>
+
+  </div>
 
  </div>
 
 
  <div class="panel">
 
- <h3>⚡ Customer Actions</h3>
+  <h3>
+   ⚡ Customer Actions
+  </h3>
 
- <div class="form-actions">
+  <div class="form-actions">
 
- <button class="btn"
- onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">
- 🥛 Enter Milk
- </button>
+   <button
+    class="btn"
+    onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">
+    🥛 Enter Milk
+   </button>
 
- <button class="btn yellow"
- onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">
- 💰 Add Credit
- </button>
+   <button
+    class="btn yellow"
+    onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">
+    💰 Add Credit
+   </button>
 
- <button class="btn green"
- onclick="prepareBillForCustomer('${escapeJs(c.code)}')">
- 🧾 View Bill
- </button>
+   <button
+    class="btn green"
+    onclick="prepareBillForCustomer('${escapeJs(c.code)}')">
+    🧾 View Bill
+   </button>
 
- <button class="btn dark"
- onclick="printCustomerBills('${escapeJs(c.code)}')">
- 🖨️ Print
- </button>
+   <button
+    class="btn dark"
+    onclick="printCustomerBills('${escapeJs(c.code)}')">
+    🖨️ Print
+   </button>
 
- <button class="btn red"
- onclick="deleteCustomerProfile('${escapeJs(c.code)}')">
- 🗑️ DELETE CUSTOMER
- </button>
+   <button
+    class="btn red"
+    onclick="deleteCustomerProfile('${escapeJs(c.code)}')">
+    🗑️ DELETE CUSTOMER
+   </button>
+
+  </div>
 
  </div>
 
- </div>`;
+ `;
 
 }
 
@@ -3036,9 +3141,12 @@ function customerOverview(c){
 function milkHistory(c){
 
  if(!(c.milkRecords||[]).length)
- return `<p style="color:var(--muted)">
- No milk records.
- </p>`;
+
+  return`
+  <p style="color:var(--muted)">
+   No milk records.
+  </p>
+  `;
 
 
  return`
@@ -3048,38 +3156,50 @@ function milkHistory(c){
  <table>
 
  <tr>
- <th>Cycle</th>
- <th>Start</th>
- <th>End</th>
- <th>Total Milk</th>
- <th>Bill</th>
+  <th>Cycle</th>
+  <th>Start</th>
+  <th>End</th>
+  <th>Total Milk</th>
+  <th>Bill</th>
  </tr>
 
- ${c.milkRecords.map(
-  r=>`
+ ${
+  c.milkRecords.map(
+   r=>
+   `
+   <tr>
 
- <tr>
+    <td>Thu → Wed</td>
 
- <td>Thu → Wed</td>
+    <td>
+     ${formatDate(r.startDate)}
+    </td>
 
- <td>${formatDate(r.startDate)}</td>
+    <td>
+     ${formatDate(r.endDate)}
+    </td>
 
- <td>${formatDate(r.endDate)}</td>
+    <td>
+     ${formatNumber(
+      getRecordTotal(r)
+     )} L
+    </td>
 
- <td>${formatNumber(
-  getRecordTotal(r)
- )} L</td>
+    <td>
+     ${money(
+      calculateMilkBill(r)
+     )}
+    </td>
 
- <td>${money(
-  calculateMilkBill(r)
- )}</td>
-
- </tr>`
- ).join("")}
+   </tr>
+   `
+  ).join("")
+ }
 
  </table>
 
- </div>`;
+ </div>
+ `;
 
 }
 
@@ -3087,9 +3207,12 @@ function milkHistory(c){
 function creditHistory(c){
 
  if(!(c.creditTransactions||[]).length)
- return `<p style="color:var(--muted)">
- No credit records.
- </p>`;
+
+  return`
+  <p style="color:var(--muted)">
+   No credit records.
+  </p>
+  `;
 
 
  return`
@@ -3099,30 +3222,38 @@ function creditHistory(c){
  <table>
 
  <tr>
- <th>Date</th>
- <th>Reason</th>
- <th>Amount</th>
+  <th>Date</th>
+  <th>Reason</th>
+  <th>Amount</th>
  </tr>
 
- ${c.creditTransactions.map(
-  t=>`
+ ${
+  c.creditTransactions.map(
+   t=>
+   `
+   <tr>
 
- <tr>
+    <td>
+     ${formatDateTime(t.date)}
+    </td>
 
- <td>${formatDateTime(t.date)}</td>
+    <td>
+     ${escapeHtml(t.reason)}
+    </td>
 
- <td>${escapeHtml(t.reason)}</td>
+    <td class="negative">
+     -${money(t.amount)}
+    </td>
 
- <td class="negative">
- -${money(t.amount)}
- </td>
-
- </tr>`
- ).join("")}
+   </tr>
+   `
+  ).join("")
+ }
 
  </table>
 
- </div>`;
+ </div>
+ `;
 
 }
 
@@ -3130,15 +3261,18 @@ function creditHistory(c){
 function billHistory(c){
 
  const b=
- database.bills.filter(
-  x=>x.customerCode===c.code
- );
+  database.bills.filter(
+   x=>x.customerCode===c.code
+  );
 
 
  if(!b.length)
- return `<p style="color:var(--muted)">
- No saved bills.
- </p>`;
+
+  return`
+  <p style="color:var(--muted)">
+   No saved bills.
+  </p>
+  `;
 
 
  return`
@@ -3148,40 +3282,50 @@ function billHistory(c){
  <table>
 
  <tr>
- <th>Created</th>
- <th>Cycle</th>
- <th>Milk</th>
- <th>Bill</th>
- <th>Balance</th>
+  <th>Created</th>
+  <th>Cycle</th>
+  <th>Milk</th>
+  <th>Bill</th>
+  <th>Balance</th>
  </tr>
 
- ${b.map(
-  x=>`
+ ${
+  b.map(
+   x=>
+   `
+   <tr>
 
- <tr>
+    <td>
+     ${formatDateTime(x.createdAt)}
+    </td>
 
- <td>${formatDateTime(x.createdAt)}</td>
+    <td>
+     ${formatDate(x.startDate)}
+     →
+     ${formatDate(x.endDate)}
+    </td>
 
- <td>
- ${formatDate(x.startDate)}
- →
- ${formatDate(x.endDate)}
- </td>
+    <td>
+     ${formatNumber(x.totalMilk)} L
+    </td>
 
- <td>
- ${formatNumber(x.totalMilk)} L
- </td>
+    <td>
+     ${money(x.milkBill)}
+    </td>
 
- <td>${money(x.milkBill)}</td>
+    <td>
+     ${formatBalance(x.finalBalance)}
+    </td>
 
- <td>${formatBalance(x.finalBalance)}</td>
-
- </tr>`
- ).join("")}
+   </tr>
+   `
+  ).join("")
+ }
 
  </table>
 
- </div>`;
+ </div>
+ `;
 
 }
 
@@ -3189,17 +3333,19 @@ function billHistory(c){
 function renderCustomerList(){
 
  const box=
- document.getElementById(
-  "customerList"
- );
+  document.getElementById(
+   "customerList"
+  );
 
 
  if(!database.customers.length){
 
   box.innerHTML=
-  `<div style="padding:30px;text-align:center;color:var(--muted)">
-  No customers yet.
-  </div>`;
+   `
+   <div style="padding:30px;text-align:center;color:var(--muted)">
+    No customers yet.
+   </div>
+   `;
 
   return;
 
@@ -3207,58 +3353,85 @@ function renderCustomerList(){
 
 
  box.innerHTML=
-
- `<div class="table-wrap">
+ `
+ <div class="table-wrap">
 
  <table>
 
  <tr>
- <th>Customer Code</th>
- <th>Name</th>
- <th>Balance</th>
- <th>Action</th>
+
+  <th>
+   Customer Code
+  </th>
+
+  <th>
+   Name
+  </th>
+
+  <th>
+   Balance
+  </th>
+
+  <th>
+   Action
+  </th>
+
  </tr>
 
- ${database.customers.map(
-  c=>{
+ ${
+  database.customers.map(
+   c=>{
 
-   const b=
-   calculateCustomerBalance(c);
+    const b=
+     calculateCustomerBalance(c);
 
-   return`
+    return`
 
-   <tr>
+    <tr>
 
-   <td>
-   <b>${escapeHtml(c.code)}</b>
-   </td>
+     <td>
+      <b>
+       ${escapeHtml(c.code)}
+      </b>
+     </td>
 
-   <td>
-   ${escapeHtml(c.name)}
-   </td>
+     <td>
+      ${escapeHtml(c.name)}
+     </td>
 
-   <td class="${b<0?"negative":"positive"}">
-   ${formatBalance(b)}
-   </td>
+     <td
+      class="${
+       b<0
+       ?"negative"
+       :"positive"
+      }">
 
-   <td>
+      ${formatBalance(b)}
 
-   <button
-   class="btn dark"
-   onclick="openCustomer('${escapeJs(c.code)}')">
-   OPEN
-   </button>
+     </td>
 
-   </td>
+     <td>
 
-   </tr>`;
+      <button
+       class="btn dark"
+       onclick="openCustomer('${escapeJs(c.code)}')">
+       OPEN
+      </button>
 
-  }
- ).join("")}
+     </td>
+
+    </tr>
+
+    `;
+
+   }
+  ).join("")
+ }
 
  </table>
 
- </div>`;
+ </div>
+ `;
 
 }
 
@@ -3268,49 +3441,55 @@ function deleteCustomerProfile(code){
  const c=getCustomer(code);
 
  if(
-  !c||
+  !c ||
   !confirm(
    `Delete ${c.name} (${c.code})?`
   )
  )
- return;
+  return;
 
 
  database.customers=
- database.customers.filter(
-  x=>x.code!==c.code
- );
+  database.customers.filter(
+   x=>x.code!==c.code
+  );
 
 
  database.bills=
- database.bills.filter(
-  x=>x.customerCode!==c.code
- );
+  database.bills.filter(
+   x=>x.customerCode!==c.code
+  );
 
 
  saveDatabase();
 
 
  logAction(
-  "CUSTOMER",
   "DELETE CUSTOMER",
   `${c.code} - ${c.name}`
  );
 
 
  document
- .getElementById("customerProfile")
- .classList.add("hidden");
+  .getElementById(
+   "customerProfile"
+  )
+  .classList
+  .add("hidden");
 
 
  renderCustomerList();
 
- toast("Customer deleted.");
+ toast(
+  "Customer deleted."
+ );
 
 }
 
 
-/* MILK */
+/* =========================================================
+ CYCLE
+========================================================= */
 
 function getCurrentCycle(){
 
@@ -3319,9 +3498,9 @@ function getCurrentCycle(){
  const d=n.getDay();
 
  const diff=
- d-4<0
- ?d-4+7
- :d-4;
+  d-4<0
+  ?d-4+7
+  :d-4;
 
 
  const s=new Date(n);
@@ -3348,12 +3527,17 @@ function getCurrentCycle(){
 }
 
 
+/* =========================================================
+ WEEK GRID
+========================================================= */
+
 function buildWeekGrid(startValue){
 
  const start=
- parseDate(
-  startValue||getCurrentCycle().start
- );
+  parseDate(
+   startValue ||
+   getCurrentCycle().start
+  );
 
 
  const days=[
@@ -3368,159 +3552,201 @@ function buildWeekGrid(startValue){
 
 
  const c=
- getCustomer(
-  document
-  .getElementById(
-   "milkCustomerCode"
-  ).value.trim()
- );
+  getCustomer(
+   document
+   .getElementById(
+    "milkCustomerCode"
+   )
+   .value
+   .trim()
+  );
 
 
  const fat=
- c?.pricingType==="fat";
+  c?.pricingType==="fat";
 
 
  document
- .getElementById("weekGrid")
- .innerHTML=
+  .getElementById("weekGrid")
+  .innerHTML=
 
- days.map(
-  (day,i)=>{
+  days.map(
+   (day,i)=>{
 
-   const d=
-   new Date(start);
+    const d=new Date(start);
 
-   d.setDate(
-    d.getDate()+i
-   );
-
-
-   return`
-
-   <div class="day-card">
-
-   <h4>${day}</h4>
-
-   <small>
-   ${formatDate(
-    dateInputValue(d)
-   )}
-   </small>
-
-   <label
-   style="display:block;font-size:11px;margin-top:7px">
-   🌅 Morning L
-   </label>
-
-   <input
-   class="morning-input"
-   data-index="${i}"
-   type="number"
-   min="0"
-   step=".01"
-   value="0">
+    d.setDate(
+     d.getDate()+i
+    );
 
 
-   ${fat?`
+    return`
 
-   <label
-   style="display:block;font-size:11px;margin-top:7px">
-   🥛 Morning Fat
-   </label>
+    <div class="day-card">
 
-   <input
-   class="morning-fat-input"
-   data-index="${i}"
-   type="number"
-   min="0"
-   step=".1"
-   placeholder="6.0">
+     <h4>${day}</h4>
 
-   `:""}
+     <small>
+      ${formatDate(
+       dateInputValue(d)
+      )}
+     </small>
 
 
-   <label
-   style="display:block;font-size:11px;margin-top:7px">
-   🌆 Evening L
-   </label>
+     <label
+      style="
+      display:block;
+      font-size:11px;
+      margin-top:7px">
 
-   <input
-   class="evening-input"
-   data-index="${i}"
-   type="number"
-   min="0"
-   step=".01"
-   value="0">
+      🌅 Morning L
+
+     </label>
 
 
-   ${fat?`
+     <input
+      class="morning-input"
+      data-index="${i}"
+      type="number"
+      min="0"
+      step=".01"
+      value="0">
 
-   <label
-   style="display:block;font-size:11px;margin-top:7px">
-   🥛 Evening Fat
-   </label>
 
-   <input
-   class="evening-fat-input"
-   data-index="${i}"
-   type="number"
-   min="0"
-   step=".1"
-   placeholder="6.0">
+     ${
+      fat
+      ?
+      `
+      <label
+       style="
+       display:block;
+       font-size:11px;
+       margin-top:7px">
 
-   `:""}
+       🥛 Morning Fat
 
-   </div>`;
+      </label>
 
-  }
- ).join("");
+      <input
+       class="morning-fat-input"
+       data-index="${i}"
+       type="number"
+       min="0"
+       step=".1"
+       placeholder="6.0">
+      `
+      :""
+     }
+
+
+     <label
+      style="
+      display:block;
+      font-size:11px;
+      margin-top:7px">
+
+      🌆 Evening L
+
+     </label>
+
+
+     <input
+      class="evening-input"
+      data-index="${i}"
+      type="number"
+      min="0"
+      step=".01"
+      value="0">
+
+
+     ${
+      fat
+      ?
+      `
+      <label
+       style="
+       display:block;
+       font-size:11px;
+       margin-top:7px">
+
+       🥛 Evening Fat
+
+      </label>
+
+      <input
+       class="evening-fat-input"
+       data-index="${i}"
+       type="number"
+       min="0"
+       step=".1"
+       placeholder="6.0">
+      `
+      :""
+     }
+
+    </div>
+
+    `;
+
+   }
+  ).join("");
 
 }
 
 
 document
-.getElementById("milkStartDate")
-.addEventListener(
- "change",
- function(){
+ .getElementById("milkStartDate")
+ .addEventListener(
+  "change",
+  function(){
 
-  const d=parseDate(this.value);
+   const d=
+    parseDate(this.value);
 
-  if(d.getDay()!==4){
+   if(d.getDay()!==4){
 
-   toast(
-    "Start Date must be Thursday."
+    toast(
+     "Start Date must be Thursday."
+    );
+
+    this.value=
+     getCurrentCycle().start;
+
+   }
+
+   buildWeekGrid(
+    this.value
    );
 
-   this.value=
-   getCurrentCycle().start;
-
   }
-
-  buildWeekGrid(this.value);
-
- }
-);
+ );
 
 
 function updateMilkPricingFields(c){
 
  const fat=
- c.pricingType==="fat";
+  c.pricingType==="fat";
 
  document
- .getElementById("milkRateField")
- .classList.toggle(
-  "hidden",
-  fat
- );
+  .getElementById(
+   "milkRateField"
+  )
+  .classList
+  .toggle(
+   "hidden",
+   fat
+  );
+
 
  document
- .getElementById("milkFatField")
- .classList.toggle(
-  "hidden",
-  !fat
- );
+  .getElementById(
+   "milkFatField"
+  )
+  .classList
+  .toggle(
+   "hidden",
+   !fat
+  );
 
 }
 
@@ -3528,87 +3754,110 @@ function updateMilkPricingFields(c){
 function loadMilkCustomer(){
 
  const code=
- document
- .getElementById("milkCustomerCode")
- .value.trim();
+  document
+  .getElementById(
+   "milkCustomerCode"
+  )
+  .value
+  .trim();
 
 
  const c=getCustomer(code);
 
+ if(!c){
 
- if(!c)
- return toast(
-  "Customer not found."
- );
+  toast(
+   "Customer not found."
+  );
+
+  return;
+
+ }
 
 
  document
- .getElementById("milkCustomerName")
- .value=c.name;
+  .getElementById(
+   "milkCustomerName"
+  )
+  .value=c.name;
 
 
  updateMilkPricingFields(c);
 
 
  const cycle=
- getCurrentCycle();
+  getCurrentCycle();
 
 
  document
- .getElementById("milkStartDate")
- .value=cycle.start;
+  .getElementById(
+   "milkStartDate"
+  )
+  .value=cycle.start;
 
 
- buildWeekGrid(cycle.start);
+ buildWeekGrid(
+  cycle.start
+ );
 
 
  const r=
- (c.milkRecords||[])
- .find(
-  x=>x.startDate===cycle.start
- );
+  (c.milkRecords||[])
+  .find(
+   x=>
+    x.startDate===
+    cycle.start
+  );
 
 
  if(r){
 
   document
-  .getElementById("milkRate")
-  .value=r.rate??"";
+   .getElementById(
+    "milkRate"
+   )
+   .value=
+   r.rate??"";
 
 
   r.days.forEach(
    (d,i)=>{
 
     const m=
-    document.querySelector(
-     `.morning-input[data-index="${i}"]`
-    );
+     document.querySelector(
+      `.morning-input[data-index="${i}"]`
+     );
+
 
     const e=
-    document.querySelector(
-     `.evening-input[data-index="${i}"]`
-    );
+     document.querySelector(
+      `.evening-input[data-index="${i}"]`
+     );
+
 
     const mf=
-    document.querySelector(
-     `.morning-fat-input[data-index="${i}"]`
-    );
+     document.querySelector(
+      `.morning-fat-input[data-index="${i}"]`
+     );
+
 
     const ef=
-    document.querySelector(
-     `.evening-fat-input[data-index="${i}"]`
-    );
+     document.querySelector(
+      `.evening-fat-input[data-index="${i}"]`
+     );
 
 
-    if(m)m.value=d.morning??0;
+    if(m)
+     m.value=d.morning??0;
 
-    if(e)e.value=d.evening??0;
+    if(e)
+     e.value=d.evening??0;
 
     if(mf)
-    mf.value=d.morningFat??"";
+     mf.value=d.morningFat??"";
 
     if(ef)
-    ef.value=d.eveningFat??"";
+     ef.value=d.eveningFat??"";
 
    }
   );
@@ -3629,37 +3878,45 @@ function loadMilkCustomer(){
 }
 
 
+/* =========================================================
+ SAVE MILK
+========================================================= */
+
 function saveMilkRecord(){
 
  const code=
- document
- .getElementById(
-  "milkCustomerCode"
- ).value.trim();
+  document
+  .getElementById(
+   "milkCustomerCode"
+  )
+  .value
+  .trim();
 
 
  const c=getCustomer(code);
 
 
  if(!c)
- return toast(
-  "Customer not found."
- );
+  return toast(
+   "Customer not found."
+  );
 
 
  const sv=
- document.getElementById(
-  "milkStartDate"
- ).value;
+  document
+  .getElementById(
+   "milkStartDate"
+  )
+  .value;
 
 
  const s=parseDate(sv);
 
 
  if(s.getDay()!==4)
- return toast(
-  "Start date must be Thursday."
- );
+  return toast(
+   "Start date must be Thursday."
+  );
 
 
  let rate=null;
@@ -3668,20 +3925,22 @@ function saveMilkRecord(){
  if(c.pricingType!=="fat"){
 
   rate=
-  Number(
-   document.getElementById(
-    "milkRate"
-   ).value
-  );
+   Number(
+    document
+    .getElementById(
+     "milkRate"
+    )
+    .value
+   );
 
 
   if(
-   !isFinite(rate)||
+   !isFinite(rate) ||
    rate<0
   )
-  return toast(
-   "Enter milk price per litre."
-  );
+   return toast(
+    "Enter milk price per litre."
+   );
 
  }
 
@@ -3699,19 +3958,19 @@ function saveMilkRecord(){
  for(let i=0;i<7;i++){
 
   const m=
-  Number(
-   document.querySelector(
-    `.morning-input[data-index="${i}"]`
-   ).value
-  )||0;
+   Number(
+    document.querySelector(
+     `.morning-input[data-index="${i}"]`
+    ).value
+   )||0;
 
 
   const v=
-  Number(
-   document.querySelector(
-    `.evening-input[data-index="${i}"]`
-   ).value
-  )||0;
+   Number(
+    document.querySelector(
+     `.evening-input[data-index="${i}"]`
+    ).value
+   )||0;
 
 
   let mf=null;
@@ -3722,37 +3981,37 @@ function saveMilkRecord(){
   if(c.pricingType==="fat"){
 
    mf=
-   Number(
-    document.querySelector(
-     `.morning-fat-input[data-index="${i}"]`
-    )?.value
-   );
+    Number(
+     document.querySelector(
+      `.morning-fat-input[data-index="${i}"]`
+     )?.value
+    );
 
 
    ef=
-   Number(
-    document.querySelector(
-     `.evening-fat-input[data-index="${i}"]`
-    )?.value
-   );
+    Number(
+     document.querySelector(
+      `.evening-fat-input[data-index="${i}"]`
+     )?.value
+    );
 
 
    if(
-    m>0&&
+    m>0 &&
     (!isFinite(mf)||mf<=0)
    )
-   return toast(
-    "Enter Morning Fat for day "+(i+1)
-   );
+    return toast(
+     "Enter Morning Fat for day "+(i+1)
+    );
 
 
    if(
-    v>0&&
+    v>0 &&
     (!isFinite(ef)||ef<=0)
    )
-   return toast(
-    "Enter Evening Fat for day "+(i+1)
-   );
+    return toast(
+     "Enter Evening Fat for day "+(i+1)
+    );
 
 
    if(!m)mf=null;
@@ -3802,29 +4061,28 @@ function saveMilkRecord(){
 
 
  const i=
- c.milkRecords.findIndex(
-  x=>x.startDate===sv
- );
+  c.milkRecords.findIndex(
+   x=>x.startDate===sv
+  );
 
 
  if(i>=0)
- c.milkRecords[i]=r;
-
+  c.milkRecords[i]=r;
  else
- c.milkRecords.push(r);
+  c.milkRecords.push(r);
 
 
  saveDatabase();
 
 
  logAction(
-  "MILK",
   "SAVE MILK RECORD",
   `${c.code} - ${c.name} - ${getRecordTotal(r)} L`
  );
 
 
  currentCustomer=c;
+
 
  toast(
   "7-day milk record saved."
@@ -3836,80 +4094,89 @@ function saveMilkRecord(){
 }
 
 
-/* CREDIT */
+/* =========================================================
+ CREDIT
+========================================================= */
 
 document
-.getElementById("creditReason")
-.addEventListener(
- "change",
- function(){
+ .getElementById("creditReason")
+ .addEventListener(
+  "change",
+  function(){
 
-  document
-  .getElementById(
-   "otherReasonField"
-  )
-  .classList.toggle(
-   "hidden",
-   this.value!=="Other"
-  );
+   document
+    .getElementById(
+     "otherReasonField"
+    )
+    .classList
+    .toggle(
+     "hidden",
+     this.value!=="Other"
+    );
 
- }
-);
+  }
+ );
 
 
 function addCredit(){
 
  const code=
- document
- .getElementById(
-  "creditCustomerCode"
- ).value.trim();
+  document
+  .getElementById(
+   "creditCustomerCode"
+  )
+  .value
+  .trim();
 
 
  const c=getCustomer(code);
 
 
  const amount=
- Number(
-  document
-  .getElementById(
-   "creditAmount"
-  ).value
- );
+  Number(
+   document
+   .getElementById(
+    "creditAmount"
+   )
+   .value
+  );
 
 
  let reason=
- document
- .getElementById(
-  "creditReason"
- ).value;
+  document
+  .getElementById(
+   "creditReason"
+  )
+  .value;
 
 
  if(!c)
- return toast(
-  "Customer not found."
- );
+  return toast(
+   "Customer not found."
+  );
 
 
  if(!amount||amount<=0)
- return toast(
-  "Enter a valid credit amount."
- );
+  return toast(
+   "Enter a valid credit amount."
+  );
 
 
  if(reason==="Other"){
 
   reason=
-  document
-  .getElementById(
-   "otherReason"
-  ).value.trim();
+   document
+   .getElementById(
+    "otherReason"
+   )
+   .value
+   .trim();
 
 
   if(!reason)
-  return toast(
-   "Enter the other reason."
-  );
+   return toast(
+    "Enter the other reason."
+   );
 
  }
 
@@ -3920,7 +4187,8 @@ function addCredit(){
 
   reason,
 
-  date:new Date().toISOString()
+  date:
+   new Date().toISOString()
 
  });
 
@@ -3929,22 +4197,24 @@ function addCredit(){
 
 
  logAction(
-  "CREDIT",
   "ADD CREDIT",
   `${c.code} - ${money(amount)} - ${reason}`
  );
 
 
  document
- .getElementById(
-  "creditAmount"
- ).value="";
+  .getElementById(
+   "creditAmount"
+  )
+  .value="";
 
 
  loadCreditCustomer();
 
 
- toast("Credit saved.");
+ toast(
+  "Credit saved."
+ );
 
 }
 
@@ -3952,59 +4222,75 @@ function addCredit(){
 function loadCreditCustomer(){
 
  const c=
- getCustomer(
-  document
-  .getElementById(
-   "creditCustomerCode"
-  ).value.trim()
- );
+  getCustomer(
+   document
+   .getElementById(
+    "creditCustomerCode"
+   )
+   .value
+   .trim()
+  );
 
 
  if(!c)
- return toast(
-  "Customer not found."
- );
+  return toast(
+   "Customer not found."
+  );
 
 
  currentCustomer=c;
 
 
  document
- .getElementById(
-  "creditCustomerInfo"
- )
- .innerHTML=
+  .getElementById(
+   "creditCustomerInfo"
+  )
+  .innerHTML=
+ `
+ <div class="stats">
 
- `<div class="stats">
+  <div class="stat">
 
- <div class="stat">
- <span>CUSTOMER</span>
- <strong>
- ${escapeHtml(c.name)}
- </strong>
- </div>
+   <span>CUSTOMER</span>
 
- <div class="stat">
- <span>TOTAL CREDIT</span>
- <strong>
- ${money(getTotalCredit(c))}
- </strong>
- </div>
+   <strong>
+    ${escapeHtml(c.name)}
+   </strong>
 
- <div class="stat">
- <span>BALANCE</span>
- <strong>
- ${formatBalance(
-  calculateCustomerBalance(c)
- )}
- </strong>
- </div>
+  </div>
+
+
+  <div class="stat">
+
+   <span>TOTAL CREDIT</span>
+
+   <strong>
+    ${money(
+     getTotalCredit(c)
+    )}
+   </strong>
+
+  </div>
+
+
+  <div class="stat">
+
+   <span>BALANCE</span>
+
+   <strong>
+    ${formatBalance(
+     calculateCustomerBalance(c)
+    )}
+   </strong>
+
+  </div>
 
  </div>
 
  <br>
 
- ${creditHistory(c)}`;
+ ${creditHistory(c)}
+ `;
 
 }
 
@@ -4012,25 +4298,29 @@ function loadCreditCustomer(){
 function getTotalCredit(c){
 
  return(c.creditTransactions||[])
- .reduce(
-  (s,t)=>
-  s+Number(t.amount||0),
-  0
- );
+  .reduce(
+   (s,t)=>
+    s+
+    Number(t.amount||0),
+   0
+  );
 
 }
 
 
 function calculateCustomerBalance(c){
 
- return(c.milkRecords||[])
- .reduce(
-  (s,r)=>
-  s+calculateMilkBill(r),
-  0
- )
- -
- getTotalCredit(c);
+ return(
+  (c.milkRecords||[])
+   .reduce(
+    (s,r)=>
+     s+
+     calculateMilkBill(r),
+    0
+   )
+  -
+  getTotalCredit(c)
+ );
 
 }
 
@@ -4038,24 +4328,28 @@ function calculateCustomerBalance(c){
 function getOutstandingCredit(c){
 
  const b=
- calculateCustomerBalance(c);
+  calculateCustomerBalance(c);
 
  return b<0
- ?Math.abs(b)
- :0;
+  ?Math.abs(b)
+  :0;
 
 }
 
+
+/* =========================================================
+ FAT PRICE
+========================================================= */
 
 function fatRate(f){
 
  f=Number(f||0);
 
  return f>0
- ?Math.round(
-   (50+(f-6)*4)*100
-  )/100
- :0;
+  ?Math.round(
+    (50+(f-6)*4)*100
+   )/100
+  :0;
 
 }
 
@@ -4064,19 +4358,21 @@ function calculateMilkBill(r){
 
  if(r.pricingType==="fat")
 
- return r.days.reduce(
-  (s,d)=>
-  s+
-  Number(d.morning||0)*
-  fatRate(d.morningFat)+
-  Number(d.evening||0)*
-  fatRate(d.eveningFat),
-  0
+  return r.days.reduce(
+   (s,d)=>
+    s+
+    Number(d.morning||0)*
+    fatRate(d.morningFat)+
+    Number(d.evening||0)*
+    fatRate(d.eveningFat),
+   0
+  );
+
+
+ return(
+  getRecordTotal(r)*
+  Number(r.rate||0)
  );
-
-
- return getRecordTotal(r)*
- Number(r.rate||0);
 
 }
 
@@ -4085,24 +4381,28 @@ function getRecordTotal(r){
 
  return r.days.reduce(
   (s,d)=>
-  s+
-  Number(d.morning||0)+
-  Number(d.evening||0),
+   s+
+   Number(d.morning||0)+
+   Number(d.evening||0),
   0
  );
 
 }
 
 
+/* =========================================================
+ PREPARE CUSTOMER
+========================================================= */
+
 function prepareMilkForCustomer(code){
 
  showPage("milk");
 
  document
- .getElementById(
-  "milkCustomerCode"
- )
- .value=code;
+  .getElementById(
+   "milkCustomerCode"
+  )
+  .value=code;
 
  loadMilkCustomer();
 
@@ -4114,10 +4414,10 @@ function prepareCreditForCustomer(code){
  showPage("credit");
 
  document
- .getElementById(
-  "creditCustomerCode"
- )
- .value=code;
+  .getElementById(
+   "creditCustomerCode"
+  )
+  .value=code;
 
  loadCreditCustomer();
 
@@ -4129,33 +4429,37 @@ function prepareBillForCustomer(code){
  showPage("bills");
 
  document
- .getElementById(
-  "billCustomerCode"
- )
- .value=code;
+  .getElementById(
+   "billCustomerCode"
+  )
+  .value=code;
 
  loadBillCustomer();
 
 }
 
 
-/* BILLS */
+/* =========================================================
+ BILLS
+========================================================= */
 
 function loadBillCustomer(){
 
  const c=
- getCustomer(
-  document
-  .getElementById(
-   "billCustomerCode"
-  ).value.trim()
- );
+  getCustomer(
+   document
+   .getElementById(
+    "billCustomerCode"
+   )
+   .value
+   .trim()
+  );
 
 
  if(!c)
- return toast(
-  "Customer not found."
- );
+  return toast(
+   "Customer not found."
+  );
 
 
  currentCustomer=c;
@@ -4167,13 +4471,15 @@ function loadBillCustomer(){
  if(!r){
 
   document
-  .getElementById(
-   "billPreview"
-  )
-  .innerHTML=
-  `<p style="color:var(--muted)">
-  No milk record available.
-  </p>`;
+   .getElementById(
+    "billPreview"
+   )
+   .innerHTML=
+   `
+   <p style="color:var(--muted)">
+    No milk record available.
+   </p>
+   `;
 
   return;
 
@@ -4181,48 +4487,49 @@ function loadBillCustomer(){
 
 
  document
- .getElementById(
-  "billPreview"
- )
- .innerHTML=
+  .getElementById(
+   "billPreview"
+  )
+  .innerHTML=
+ `
+ <div class="stats" style="margin-top:15px">
 
- `<div class="stats" style="margin-top:15px">
+  <div class="stat">
+   <span>CUSTOMER</span>
+   <strong>
+    ${escapeHtml(c.name)}
+   </strong>
+  </div>
 
- <div class="stat">
- <span>CUSTOMER</span>
- <strong>
- ${escapeHtml(c.name)}
- </strong>
+  <div class="stat">
+   <span>MILK</span>
+   <strong>
+    ${formatNumber(
+     getRecordTotal(r)
+    )} L
+   </strong>
+  </div>
+
+  <div class="stat">
+   <span>BILL</span>
+   <strong>
+    ${money(
+     calculateMilkBill(r)
+    )}
+   </strong>
+  </div>
+
+  <div class="stat">
+   <span>BALANCE</span>
+   <strong>
+    ${formatBalance(
+     calculateCustomerBalance(c)
+    )}
+   </strong>
+  </div>
+
  </div>
-
- <div class="stat">
- <span>MILK</span>
- <strong>
- ${formatNumber(
-  getRecordTotal(r)
- )} L
- </strong>
- </div>
-
- <div class="stat">
- <span>BILL</span>
- <strong>
- ${money(
-  calculateMilkBill(r)
- )}
- </strong>
- </div>
-
- <div class="stat">
- <span>BALANCE</span>
- <strong>
- ${formatBalance(
-  calculateCustomerBalance(c)
- )}
- </strong>
- </div>
-
- </div>`;
+ `;
 
 }
 
@@ -4230,24 +4537,24 @@ function loadBillCustomer(){
 function getBestBillRecord(c){
 
  if(!c?.milkRecords?.length)
- return null;
+  return null;
 
 
  const cur=
- c.milkRecords.find(
-  r=>r.startDate===getCurrentCycle().start
- );
+  c.milkRecords.find(
+   r=>
+    r.startDate===
+    getCurrentCycle().start
+  );
 
 
- return cur||
- [
-  ...c.milkRecords
- ]
- .sort(
-  (a,b)=>
-  parseDate(b.startDate)-
-  parseDate(a.startDate)
- )[0];
+ return cur ||
+  [...c.milkRecords]
+   .sort(
+    (a,b)=>
+     parseDate(b.startDate)-
+     parseDate(a.startDate)
+   )[0];
 
 }
 
@@ -4255,19 +4562,23 @@ function getBestBillRecord(c){
 function printCurrentCustomer(){
 
  const c=
- currentCustomer||
- getCustomer(
-  document
-  .getElementById(
-   "billCustomerCode"
-  ).value.trim()
- );
+  currentCustomer ||
+  getCustomer(
+   document
+   .getElementById(
+    "billCustomerCode"
+   )
+   .value
+   .trim()
+  );
 
 
  if(c)
- printSix([c]);
+  printSix([c]);
  else
- toast("Open a customer first.");
+  toast(
+   "Open a customer first."
+  );
 
 }
 
@@ -4277,17 +4588,23 @@ function printCustomerBills(code){
  const c=getCustomer(code);
 
  if(c)
- printSix([c]);
+  printSix([c]);
 
 }
 
 
+/* =========================================================
+ A4 BILL SLOTS
+========================================================= */
+
 function addA4CustomerSlot(){
 
  if(a4CustomerCodes.length>=6)
- return toast(
-  "Maximum 6 customers."
- );
+
+  return toast(
+   "Maximum 6 customers."
+  );
+
 
  a4CustomerCodes.push("");
 
@@ -4326,9 +4643,9 @@ function updateA4CustomerCode(i,v){
 function renderA4CustomerSlots(){
 
  const box=
- document.getElementById(
-  "a4CustomerSlots"
- );
+  document.getElementById(
+   "a4CustomerSlots"
+  );
 
 
  if(!box)return;
@@ -4337,9 +4654,19 @@ function renderA4CustomerSlots(){
  if(!a4CustomerCodes.length){
 
   box.innerHTML=
-  `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:18px">
-  Click ADD CUSTOMER to choose customers.
-  </div>`;
+   `
+   <div
+    style="
+    grid-column:1/-1;
+    text-align:center;
+    color:var(--muted);
+    padding:18px">
+
+    Click ADD CUSTOMER
+    to choose customers.
+
+   </div>
+   `;
 
   return;
 
@@ -4347,82 +4674,100 @@ function renderA4CustomerSlots(){
 
 
  box.innerHTML=
- a4CustomerCodes.map(
-  (code,i)=>{
+  a4CustomerCodes.map(
+   (code,i)=>{
 
-   const c=getCustomer(code);
+    const c=getCustomer(code);
 
-   const r=
-   c?getBestBillRecord(c):null;
-
-
-   return`
-
-   <div class="a4-slot">
-
-   <div class="a4-slot-head">
-
-   <span class="a4-slot-title">
-   CUSTOMER ${i+1}
-   </span>
-
-   <button
-   class="btn red"
-   style="padding:7px 10px"
-   onclick="removeA4CustomerSlot(${i})">
-   ✕
-   </button>
-
-   </div>
+    const r=
+     c
+     ?getBestBillRecord(c)
+     :null;
 
 
-   <input
-   value="${escapeHtml(code)}"
-   placeholder="Customer Code"
-   oninput="updateA4CustomerCode(${i},this.value)">
+    return`
+
+    <div class="a4-slot">
+
+     <div class="a4-slot-head">
+
+      <span class="a4-slot-title">
+       CUSTOMER ${i+1}
+      </span>
+
+      <button
+       class="btn red"
+       style="padding:7px 10px"
+       onclick="removeA4CustomerSlot(${i})">
+
+       ✕
+
+      </button>
+
+     </div>
 
 
-   <div class="a4-slot-actions">
-
-   <button
-   class="btn green"
-   style="padding:9px 12px"
-   onclick="loadA4CustomerSlot(${i})">
-   🔎 LOAD
-   </button>
-
-   </div>
+     <input
+      value="${escapeHtml(code)}"
+      placeholder="Customer Code"
+      oninput="
+       updateA4CustomerCode(
+        ${i},
+        this.value
+       )">
 
 
-   <div class="a4-slot-preview">
+     <div class="a4-slot-actions">
 
-   ${
-    c
-    ?
-    (
-     r
-     ?
-     `${escapeHtml(c.name)}
-      • ${formatNumber(getRecordTotal(r))} L
-      • ${money(calculateMilkBill(r))}`
-     :
-     `${escapeHtml(c.name)}
-      • No milk record`
-    )
-    :
-    (
-     code
-     ?"Customer not found"
-     :"Enter Customer Code"
-    )
+      <button
+       class="btn green"
+       style="padding:9px 12px"
+       onclick="loadA4CustomerSlot(${i})">
+
+       🔎 LOAD
+
+      </button>
+
+     </div>
+
+
+     <div class="a4-slot-preview">
+
+      ${
+       c
+       ?
+        (
+         r
+         ?
+         `${escapeHtml(c.name)}
+          • ${formatNumber(
+           getRecordTotal(r)
+          )} L
+          • ${money(
+           calculateMilkBill(r)
+          )}`
+         :
+         `${escapeHtml(c.name)}
+          • No milk record`
+        )
+       :
+       (
+        code
+        ?
+        "Customer not found"
+        :
+        "Enter Customer Code"
+       )
+      }
+
+     </div>
+
+    </div>
+
+    `;
+
    }
-
-   </div>
-
-   </div>`;
-
-  }
- ).join("");
+  ).join("");
 
 }
 
@@ -4430,21 +4775,21 @@ function renderA4CustomerSlots(){
 function loadA4CustomerSlot(i){
 
  const c=
- getCustomer(
-  a4CustomerCodes[i]
- );
+  getCustomer(
+   a4CustomerCodes[i]
+  );
 
 
  if(!c)
- return toast(
-  "Customer not found."
- );
+  return toast(
+   "Customer not found."
+  );
 
 
  if(!getBestBillRecord(c))
- return toast(
-  "No milk record for this customer."
- );
+  return toast(
+   "No milk record for this customer."
+  );
 
 
  toast(
@@ -4470,9 +4815,9 @@ function printSixCustomerBills(){
 
 
   if(!c)
-  return toast(
-   `Customer ${code} not found.`
-  );
+   return toast(
+    `Customer ${code} not found.`
+   );
 
 
   if(
@@ -4480,16 +4825,16 @@ function printSixCustomerBills(){
     x=>x.code===c.code
    )
   )
-  return toast(
-   "Duplicate customer selected."
-  );
+   return toast(
+    "Duplicate customer selected."
+   );
 
 
   if(!getBestBillRecord(c))
-  return toast(
-   c.name+
-   " has no milk record."
-  );
+   return toast(
+    c.name+
+    " has no milk record."
+   );
 
 
   cs.push(c);
@@ -4498,9 +4843,9 @@ function printSixCustomerBills(){
 
 
  if(!cs.length)
- return toast(
-  "Add at least one customer."
- );
+  return toast(
+   "Add at least one customer."
+  );
 
 
  printSix(cs);
@@ -4511,29 +4856,32 @@ function printSixCustomerBills(){
 function printSix(customers){
 
  const arr=
- customers.slice(0,6);
+  customers.slice(0,6);
 
 
  while(arr.length<6)
- arr.push(null);
+  arr.push(null);
 
 
  document
- .getElementById("printArea")
- .innerHTML=
- arr.map(
-  c=>
-  c
-  ?createPrintableBill(
-   c,
-   getBestBillRecord(c)
+  .getElementById(
+   "printArea"
   )
-  :""
- ).join("");
+  .innerHTML=
+  arr.map(
+   c=>
+    c
+    ?
+    createPrintableBill(
+     c,
+     getBestBillRecord(c)
+    )
+    :
+    ""
+  ).join("");
 
 
  logAction(
-  "BILL",
   "PRINT BILLS",
   `${customers.length} customer bill(s)`
  );
@@ -4550,193 +4898,282 @@ function printSix(customers){
 function createPrintableBill(c,r){
 
  const mt=
- getRecordTotal(r);
+  getRecordTotal(r);
 
  const bill=
- calculateMilkBill(r);
+  calculateMilkBill(r);
 
  const bal=
- calculateBalanceThroughRecord(
-  c,r
- );
+  calculateBalanceThroughRecord(
+   c,
+   r
+  );
 
  const mor=
- r.days.reduce(
-  (s,d)=>
-  s+Number(d.morning||0),
-  0
- );
+  r.days.reduce(
+   (s,d)=>
+    s+
+    Number(d.morning||0),
+   0
+  );
 
  const eve=
- r.days.reduce(
-  (s,d)=>
-  s+Number(d.evening||0),
-  0
- );
+  r.days.reduce(
+   (s,d)=>
+    s+
+    Number(d.evening||0),
+   0
+  );
 
  const fat=
- r.pricingType==="fat";
+  r.pricingType==="fat";
 
 
  const rows=
- r.days.map(
-  d=>{
+  r.days.map(
+   d=>{
 
-   const n=
-   parseDate(d.date)
-   .toLocaleDateString(
-    "en-IN",
-    {weekday:"short"}
-   );
+    const n=
+     parseDate(d.date)
+     .toLocaleDateString(
+      "en-IN",
+      {weekday:"short"}
+     );
 
 
-   return`
+    return`
 
-   <tr>
+    <tr>
 
-   <td>${n}</td>
+     <td>${n}</td>
 
-   <td>
-   <b>${formatNumber(d.morning)} L</b>
-   ${
-    fat
-    ?`<br><small>F:${formatNumber(d.morningFat)}</small>`
-    :""
+     <td>
+
+      <b>
+       ${formatNumber(d.morning)} L
+      </b>
+
+      ${
+       fat
+       ?
+       `<br>
+       <small>
+        F:${formatNumber(
+         d.morningFat
+        )}
+       </small>`
+       :""
+      }
+
+     </td>
+
+
+     <td>
+
+      <b>
+       ${formatNumber(d.evening)} L
+      </b>
+
+      ${
+       fat
+       ?
+       `<br>
+       <small>
+        F:${formatNumber(
+         d.eveningFat
+        )}
+       </small>`
+       :""
+      }
+
+     </td>
+
+
+     <td>
+
+      <b>
+       ${formatNumber(
+        Number(d.morning)+
+        Number(d.evening)
+       )} L
+      </b>
+
+     </td>
+
+    </tr>
+
+    `;
+
    }
-   </td>
-
-   <td>
-   <b>${formatNumber(d.evening)} L</b>
-   ${
-    fat
-    ?`<br><small>F:${formatNumber(d.eveningFat)}</small>`
-    :""
-   }
-   </td>
-
-   <td>
-   <b>
-   ${formatNumber(
-    Number(d.morning)+
-    Number(d.evening)
-   )} L
-   </b>
-   </td>
-
-   </tr>`;
-
-  }
- ).join("");
+  ).join("");
 
 
  const credits=
- (c.creditTransactions||[])
- .filter(
-  t=>{
+  (c.creditTransactions||[])
+  .filter(
+   t=>{
 
-   const d=new Date(t.date);
+    const d=new Date(t.date);
 
-   const s=
-   parseDate(r.startDate);
+    const s=parseDate(
+     r.startDate
+    );
 
-   const e=
-   parseDate(r.endDate);
+    const e=parseDate(
+     r.endDate
+    );
 
-   e.setHours(
-    23,59,59
-   );
+    e.setHours(
+     23,59,59
+    );
 
-   return d>=s&&d<=e;
+    return d>=s&&d<=e;
 
-  }
- )
- .map(
-  t=>
-  `<div class="print-line">
-  <b>${escapeHtml(t.reason)}</b>
-  <b>-${money(t.amount)}</b>
-  </div>`
- )
- .join("");
+   }
+  )
+  .map(
+   t=>
+   `
+   <div class="print-line">
+
+    <b>
+     ${escapeHtml(t.reason)}
+    </b>
+
+    <b>
+     -${money(t.amount)}
+    </b>
+
+   </div>
+   `
+  ).join("");
 
 
  return`
 
  <div class="print-bill">
 
- <h2>
- DHANALAKSHMI MILK DAIRY
- </h2>
+  <h2>
+   DHANALAKSHMI MILK DAIRY
+  </h2>
 
- <div class="print-sub">
- 7-DAY MILK BILL
- </div>
-
- <div class="print-line">
- <span>Code</span>
- <b>${escapeHtml(c.code)}</b>
- </div>
-
- <div class="print-line">
- <span>Name</span>
- <b>${escapeHtml(c.name)}</b>
- </div>
-
- <div class="print-sub">
- ${formatDate(r.startDate)}
- →
- ${formatDate(r.endDate)}
- </div>
-
- <table class="print-week">
-
- <tr>
- <th>DAY</th>
- <th>MORNING</th>
- <th>EVENING</th>
- <th>TOTAL</th>
- </tr>
-
- ${rows}
-
- </table>
-
- <div class="print-line print-total">
- <span>Morning</span>
- <span>${formatNumber(mor)} L</span>
- </div>
-
- <div class="print-line print-total">
- <span>Evening</span>
- <span>${formatNumber(eve)} L</span>
- </div>
-
- <div class="print-line print-total">
- <span>TOTAL MILK</span>
- <span>${formatNumber(mt)} L</span>
- </div>
-
- ${
-  credits
-  ?`
-  <div class="print-credit">
-  <b>Credit Taken</b>
-  ${credits}
+  <div class="print-sub">
+   7-DAY MILK BILL
   </div>
-  `
-  :""
- }
 
- <div class="print-line print-total">
- <span>
- ${bal<0?"BALANCE":"AMOUNT"}
- </span>
- <span>
- ${money(Math.abs(bal))}
- </span>
+
+  <div class="print-line">
+
+   <span>Code</span>
+
+   <b>
+    ${escapeHtml(c.code)}
+   </b>
+
+  </div>
+
+
+  <div class="print-line">
+
+   <span>Name</span>
+
+   <b>
+    ${escapeHtml(c.name)}
+   </b>
+
+  </div>
+
+
+  <div class="print-sub">
+
+   ${formatDate(r.startDate)}
+   →
+   ${formatDate(r.endDate)}
+
+  </div>
+
+
+  <table class="print-week">
+
+   <tr>
+
+    <th>DAY</th>
+    <th>MORNING</th>
+    <th>EVENING</th>
+    <th>TOTAL</th>
+
+   </tr>
+
+   ${rows}
+
+  </table>
+
+
+  <div class="print-line print-total">
+
+   <span>Morning</span>
+
+   <span>
+    ${formatNumber(mor)} L
+   </span>
+
+  </div>
+
+
+  <div class="print-line print-total">
+
+   <span>Evening</span>
+
+   <span>
+    ${formatNumber(eve)} L
+   </span>
+
+  </div>
+
+
+  <div class="print-line print-total">
+
+   <span>TOTAL MILK</span>
+
+   <span>
+    ${formatNumber(mt)} L
+   </span>
+
+  </div>
+
+
+  ${
+   credits
+   ?
+   `
+   <div class="print-credit">
+
+    <b>Credit Taken</b>
+
+    ${credits}
+
+   </div>
+   `
+   :
+   ""
+  }
+
+
+  <div class="print-line print-total">
+
+   <span>
+    ${bal<0?"BALANCE":"AMOUNT"}
+   </span>
+
+   <span>
+    ${money(Math.abs(bal))}
+   </span>
+
+  </div>
+
  </div>
 
- </div>`;
+ `;
 
 }
 
@@ -4749,10 +5186,11 @@ function calculateBalanceThroughRecord(c,target){
  for(
   const r of [
    ...(c.milkRecords||[])
-  ].sort(
+  ]
+  .sort(
    (a,b)=>
-   parseDate(a.startDate)-
-   parseDate(b.startDate)
+    parseDate(a.startDate)-
+    parseDate(b.startDate)
   )
  ){
 
@@ -4762,24 +5200,29 @@ function calculateBalanceThroughRecord(c,target){
    r.startDate===
    target.startDate
   )
-  break;
+   break;
 
  }
 
 
  b-=
+
  (c.creditTransactions||[])
  .filter(
   t=>
-  new Date(t.date)<=
-  new Date(
-   parseDate(target.endDate)
-   .setHours(23,59,59)
-  )
+   new Date(t.date)<=
+   new Date(
+    parseDate(
+     target.endDate
+    ).setHours(
+     23,59,59
+    )
+   )
  )
  .reduce(
   (s,t)=>
-  s+Number(t.amount||0),
+   s+
+   Number(t.amount||0),
   0
  );
 
@@ -4789,153 +5232,160 @@ function calculateBalanceThroughRecord(c,target){
 }
 
 
-/* ACCESS MANAGEMENT */
+/* =========================================================
+ ACCESS MANAGEMENT
+========================================================= */
 
 function renderAccess(){
 
  if(!currentUserIsOwner())
- return;
+  return;
 
 
  const p=
- database.requests.filter(
-  r=>r.status==="pending"
- );
+  database.requests.filter(
+   r=>r.status==="pending"
+  );
 
 
  const a=
- database.users.filter(
-  u=>u.status==="approved"
- );
+  database.users.filter(
+   u=>u.status==="approved"
+  );
 
 
  document
- .getElementById("pendingRequests")
- .innerHTML=
+  .getElementById(
+   "pendingRequests"
+  )
+  .innerHTML=
 
- p.length
+  p.length
+  ?
+  `
+  <div class="table-wrap">
 
- ?`
+  <table>
 
- <div class="table-wrap">
+  <tr>
+   <th>Login ID</th>
+   <th>Requested</th>
+   <th>Action</th>
+  </tr>
 
- <table>
+  ${
+   p.map(
+    r=>
+    `
+    <tr>
 
- <tr>
- <th>Login ID</th>
- <th>Requested</th>
- <th>Action</th>
- </tr>
+     <td>
+      <b>${escapeHtml(r.id)}</b>
+     </td>
 
- ${p.map(
-  r=>`
+     <td>
+      ${formatDateTime(r.date)}
+     </td>
 
- <tr>
+     <td>
 
- <td>
- <b>${escapeHtml(r.id)}</b>
- </td>
+      <button
+       class="btn green"
+       onclick="approveUser('${escapeJs(r.id)}')">
 
- <td>
- ${formatDateTime(r.date)}
- </td>
+       ✅ APPROVE
 
- <td>
+      </button>
 
- <button
- class="btn green"
- onclick="approveUser('${escapeJs(r.id)}')">
- ✅ APPROVE
- </button>
+      <button
+       class="btn red"
+       onclick="rejectUser('${escapeJs(r.id)}')">
 
- <button
- class="btn red"
- onclick="rejectUser('${escapeJs(r.id)}')">
- ❌ REJECT
- </button>
+       ❌ REJECT
 
- </td>
+      </button>
 
- </tr>`
- ).join("")}
+     </td>
 
- </table>
+    </tr>
+    `
+   ).join("")
+  }
 
- </div>`
+  </table>
 
- :`<p style="color:var(--muted)">
- No pending requests.
- </p>`;
+  </div>
+  `
+  :
+  `
+  <p style="color:var(--muted)">
+   No pending requests.
+  </p>
+  `;
 
 
  document
- .getElementById("approvedUsers")
- .innerHTML=
+  .getElementById(
+   "approvedUsers"
+  )
+  .innerHTML=
 
- a.length
+  a.length
+  ?
+  `
+  <div class="table-wrap">
 
- ?`
+  <table>
 
- <div class="table-wrap">
+  <tr>
+   <th>Login ID</th>
+   <th>Status</th>
+   <th>Action</th>
+  </tr>
 
- <table>
+  ${
+   a.map(
+    u=>
+    `
+    <tr>
 
- <tr>
- <th>Login ID</th>
- <th>Status</th>
- <th>Last Login</th>
- <th>Action</th>
- </tr>
+     <td>
+      <b>${escapeHtml(u.id)}</b>
+     </td>
 
- ${a.map(
-  u=>`
+     <td>
+      <span class="badge green">
+       APPROVED
+      </span>
+     </td>
 
- <tr>
+     <td>
 
- <td>
- <b>${escapeHtml(u.id)}</b>
- </td>
+      <button
+       class="btn red"
+       onclick="removeUser('${escapeJs(u.id)}')">
 
- <td>
- <span class="badge green">
- APPROVED
- </span>
- </td>
+       REMOVE
 
- <td>
- ${
-  u.lastLogin
-  ?formatDateTime(u.lastLogin)
-  :"Never"
- }
- </td>
+      </button>
 
- <td>
+     </td>
 
- <button
- class="btn purple"
- onclick="changeEmployeeId('${escapeJs(u.id)}')">
- ✏️ CHANGE ID
- </button>
+    </tr>
+    `
+   ).join("")
+  }
 
- <button
- class="btn red"
- onclick="removeUser('${escapeJs(u.id)}')">
- REMOVE
- </button>
+  </table>
 
- </td>
-
- </tr>`
- ).join("")}
-
- </table>
-
- </div>`
-
- :`<p style="color:var(--muted)">
- No other approved users.
- </p>`;
+  </div>
+  `
+  :
+  `
+  <p style="color:var(--muted)">
+   No other approved users.
+  </p>
+  `;
 
 }
 
@@ -4943,14 +5393,15 @@ function renderAccess(){
 function approveUser(id){
 
  if(!currentUserIsOwner())
- return;
+  return;
 
 
  const r=
- database.requests.find(
-  x=>x.id===id&&
-  x.status==="pending"
- );
+  database.requests.find(
+   x=>
+    x.id===id &&
+    x.status==="pending"
+  );
 
 
  if(!r)return;
@@ -4966,16 +5417,10 @@ function approveUser(id){
 
    id,
 
-   name:id,
-
-   password:DEFAULT_PASSWORD,
-
    status:"approved",
 
    approvedAt:
-   new Date().toISOString(),
-
-   lastLogin:null
+    new Date().toISOString()
 
   });
 
@@ -4985,20 +5430,20 @@ function approveUser(id){
  r.status="approved";
 
  r.approvedAt=
- new Date().toISOString();
+  new Date().toISOString();
 
 
  saveDatabase();
 
 
  logAction(
-  "ACCESS",
-  "APPROVE EMPLOYEE",
+  "APPROVE USER",
   id
  );
 
 
  renderAccess();
+
 
  toast(
   id+" approved."
@@ -5010,14 +5455,15 @@ function approveUser(id){
 function rejectUser(id){
 
  if(!currentUserIsOwner())
- return;
+  return;
 
 
  const r=
- database.requests.find(
-  x=>x.id===id&&
-  x.status==="pending"
- );
+  database.requests.find(
+   x=>
+    x.id===id &&
+    x.status==="pending"
+  );
 
 
  if(!r)return;
@@ -5030,8 +5476,7 @@ function rejectUser(id){
 
 
  logAction(
-  "ACCESS",
-  "REJECT EMPLOYEE",
+  "REJECT USER",
   id
  );
 
@@ -5049,29 +5494,20 @@ function rejectUser(id){
 function removeUser(id){
 
  if(!currentUserIsOwner())
- return;
-
-
- if(
-  !confirm(
-   "Remove employee access for "+id+"?"
-  )
- )
- return;
+  return;
 
 
  database.users=
- database.users.filter(
-  u=>u.id!==id
- );
+  database.users.filter(
+   u=>u.id!==id
+  );
 
 
  saveDatabase();
 
 
  logAction(
-  "ACCESS",
-  "REMOVE EMPLOYEE",
+  "REMOVE USER",
   id
  );
 
@@ -5080,233 +5516,117 @@ function removeUser(id){
 
 
  toast(
-  id+" access removed."
+  id+" removed."
  );
 
 }
 
 
-function changeEmployeeId(oldId){
-
- if(!currentUserIsOwner())
- return;
-
-
- const newId=
- prompt(
-  "Enter new Login ID for "+oldId
- );
-
-
- if(!newId)return;
-
-
- const id=
- newId.trim().toUpperCase();
-
-
- if(!id)return;
-
-
- if(
-  id===OWNER_ID||
-  database.users.some(
-   u=>u.id===id
-  )||
-  database.requests.some(
-   r=>r.id===id
-  )
- ){
-
-  return toast(
-   "That Login ID already exists."
-  );
-
- }
-
-
- const user=
- database.users.find(
-  u=>u.id===oldId
- );
-
-
- if(!user)return;
-
-
- user.id=id;
-
-
- database.requests.forEach(
-  r=>{
-   if(r.id===oldId)
-   r.id=id;
-  }
- );
-
-
- saveDatabase();
-
-
- logAction(
-  "ACCESS",
-  "CHANGE EMPLOYEE ID",
-  `${oldId} → ${id}`
- );
-
-
- renderAccess();
-
-
- toast(
-  "Employee ID changed."
- );
-
-}
-
-
-/* ACTIVITY */
-
-function setActivityFilter(category,button){
-
- activityFilter=category;
-
-
- document
- .querySelectorAll(
-  ".activity-filter"
- )
- .forEach(
-  x=>x.classList.remove("active")
- );
-
-
- if(button)
- button.classList.add("active");
-
-
- renderActivity();
-
-}
-
+/* =========================================================
+ ACTIVITY
+========================================================= */
 
 function renderActivity(){
 
  if(!currentUserIsOwner())
- return;
-
-
- let a=
- database.activity||[];
-
-
- if(activityFilter!=="ALL"){
-
-  a=
-  a.filter(
-   x=>x.category===activityFilter
-  );
-
- }
-
-
- const box=
- document.getElementById(
-  "activityList"
- );
-
-
- if(!a.length){
-
-  box.innerHTML=
-  `<p style="color:var(--muted)">
-  No activity in this category.
-  </p>`;
-
   return;
 
- }
+
+ const a=
+  database.activity;
 
 
- box.innerHTML=
+ document
+  .getElementById(
+   "activityList"
+  )
+  .innerHTML=
 
- `<div class="form-actions"
- style="margin-bottom:15px">
+  a.length
+  ?
+  `
+  <div
+   class="form-actions"
+   style="margin-bottom:15px">
 
- <button
- class="btn red"
- onclick="deleteFilteredActivity()">
- 🗑️ DELETE VISIBLE HISTORY
- </button>
+   <button
+    class="btn red"
+    onclick="deleteAllActivity()">
 
- <button
- class="btn dark"
- onclick="deleteAllActivity()">
- 🗑️ DELETE ALL HISTORY
- </button>
+    🗑️ DELETE ALL HISTORY
 
- </div>
+   </button>
+
+  </div>
 
 
- <div class="table-wrap">
+  <div class="table-wrap">
 
- <table>
+  <table>
 
- <tr>
+  <tr>
 
- <th>Date & Time</th>
- <th>Category</th>
- <th>Login ID</th>
- <th>Action</th>
- <th>Details</th>
- <th>Delete</th>
+   <th>Date & Time</th>
+   <th>Login ID</th>
+   <th>Action</th>
+   <th>Details</th>
+   <th>Delete</th>
 
- </tr>
+  </tr>
 
- ${a.map(
-  x=>`
 
- <tr>
+  ${
+   a.map(
+    x=>
+    `
+    <tr>
 
- <td>
- ${formatDateTime(x.date)}
- </td>
+     <td>
+      ${formatDateTime(x.date)}
+     </td>
 
- <td>
- <span class="badge blue">
- ${escapeHtml(x.category||"OTHER")}
- </span>
- </td>
+     <td>
+      <b>
+       ${escapeHtml(x.loginId)}
+      </b>
+     </td>
 
- <td>
- <b>${escapeHtml(x.loginId)}</b>
- </td>
+     <td>
+      ${escapeHtml(x.action)}
+     </td>
 
- <td>
- ${escapeHtml(x.action)}
- </td>
+     <td>
+      ${escapeHtml(x.details)}
+     </td>
 
- <td>
- ${escapeHtml(x.details)}
- </td>
+     <td>
 
- <td>
+      <button
+       class="btn red"
+       style="padding:7px 10px"
+       onclick="deleteActivity('${escapeJs(x.id)}')">
 
- <button
- class="btn red"
- style="padding:7px 10px"
- onclick="deleteActivity('${escapeJs(x.id)}')">
- 🗑️ DELETE
- </button>
+       🗑️ DELETE
 
- </td>
+      </button>
 
- </tr>`
- ).join("")}
+     </td>
 
- </table>
+    </tr>
+    `
+   ).join("")
+  }
 
- </div>`;
+  </table>
+
+  </div>
+  `
+  :
+  `
+  <p style="color:var(--muted)">
+   No activity yet.
+  </p>
+  `;
 
 }
 
@@ -5314,9 +5634,9 @@ function renderActivity(){
 function deleteActivity(id){
 
  if(!currentUserIsOwner())
- return toast(
-  "Owner access required."
- );
+  return toast(
+   "Owner access required."
+  );
 
 
  if(
@@ -5324,27 +5644,27 @@ function deleteActivity(id){
    "Delete this activity record?"
   )
  )
- return;
+  return;
 
 
  const before=
- database.activity.length;
+  database.activity.length;
 
 
  database.activity=
- database.activity.filter(
-  x=>String(x.id)!==
-  String(id)
- );
+  database.activity.filter(
+   x=>String(x.id)!==
+   String(id)
+  );
 
 
  if(
   database.activity.length===
   before
  )
- return toast(
-  "Activity record not found."
- );
+  return toast(
+   "Activity record not found."
+  );
 
 
  saveDatabase();
@@ -5358,68 +5678,16 @@ function deleteActivity(id){
 }
 
 
-function deleteFilteredActivity(){
-
- if(!currentUserIsOwner())
- return;
-
-
- if(activityFilter==="ALL"){
-
-  deleteAllActivity();
-
-  return;
-
- }
-
-
- const count=
- database.activity.filter(
-  x=>x.category===activityFilter
- ).length;
-
-
- if(!count)
- return toast(
-  "Nothing to delete."
- );
-
-
- if(
-  !confirm(
-   `Delete ${count} ${activityFilter} activity record(s)?`
-  )
- )
- return;
-
-
- database.activity=
- database.activity.filter(
-  x=>x.category!==activityFilter
- );
-
-
- saveDatabase();
-
- renderActivity();
-
- toast(
-  "Visible activity deleted."
- );
-
-}
-
-
 function deleteAllActivity(){
 
  if(!currentUserIsOwner())
- return;
+  return;
 
 
  if(!database.activity.length)
- return toast(
-  "No activity history to delete."
- );
+  return toast(
+   "No activity history to delete."
+  );
 
 
  if(
@@ -5427,7 +5695,7 @@ function deleteAllActivity(){
    "Delete ALL activity history? This cannot be undone."
   )
  )
- return;
+  return;
 
 
  database.activity=[];
@@ -5443,238 +5711,39 @@ function deleteAllActivity(){
 }
 
 
-/* OWNER SETTINGS */
-
-function renderSettings(){
-
- if(!currentUserIsOwner())
- return;
-
-
- document
- .getElementById("announcementText")
- .value=
- database.settings?.announcement||"";
-
-
- const box=
- document.getElementById(
-  "employeeManagement"
- );
-
-
- const users=
- database.users.filter(
-  u=>u.status==="approved"
- );
-
-
- box.innerHTML=
-
- users.length
-
- ?users.map(
-  u=>`
-
-  <div class="notice"
-  style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
-
-  <div>
-
-  <b>👨‍💼 ${escapeHtml(u.id)}</b>
-
-  <div style="color:var(--muted);font-size:12px;margin-top:5px">
-  Last Login:
-  ${
-   u.lastLogin
-   ?formatDateTime(u.lastLogin)
-   :"Never"
-  }
-  </div>
-
-  </div>
-
-  <button
-  class="btn purple"
-  onclick="changeEmployeeId('${escapeJs(u.id)}')">
-  ✏️ CHANGE ID
-  </button>
-
-  </div>`
- ).join("")
-
- :`<p style="color:var(--muted)">
- No approved employees.
- </p>`;
-
-}
-
-
-function changeOwnerPassword(){
-
- if(!currentUserIsOwner())
- return;
-
-
- const oldPassword=
- document
- .getElementById(
-  "oldOwnerPassword"
- ).value;
-
-
- const newPassword=
- document
- .getElementById(
-  "newOwnerPassword"
- ).value;
-
-
- const current=
- database.settings?.ownerPassword||
- DEFAULT_PASSWORD;
-
-
- if(oldPassword!==current)
- return toast(
-  "Current password is incorrect."
- );
-
-
- if(!newPassword||newPassword.length<4)
- return toast(
-  "New password must contain at least 4 characters."
- );
-
-
- database.settings.ownerPassword=
- newPassword;
-
-
- saveDatabase();
-
-
- logAction(
-  "SECURITY",
-  "OWNER PASSWORD CHANGED",
-  "Owner password changed."
- );
-
-
- document
- .getElementById(
-  "oldOwnerPassword"
- ).value="";
-
-
- document
- .getElementById(
-  "newOwnerPassword"
- ).value="";
-
-
- toast(
-  "Owner password changed."
- );
-
-}
-
-
-function saveAnnouncement(){
-
- if(!currentUserIsOwner())
- return;
-
-
- const text=
- document
- .getElementById(
-  "announcementText"
- ).value.trim();
-
-
- database.settings.announcement=
- text;
-
- database.settings.announcementDate=
- new Date().toISOString();
-
-
- saveDatabase();
-
-
- logAction(
-  "ACCESS",
-  "OWNER ANNOUNCEMENT",
-  text||"Announcement cleared."
- );
-
-
- renderSettings();
-
- toast(
-  text
-  ?"Announcement sent."
-  :"Announcement cleared."
- );
-
-}
-
-
-function clearAnnouncement(){
-
- if(!currentUserIsOwner())
- return;
-
-
- database.settings.announcement="";
-
- database.settings.announcementDate=
- new Date().toISOString();
-
-
- saveDatabase();
-
- renderSettings();
-
- toast(
-  "Announcement cleared."
- );
-
-}
-
-
-/* BACKUP */
+/* =========================================================
+ BACKUP
+========================================================= */
 
 function backupData(){
 
  const blob=
- new Blob(
-  [
-   JSON.stringify(
-    database,
-    null,
-    2
-   )
-  ],
-  {
-   type:"application/json"
-  }
- );
+  new Blob(
+   [
+    JSON.stringify(
+     database,
+     null,
+     2
+    )
+   ],
+   {
+    type:"application/json"
+   }
+  );
 
 
  const url=
- URL.createObjectURL(blob);
+  URL.createObjectURL(blob);
 
 
  const a=
- document.createElement("a");
+  document.createElement("a");
 
 
  a.href=url;
 
  a.download=
- "dhanalakshmi-dairy-backup.json";
+  "dhanalakshmi-dairy-backup.json";
 
 
  document.body.appendChild(a);
@@ -5685,15 +5754,10 @@ function backupData(){
 
 
  setTimeout(
-  ()=>URL.revokeObjectURL(url),
+  ()=>{
+   URL.revokeObjectURL(url);
+  },
   1000
- );
-
-
- logAction(
-  "CLOUD",
-  "BACKUP",
-  "Database backup downloaded."
  );
 
 
@@ -5704,18 +5768,20 @@ function backupData(){
 }
 
 
-/* HELPERS */
+/* =========================================================
+ HELPERS
+========================================================= */
 
 function money(v){
 
  return "₹"+
- Number(v||0)
- .toLocaleString(
-  "en-IN",
-  {
-   maximumFractionDigits:2
-  }
- );
+  Number(v||0)
+  .toLocaleString(
+   "en-IN",
+   {
+    maximumFractionDigits:2
+   }
+  );
 
 }
 
@@ -5725,8 +5791,8 @@ function formatBalance(v){
  const n=Number(v||0);
 
  return n<0
- ?"-"+money(Math.abs(n))
- :money(n);
+  ?"-"+money(Math.abs(n))
+  :money(n);
 
 }
 
@@ -5734,23 +5800,23 @@ function formatBalance(v){
 function formatNumber(v){
 
  return Number(v||0)
- .toLocaleString(
-  "en-IN",
-  {
-   maximumFractionDigits:2
-  }
- );
+  .toLocaleString(
+   "en-IN",
+   {
+    maximumFractionDigits:2
+   }
+  );
 
 }
 
 
 function dateInputValue(d){
 
- return`
- ${d.getFullYear()}-
- ${String(d.getMonth()+1).padStart(2,"0")}-
- ${String(d.getDate()).padStart(2,"0")}
- `.replaceAll(" ","");
+ return`${d.getFullYear()}-${
+  String(d.getMonth()+1).padStart(2,"0")
+ }-${
+  String(d.getDate()).padStart(2,"0")
+ }`;
 
 }
 
@@ -5759,17 +5825,17 @@ function parseDate(v){
 
  if(v instanceof Date)
 
- return new Date(
-  v.getFullYear(),
-  v.getMonth(),
-  v.getDate()
- );
+  return new Date(
+   v.getFullYear(),
+   v.getMonth(),
+   v.getDate()
+  );
 
 
  const p=
- String(v)
- .split("-")
- .map(Number);
+  String(v)
+  .split("-")
+  .map(Number);
 
 
  return new Date(
@@ -5784,14 +5850,14 @@ function parseDate(v){
 function formatDate(v){
 
  return parseDate(v)
- .toLocaleDateString(
-  "en-IN",
-  {
-   day:"2-digit",
-   month:"2-digit",
-   year:"numeric"
-  }
- );
+  .toLocaleDateString(
+   "en-IN",
+   {
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric"
+   }
+  );
 
 }
 
@@ -5799,16 +5865,16 @@ function formatDate(v){
 function formatDateTime(v){
 
  return new Date(v)
- .toLocaleString(
-  "en-IN",
-  {
-   day:"2-digit",
-   month:"short",
-   year:"numeric",
-   hour:"2-digit",
-   minute:"2-digit"
-  }
- );
+  .toLocaleString(
+   "en-IN",
+   {
+    day:"2-digit",
+    month:"short",
+    year:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+   }
+  );
 
 }
 
@@ -5816,11 +5882,11 @@ function formatDateTime(v){
 function findDayIndex(days,date){
 
  return(days||[])
- .findIndex(
-  d=>
-  d.date===
-  dateInputValue(date)
- );
+  .findIndex(
+   d=>
+    d.date===
+    dateInputValue(date)
+  );
 
 }
 
@@ -5828,11 +5894,11 @@ function findDayIndex(days,date){
 function escapeHtml(v){
 
  return String(v)
- .replaceAll("&","&amp;")
- .replaceAll("<","&lt;")
- .replaceAll(">","&gt;")
- .replaceAll('"',"&quot;")
- .replaceAll("'","&#039;");
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
 
 }
 
@@ -5840,8 +5906,8 @@ function escapeHtml(v){
 function escapeJs(v){
 
  return String(v)
- .replaceAll("\\","\\\\")
- .replaceAll("'","\\'");
+  .replaceAll("\\","\\\\")
+  .replaceAll("'","\\'");
 
 }
 
@@ -5849,240 +5915,106 @@ function escapeJs(v){
 function toast(m){
 
  const e=
- document.getElementById("toast");
+  document.getElementById(
+   "toast"
+  );
 
 
  e.textContent=m;
 
  e.classList.add("show");
 
-
  clearTimeout(window.tt);
 
-
  window.tt=
- setTimeout(
-  ()=>e.classList.remove("show"),
-  2500
- );
+  setTimeout(
+   ()=>{
+    e.classList.remove("show");
+   },
+   2500
+  );
 
 }
 
 
-/* UPDATE EVERYTHING */
+/* =========================================================
+ KEYBOARD LOGIN
+========================================================= */
 
-function updateAllScreens(){
+document
+ .getElementById("loginIdInput")
+ .addEventListener(
+  "keydown",
+  e=>{
 
- updateDashboard();
+   if(e.key==="Enter"){
 
- renderEmployeeHome();
+    e.preventDefault();
 
- renderCustomerList();
+    document
+     .getElementById(
+      "securityCodeInput"
+     )
+     .focus();
 
- renderA4CustomerSlots();
+   }
 
- if(currentUserIsOwner()){
-
-  renderAccess();
-
-  renderActivity();
-
-  renderSettings();
-
- }
-
-}
-
-
-/* ONLINE / OFFLINE */
-
-function updateNetwork(){
-
- const el=
- document.getElementById(
-  "networkStatus"
+  }
  );
 
 
- if(navigator.onLine){
-
-  el.textContent="🟢 Online";
-
-  el.style.color=
-  "var(--green)";
-
- }else{
-
-  el.textContent="🔴 Offline";
-
-  el.style.color=
-  "var(--red)";
-
- }
-
-}
-
-
-window.addEventListener(
- "online",
- ()=>{
-  updateNetwork();
-  showCloudStatus(
-   "🟢 Internet restored"
-  );
- }
-);
-
-
-window.addEventListener(
- "offline",
- ()=>{
-  updateNetwork();
-  showCloudStatus(
-   "🔴 Offline • Local mode"
-  );
- }
-);
-
-
-/* ENTER = NEXT FIELD */
-/* SHIFT+ENTER = PREVIOUS */
-
-document.addEventListener(
- "keydown",
- e=>{
-
-  if(e.key!=="Enter")
-  return;
-
-
-  const el=
-  document.activeElement;
-
-
-  if(
-   !el||
-   !["INPUT","SELECT"]
-   .includes(el.tagName)||
-   el.id==="passwordInput"||
-   el.id==="securityCodeInput"
-  )
-  return;
-
-
-  if(
-   el.readOnly||
-   el.disabled
-  )
-  return;
-
-
-  e.preventDefault();
-
-
-  const f=
-  [
-   ...document.querySelectorAll(
-    "input:not([disabled]):not([readonly]),select:not([disabled])"
-   )
-  ]
-  .filter(
-   x=>x.offsetParent!==null
-  );
-
-
-  const i=f.indexOf(el);
-
-
-  const n=
-  e.shiftKey
-  ?i-1
-  :i+1;
-
-
-  if(f[n]){
-
-   f[n].focus();
-
-   if(
-    typeof f[n].select==="function"
-   )
-   f[n].select();
-
-  }
-
- }
-);
-
-
-/* LOGIN ENTER */
-
 document
-.getElementById("loginIdInput")
-.addEventListener(
- "keydown",
- e=>{
+ .getElementById("securityCodeInput")
+ .addEventListener(
+  "keydown",
+  e=>{
 
-  if(e.key==="Enter"){
+   if(e.key==="Enter"){
 
-   e.preventDefault();
+    e.preventDefault();
 
-   document
-   .getElementById(
-    "passwordInput"
-   )
-   .focus();
+    document
+     .getElementById(
+      "passwordInput"
+     )
+     .focus();
+
+   }
 
   }
-
- }
-);
+ );
 
 
 document
-.getElementById("passwordInput")
-.addEventListener(
- "keydown",
- e=>{
+ .getElementById("passwordInput")
+ .addEventListener(
+  "keydown",
+  e=>{
 
-  if(e.key==="Enter"){
+   if(e.key==="Enter"){
 
-   e.preventDefault();
+    e.preventDefault();
 
-   login();
+    login();
 
-  }
-
- }
-);
-
-
-document
-.getElementById("securityCodeInput")
-.addEventListener(
- "keydown",
- e=>{
-
-  if(e.key==="Enter"){
-
-   e.preventDefault();
-
-   login();
+   }
 
   }
-
- }
-);
+ );
 
 
-/* START */
+/* =========================================================
+ INIT
+========================================================= */
 
 (function init(){
 
  document
- .getElementById("milkStartDate")
- .value=
- getCurrentCycle().start;
+  .getElementById(
+   "milkStartDate"
+  )
+  .value=
+  getCurrentCycle().start;
 
 
  buildWeekGrid();
@@ -6091,59 +6023,75 @@ document
 
  addA4CustomerSlot();
 
- updateNetwork();
-
 
  const authenticated=
- sessionStorage.getItem(
-  "dairyAuthenticated"
- );
+  sessionStorage.getItem(
+   "dairyAuthenticated"
+  );
 
 
  const id=
- sessionStorage.getItem(
-  "dairyLogin"
- );
+  sessionStorage.getItem(
+   "dairyLogin"
+  );
+
+
+ const role=
+  sessionStorage.getItem(
+   "dairyRole"
+  );
 
 
  if(
-  authenticated==="true"&&
+  authenticated==="true" &&
   id
  ){
 
   currentLogin=id;
 
-
-  document
-  .getElementById(
-   "loginScreen"
-  )
-  .classList.add("hidden");
-
-
-  document
-  .getElementById(
-   "app"
-  )
-  .classList.remove("hidden");
+  currentRole=
+   role ||
+   (
+    id===OWNER_ID
+    ?"owner"
+    :"employee"
+   );
 
 
   document
-  .getElementById(
-   "loggedInAs"
-  )
-  .textContent=id;
+   .getElementById(
+    "loginScreen"
+   )
+   .classList
+   .add("hidden");
+
+
+  document
+   .getElementById("app")
+   .classList
+   .remove("hidden");
+
+
+  document
+   .getElementById(
+    "loggedInAs"
+   )
+   .textContent=id;
 
 
   setOwnerUI();
 
-  updateAllScreens();
+  updateDashboard();
+
+  updateEmployeeHome();
 
 
-  if(currentUserIsOwner())
-  showPage("dashboard");
+  if(
+   currentUserIsEmployee()
+  )
+   showPage("employeeHome");
   else
-  showPage("employeeHome");
+   showPage("dashboard");
 
  }
 
@@ -6157,10 +6105,84 @@ document
 
 })();
 
+
+/* =========================================================
+ ENTER = NEXT FIELD
+ SHIFT+ENTER = PREVIOUS
+========================================================= */
+
+document.addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key!=="Enter")
+   return;
+
+
+  const el=
+   document.activeElement;
+
+
+  if(
+   !el ||
+   !["INPUT","SELECT"]
+    .includes(el.tagName) ||
+   el.id==="passwordInput"
+  )
+   return;
+
+
+  if(
+   el.readOnly ||
+   el.disabled
+  )
+   return;
+
+
+  e.preventDefault();
+
+
+  const f=
+   [
+    ...document.querySelectorAll(
+     "input:not([disabled]):not([readonly]),select:not([disabled])"
+    )
+   ]
+   .filter(
+    x=>x.offsetParent!==null
+   );
+
+
+  const i=f.indexOf(el);
+
+
+  const n=
+   e.shiftKey
+   ?i-1
+   :i+1;
+
+
+  if(f[n]){
+
+   f[n].focus();
+
+   if(
+    typeof f[n].select===
+    "function"
+   )
+    f[n].select();
+
+  }
+
+ });
+
 </script>
 
 
-<!-- PWA SERVICE WORKER -->
+<!-- =========================================================
+ SERVICE WORKER
+========================================================= -->
+
 <script>
 
 if("serviceWorker" in navigator){
@@ -6169,20 +6191,21 @@ if("serviceWorker" in navigator){
   "load",
   ()=>{
 
-   navigator.serviceWorker
-   .register("./sw.js")
-   .then(
-    ()=>console.log(
-     "Dhanalakshmi Dairy PWA ready"
+   navigator
+    .serviceWorker
+    .register("./sw.js")
+    .then(
+     ()=>console.log(
+      "Dhanalakshmi Dairy PWA ready"
+     )
     )
-   )
-   .catch(
-    error=>
-    console.error(
-     "Service Worker failed:",
-     error
-    )
-   );
+    .catch(
+     error=>
+      console.error(
+       "Service Worker failed:",
+       error
+      )
+    );
 
   }
  );
