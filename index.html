@@ -36,10 +36,8 @@ input,select{width:100%;padding:13px 15px;background:#091729;color:var(--text);b
 <div class="login-fields">
 <input id="loginIdInput" type="text" placeholder="Enter Login ID" autocomplete="username">
 <input id="passwordInput" type="password" placeholder="Enter Password" autocomplete="current-password">
-<input id="securityCodeInput" class="hidden" type="password" placeholder="Owner Security Code">
 <button class="btn" onclick="login()">🔐 LOGIN</button>
 </div>
-<div id="securityCodeNote" class="hidden" style="margin-top:10px;color:var(--yellow);font-size:13px">👑 Owner verification: enter Security Code 11223.</div>
 <div id="loginError" class="error"></div>
 </div>
 </section>
@@ -224,6 +222,8 @@ async function startFirebaseSync(){
           const data=snap.data()||{};
           database[name]=Array.isArray(data.items)?data.items:[];
           localStorage.setItem(STORAGE_KEY,JSON.stringify(database));
+          if(name==="users")handleLiveEmployeeStatus();
+          if(name==="requests")handleLiveRequestStatus();
           if(typeof updateDashboard==="function")updateDashboard();
           if(typeof renderCustomerList==="function")renderCustomerList();
           if(typeof renderAccess==="function" && currentUserIsOwner())renderAccess();
@@ -261,6 +261,41 @@ async function startFirebaseSync(){
   }
 }
 
+function handleLiveRequestStatus(){
+  if(currentUserIsOwner()) return;
+  const watchedId=(currentLogin || document.getElementById("loginIdInput")?.value || "").trim().toUpperCase();
+  if(!watchedId) return;
+  const r=database.requests.find(x=>String(x.id).toUpperCase()===watchedId);
+  if(!r) return;
+  if(r.status==="approved"){
+    const err=document.getElementById("loginError");
+    if(document.getElementById("loginScreen") && !document.getElementById("loginScreen").classList.contains("hidden")) err.textContent="✅ You are approved. You can now login.";
+    toast("✅ You are approved. You can now login.");
+  }
+  if(r.status==="rejected"){
+    const err=document.getElementById("loginError");
+    if(document.getElementById("loginScreen") && !document.getElementById("loginScreen").classList.contains("hidden")) err.textContent="❌ Your access request was rejected by the owner.";
+    toast("❌ Your access request was rejected by the owner.");
+  }
+}
+
+function handleLiveEmployeeStatus(){
+  if(!currentLogin || currentUserIsOwner()) return;
+  const u=database.users.find(x=>String(x.id).toUpperCase()===String(currentLogin).toUpperCase());
+  if(!u) return;
+  if(u.status==="removed"){
+    const removedId=currentLogin;
+    sessionStorage.clear();
+    currentLogin="";
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("loginScreen").classList.remove("hidden");
+    document.getElementById("loginIdInput").value=removedId;
+    document.getElementById("passwordInput").value="";
+    document.getElementById("loginError").textContent="⚠️ Your access has been removed by the owner. Your saved data was kept.";
+    toast("Your access was removed by the owner. Your data was saved.");
+  }
+}
+
 async function cloudSaveDatabase(){
   if(!firebaseReady)return;
   try{
@@ -279,10 +314,10 @@ async function cloudSaveDatabase(){
 <script>
 const OWNER_ID="ACHALKUMAR";
 const OWNER_PASSWORD="31122";
-const OWNER_SECURITY_CODE="11223";
+const OWNER_SECURITY_CODE="11223"; // Never displayed in the page UI
 const EMPLOYEE_PASSWORD="1080";
 const STORAGE_KEY="dhanalakshmi_milk_dairy_database_v2";
-let database=loadDatabase(), currentCustomer=null, currentLogin="", securityCodeMode=false, a4CustomerCodes=[];
+let database=loadDatabase(), currentCustomer=null, currentLogin="", a4CustomerCodes=[];
 
 function loadDatabase(){try{let d=JSON.parse(localStorage.getItem(STORAGE_KEY));if(d&&Array.isArray(d.customers))return normalizeDatabase(d)}catch(e){}return{customers:[],bills:[],users:[],requests:[],activity:[]}}
 function saveDatabase(){localStorage.setItem(STORAGE_KEY,JSON.stringify(database));updateDashboard();cloudSaveDatabase()}
@@ -291,48 +326,55 @@ function logAction(action,details=""){database.activity.unshift({id:Date.now()+M
 function login(){
 const id=document.getElementById("loginIdInput").value.trim().toUpperCase();
 const pass=document.getElementById("passwordInput").value;
-const security=document.getElementById("securityCodeInput").value.trim();
 const err=document.getElementById("loginError");
 err.textContent="";
-
 if(!id||!pass){err.textContent="Enter Login ID and Password.";return}
 
 if(id===OWNER_ID){
- if(pass!==OWNER_PASSWORD){err.textContent="Incorrect owner password.";return}
- if(!securityCodeMode){
-  securityCodeMode=true;
-  document.getElementById("securityCodeInput").classList.remove("hidden");
-  document.getElementById("securityCodeNote").classList.remove("hidden");
-  document.getElementById("securityCodeInput").focus();
+  if(pass!==OWNER_PASSWORD){err.textContent="Incorrect owner password.";return}
+  const security=prompt("🔐 Enter Owner Security Code:");
+  if(security===null)return;
+  if(security.trim()!==OWNER_SECURITY_CODE){err.textContent="Incorrect Owner Security Code.";return}
+  currentLogin=OWNER_ID;
+  enterApp();
+  logAction("OWNER LOGIN","Owner login successful.");
   return;
- }
- if(security!==OWNER_SECURITY_CODE){err.textContent="Incorrect Owner Security Code.";return}
- currentLogin=OWNER_ID;
- enterApp();
- logAction("OWNER LOGIN","Owner login successful.");
- return;
 }
 
 if(pass!==EMPLOYEE_PASSWORD){err.textContent="Incorrect employee password.";return}
 
-const user=database.users.find(
- u=>String(u.id).toUpperCase()===id&&u.status==="approved"
-);
+const user=database.users.find(u=>String(u.id).toUpperCase()===id);
+const request=database.requests.find(r=>String(r.id).toUpperCase()===id);
 
-if(user){
- currentLogin=id;
- enterApp();
- logAction("LOGIN","Approved employee logged in.");
- return;
+if(user?.status==="approved"){
+  currentLogin=id;
+  enterApp();
+  logAction("LOGIN","Approved employee logged in.");
+  return;
 }
 
-if(!database.requests.some(
- r=>String(r.id).toUpperCase()===id&&r.status==="pending"
-)){
- database.requests.push({id:id,name:id,status:"pending",date:new Date().toISOString()});
- saveDatabase();
+if(user?.status==="removed"){
+  err.textContent="⚠️ Your access has been removed by the owner. Please contact the owner.";
+  return;
 }
 
+if(request?.status==="rejected"){
+  err.textContent="❌ Your access request was rejected by the owner.";
+  return;
+}
+
+if(request?.status==="pending"){
+  err.textContent="⏳ Your access request is still waiting for owner approval.";
+  return;
+}
+
+if(request?.status==="approved"){
+  err.textContent="✅ You are approved. Please login again.";
+  return;
+}
+
+database.requests.push({id:id,name:id,status:"pending",date:new Date().toISOString()});
+saveDatabase();
 err.textContent="Access request sent. Owner approval is required.";
 document.getElementById("passwordInput").value="";
 }
@@ -341,8 +383,7 @@ function enterApp(){sessionStorage.setItem("dairyAuthenticated","true");sessionS
 function setOwnerUI(){document.querySelectorAll(".owner-only,.owner-only-page").forEach(x=>x.classList.toggle("hidden",!currentUserIsOwner()))}
 function logout(){sessionStorage.clear();location.reload()}
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}})
-document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}})
-document.getElementById("securityCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
+document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
 
 document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 function showPage(id){if((id==="access"||id==="activity")&&!currentUserIsOwner()){toast("Owner access required.");return}document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));if(id==="customers")renderCustomerList();if(id==="access")renderAccess();if(id==="activity")renderActivity();if(id==="dashboard")updateDashboard()}
@@ -405,10 +446,50 @@ function printSix(customers){let arr=customers.slice(0,6);while(arr.length<6)arr
 function createPrintableBill(c,r){let mt=getRecordTotal(r),bill=calculateMilkBill(r),bal=calculateBalanceThroughRecord(c,r),mor=r.days.reduce((s,d)=>s+Number(d.morning||0),0),eve=r.days.reduce((s,d)=>s+Number(d.evening||0),0),fat=r.pricingType==="fat";let rows=r.days.map(d=>{let n=parseDate(d.date).toLocaleDateString("en-IN",{weekday:"short"});return`<tr><td>${n}</td><td><b>${formatNumber(d.morning)} L</b>${fat?`<br><small>F:${formatNumber(d.morningFat)}</small>`:""}</td><td><b>${formatNumber(d.evening)} L</b>${fat?`<br><small>F:${formatNumber(d.eveningFat)}</small>`:""}</td><td><b>${formatNumber(Number(d.morning)+Number(d.evening))} L</b></td></tr>`}).join("");let credits=c.creditTransactions.filter(t=>{let d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${escapeHtml(t.reason)}</b><b>-${money(t.amount)}</b></div>`).join("");return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}<div class="print-line print-total"><span>${bal<0?"BALANCE":"AMOUNT"}</span><span>${money(Math.abs(bal))}</span></div></div>`}
 function calculateBalanceThroughRecord(c,target){let b=0;for(let r of [...c.milkRecords].sort((a,b)=>parseDate(a.startDate)-parseDate(b.startDate))){b+=calculateMilkBill(r);if(r.startDate===target.startDate)break}b-=c.creditTransactions.filter(t=>new Date(t.date)<=new Date(parseDate(target.endDate).setHours(23,59,59))).reduce((s,t)=>s+Number(t.amount||0),0);return b}
 
-function renderAccess(){if(!currentUserIsOwner())return;let p=database.requests.filter(r=>r.status==="pending"),a=database.users.filter(u=>u.status==="approved");document.getElementById("pendingRequests").innerHTML=p.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Requested</th><th>Action</th></tr>${p.map(r=>`<tr><td><b>${escapeHtml(r.id)}</b></td><td>${formatDateTime(r.date)}</td><td><button class="btn green" onclick="approveUser('${escapeJs(r.id)}')">✅ APPROVE</button> <button class="btn red" onclick="rejectUser('${escapeJs(r.id)}')">❌ REJECT</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No pending requests.</p>`;document.getElementById("approvedUsers").innerHTML=a.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Status</th><th>Action</th></tr>${a.map(u=>`<tr><td><b>${escapeHtml(u.id)}</b></td><td><span class="badge green">APPROVED</span></td><td><button class="btn red" onclick="removeUser('${escapeJs(u.id)}')">REMOVE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No other approved users.</p>`}
-function approveUser(id){if(!currentUserIsOwner())return;let r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;if(!database.users.some(u=>u.id===id))database.users.push({id,status:"approved",approvedAt:new Date().toISOString()});r.status="approved";r.approvedAt=new Date().toISOString();saveDatabase();logAction("APPROVE USER",id);renderAccess();toast(id+" approved.")}
-function rejectUser(id){let r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;r.status="rejected";saveDatabase();logAction("REJECT USER",id);renderAccess();toast(id+" rejected.")}
-function removeUser(id){database.users=database.users.filter(u=>u.id!==id);saveDatabase();logAction("REMOVE USER",id);renderAccess();toast(id+" removed.")}
+function renderAccess(){
+if(!currentUserIsOwner())return;
+let p=database.requests.filter(r=>r.status==="pending");
+let rejected=database.requests.filter(r=>r.status==="rejected");
+let a=database.users.filter(u=>u.status==="approved");
+let removed=database.users.filter(u=>u.status==="removed");
+
+document.getElementById("pendingRequests").innerHTML=p.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Requested</th><th>Action</th></tr>${p.map(r=>`<tr><td><b>${escapeHtml(r.id)}</b></td><td>${formatDateTime(r.date)}</td><td><button class="btn green" onclick="approveUser('${escapeJs(r.id)}')">✅ APPROVE</button> <button class="btn red" onclick="rejectUser('${escapeJs(r.id)}')">❌ REJECT</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No pending requests.</p>`;
+
+document.getElementById("approvedUsers").innerHTML=`<h4 style="margin:15px 0 10px;color:var(--green)">Approved Users</h4>`+(a.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Status</th><th>Action</th></tr>${a.map(u=>`<tr><td><b>${escapeHtml(u.id)}</b></td><td><span class="badge green">APPROVED</span></td><td><button class="btn red" onclick="removeUser('${escapeJs(u.id)}')">REMOVE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No approved employees.</p>`)
+`<h4 style="margin:22px 0 10px;color:var(--yellow)">Removed Users</h4>`+(removed.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Status</th><th>Removed</th><th>Action</th></tr>${removed.map(u=>`<tr><td><b>${escapeHtml(u.id)}</b></td><td><span class="badge red">REMOVED</span></td><td>${u.removedAt?formatDateTime(u.removedAt):"—"}</td><td><button class="btn green" onclick="restoreUser('${escapeJs(u.id)}')">♻️ RESTORE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No removed employees.</p>`)
+`<h4 style="margin:22px 0 10px;color:var(--red)">Rejected Requests</h4>`+(rejected.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Rejected</th><th>Action</th></tr>${rejected.map(r=>`<tr><td><b>${escapeHtml(r.id)}</b></td><td>${r.rejectedAt?formatDateTime(r.rejectedAt):formatDateTime(r.date)}</td><td><button class="btn green" onclick="approveUser('${escapeJs(r.id)}')">✅ APPROVE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No rejected requests.</p>`);
+}
+function approveUser(id){
+if(!currentUserIsOwner())return;
+let r=database.requests.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+let u=database.users.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+if(!u){u={id:String(id).toUpperCase(),status:"approved",approvedAt:new Date().toISOString()};database.users.push(u)}else{u.status="approved";u.approvedAt=new Date().toISOString();delete u.removedAt}
+if(r){r.status="approved";r.approvedAt=new Date().toISOString();delete r.rejectedAt}
+else database.requests.push({id:String(id).toUpperCase(),name:String(id).toUpperCase(),status:"approved",date:new Date().toISOString(),approvedAt:new Date().toISOString()});
+saveDatabase();logAction("APPROVE USER",id);renderAccess();toast(id+" approved.");
+}
+function rejectUser(id){
+if(!currentUserIsOwner())return;
+let r=database.requests.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+if(!r)return;
+r.status="rejected";r.rejectedAt=new Date().toISOString();saveDatabase();logAction("REJECT USER",id);renderAccess();toast(id+" rejected.");
+}
+function removeUser(id){
+if(!currentUserIsOwner())return;
+let u=database.users.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+if(!u)return;
+if(!confirm("Remove this employee now? Their account and history will be kept."))return;
+u.status="removed";u.removedAt=new Date().toISOString();saveDatabase();logAction("REMOVE USER",id);renderAccess();toast(id+" removed. Their data was kept.");
+}
+function restoreUser(id){
+if(!currentUserIsOwner())return;
+let u=database.users.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+if(!u)return;
+u.status="approved";u.restoredAt=new Date().toISOString();delete u.removedAt;
+let r=database.requests.find(x=>String(x.id).toUpperCase()===String(id).toUpperCase());
+if(r){r.status="approved";r.approvedAt=new Date().toISOString();delete r.rejectedAt}else database.requests.push({id:u.id,name:u.id,status:"approved",date:new Date().toISOString(),approvedAt:new Date().toISOString()});
+saveDatabase();logAction("RESTORE USER",id);renderAccess();toast(id+" restored. Previous data is still available.");
+}
 
 function renderActivity(){if(!currentUserIsOwner())return;let a=database.activity;document.getElementById("activityList").innerHTML=a.length?`<div class="form-actions" style="margin-bottom:15px"><button class="btn red" onclick="deleteAllActivity()">🗑️ DELETE ALL HISTORY</button></div><div class="table-wrap"><table><tr><th>Date & Time</th><th>Login ID</th><th>Action</th><th>Details</th><th>Delete</th></tr>${a.map(x=>`<tr><td>${formatDateTime(x.date)}</td><td><b>${escapeHtml(x.loginId)}</b></td><td>${escapeHtml(x.action)}</td><td>${escapeHtml(x.details)}</td><td><button class="btn red" style="padding:7px 10px" onclick="deleteActivity('${escapeJs(x.id)}')">🗑️ DELETE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No activity yet.</p>`}
 function deleteActivity(id){if(!currentUserIsOwner())return toast("Owner access required.");if(!confirm("Delete this activity record?"))return;let before=database.activity.length;database.activity=database.activity.filter(x=>String(x.id)!==String(id));if(database.activity.length===before)return toast("Activity record not found.");saveDatabase();renderActivity();toast("Activity record deleted.")}
@@ -430,7 +511,7 @@ function toast(m){let e=document.getElementById("toast");e.textContent=m;e.class
 (function init(){document.getElementById("milkStartDate").value=getCurrentCycle().start;buildWeekGrid();renderCustomerList();addA4CustomerSlot();let a=sessionStorage.getItem("dairyAuthenticated"),id=sessionStorage.getItem("dairyLogin");if(a==="true"&&id){currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard()};showCloudStatus('☁️ Connecting to cloud...');startFirebaseSync()})()
 
 /* ENTER = NEXT FIELD, SHIFT+ENTER = PREVIOUS */
-document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;let el=document.activeElement;if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput"||el.id==="securityCodeInput")return;if(el.readOnly||el.disabled)return;e.preventDefault();let f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null),i=f.indexOf(el),n=e.shiftKey?i-1:i+1;if(f[n]){f[n].focus();if(f[n].select)f[n].select()}})
+document.addEventListener("keydown",e=>{if(e.key!=="Enter")return;let el=document.activeElement;if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput")return;if(el.readOnly||el.disabled)return;e.preventDefault();let f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null),i=f.indexOf(el),n=e.shiftKey?i-1:i+1;if(f[n]){f[n].focus();if(f[n].select)f[n].select()}})
 </script>
 </body>
 </html>
