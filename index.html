@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Dhanalakshmi Milk Dairy • Cloud Sync</title>
+<meta name="theme-color" content="#07111f">
+<title>DHANALAKSHMI MILK DAIRY • Cloud Sync</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -19,6 +20,7 @@
  --green:#39e58c;
  --red:#ff6675;
  --yellow:#ffd166;
+ --purple:#a78bfa;
 }
 
 body{
@@ -31,11 +33,9 @@ body{
  min-height:100vh;
 }
 
-button,input,select{font:inherit}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-
-/* ================= LOGIN ================= */
 
 #loginScreen{
  min-height:100vh;
@@ -50,15 +50,15 @@ button{cursor:pointer}
  background:#0d1b2ef5;
  border:1px solid var(--border);
  border-radius:28px;
- padding:38px;
- box-shadow:0 20px 60px #0008;
+ padding:35px;
+ box-shadow:0 20px 70px #0009;
  text-align:center;
 }
 
 .logo{
  width:90px;
  height:90px;
- margin:0 auto 20px;
+ margin:0 auto 18px;
  border-radius:50%;
  display:flex;
  align-items:center;
@@ -68,50 +68,33 @@ button{cursor:pointer}
  color:#092039;
 }
 
-.login-card h1{
- font-size:27px;
- margin-bottom:8px;
-}
+.login-card h1{font-size:26px}
+.login-card p{color:var(--muted);margin:7px 0 25px}
 
-.login-card p{
- color:var(--muted);
- margin-bottom:24px;
-}
-
-.login-type{
+.login-choice{
  display:grid;
  grid-template-columns:1fr 1fr;
  gap:10px;
  margin-bottom:18px;
 }
 
-.login-type button{
- padding:13px;
- border-radius:12px;
+.login-choice button{
+ padding:15px;
  border:1px solid var(--border);
- background:#091729;
- color:#b9cbe0;
+ border-radius:14px;
+ background:#0a1728;
+ color:#cbd8e8;
  font-weight:800;
 }
 
-.login-type button.active{
+.login-choice button.active{
  background:var(--accent);
  color:#06111d;
- border-color:var(--accent);
 }
 
-.login-title{
- font-size:18px;
- font-weight:900;
- margin-bottom:12px;
-}
+.login-fields{display:grid;gap:10px}
 
-.login-fields{
- display:grid;
- gap:10px;
-}
-
-input,select{
+input,select,textarea{
  width:100%;
  padding:13px 15px;
  background:#091729;
@@ -121,14 +104,19 @@ input,select{
  outline:none;
 }
 
-input:focus,select:focus{
+textarea{
+ min-height:100px;
+ resize:vertical;
+}
+
+input:focus,select:focus,textarea:focus{
  border-color:var(--accent);
  box-shadow:0 0 0 3px #61dafb14;
 }
 
 .btn{
  border:0;
- padding:12px 17px;
+ padding:11px 16px;
  border-radius:12px;
  color:#06111d;
  font-weight:800;
@@ -144,22 +132,21 @@ input:focus,select:focus{
 .btn.green{background:var(--green)}
 .btn.red{background:var(--red)}
 .btn.yellow{background:var(--yellow)}
+.btn.purple{background:var(--purple)}
 .btn.dark{background:#203650;color:#fff}
 
 .error{
  color:var(--red);
- margin-top:15px;
+ margin-top:13px;
  min-height:20px;
 }
 
-.login-help{
+.small-note{
  color:var(--muted);
  font-size:12px;
+ margin-top:12px;
  line-height:1.5;
- margin-top:14px;
 }
-
-/* ================= APP ================= */
 
 .topbar{
  position:sticky;
@@ -169,7 +156,7 @@ input:focus,select:focus{
  justify-content:space-between;
  align-items:center;
  gap:20px;
- padding:15px 24px;
+ padding:14px 22px;
  background:#07111fe8;
  backdrop-filter:blur(18px);
  border-bottom:1px solid var(--border);
@@ -198,19 +185,26 @@ input:focus,select:focus{
 
 .top-actions{
  display:flex;
- gap:10px;
+ gap:8px;
  flex-wrap:wrap;
+ align-items:center;
+}
+
+.cloud-status{
+ font-size:12px;
+ color:var(--green);
+ margin-right:5px;
 }
 
 .layout{
  display:grid;
- grid-template-columns:240px 1fr;
- min-height:calc(100vh - 76px);
+ grid-template-columns:245px 1fr;
+ min-height:calc(100vh - 74px);
 }
 
 .sidebar{
  border-right:1px solid var(--border);
- padding:20px 14px;
+ padding:18px 13px;
  background:#09172999;
 }
 
@@ -218,7 +212,7 @@ input:focus,select:focus{
  width:100%;
  text-align:left;
  padding:13px 15px;
- margin-bottom:8px;
+ margin-bottom:7px;
  border:1px solid transparent;
  border-radius:12px;
  color:#c9d7e8;
@@ -234,7 +228,7 @@ input:focus,select:focus{
 
 .main{
  padding:25px;
- max-width:1600px;
+ max-width:1650px;
  width:100%;
  margin:auto;
 }
@@ -244,10 +238,7 @@ input:focus,select:focus{
 
 .page-title{margin-bottom:20px}
 .page-title h1{font-size:28px}
-.page-title p{
- color:var(--muted);
- margin-top:5px;
-}
+.page-title p{color:var(--muted);margin-top:5px}
 
 .stats{
  display:grid;
@@ -257,7 +248,7 @@ input:focus,select:focus{
 }
 
 .stat{
- padding:20px;
+ padding:19px;
  border:1px solid var(--border);
  background:linear-gradient(145deg,#0d1d32,#0a1728);
  border-radius:18px;
@@ -265,13 +256,13 @@ input:focus,select:focus{
 
 .stat span{
  color:var(--muted);
- font-size:13px;
+ font-size:12px;
 }
 
 .stat strong{
  display:block;
- font-size:29px;
- margin-top:8px;
+ font-size:27px;
+ margin-top:7px;
 }
 
 .dashboard-grid{
@@ -286,6 +277,7 @@ input:focus,select:focus{
  border-radius:18px;
  padding:20px;
  box-shadow:0 12px 35px #0002;
+ margin-bottom:18px;
 }
 
 .panel h3{margin-bottom:15px}
@@ -296,9 +288,7 @@ input:focus,select:focus{
  gap:10px;
 }
 
-.quick-actions button{
- min-height:65px;
-}
+.quick-actions button{min-height:62px}
 
 .form-grid{
  display:grid;
@@ -317,7 +307,7 @@ input:focus,select:focus{
 
 .form-actions{
  display:flex;
- gap:10px;
+ gap:9px;
  margin-top:15px;
  flex-wrap:wrap;
 }
@@ -354,23 +344,14 @@ input:focus,select:focus{
 }
 
 .balance{text-align:right}
-
 .balance small{color:var(--muted)}
-
 .balance strong{
  display:block;
  font-size:28px;
 }
 
-.negative{
- color:var(--red)!important;
- font-weight:800;
-}
-
-.positive{
- color:var(--green)!important;
- font-weight:800;
-}
+.negative{color:var(--red)!important;font-weight:800}
+.positive{color:var(--green)!important;font-weight:800}
 
 .tabs{
  display:flex;
@@ -404,7 +385,7 @@ table{
 }
 
 th,td{
- padding:12px 10px;
+ padding:11px 9px;
  border-bottom:1px solid #1d324b;
  text-align:left;
  white-space:nowrap;
@@ -412,7 +393,7 @@ th,td{
 
 th{
  color:#9db2c8;
- font-size:13px;
+ font-size:12px;
 }
 
 td{font-size:14px}
@@ -440,6 +421,16 @@ td{font-size:14px}
  color:var(--yellow);
 }
 
+.badge.blue{
+ background:#61dafb1f;
+ color:var(--accent);
+}
+
+.badge.purple{
+ background:#a78bfa1f;
+ color:var(--purple);
+}
+
 .modal{
  position:fixed;
  inset:0;
@@ -454,7 +445,7 @@ td{font-size:14px}
 .modal.open{display:flex}
 
 .modal-card{
- width:min(800px,100%);
+ width:min(850px,100%);
  max-height:90vh;
  overflow:auto;
  background:#0d1b2e;
@@ -534,6 +525,46 @@ td{font-size:14px}
  min-height:18px;
 }
 
+.notification{
+ border:1px solid var(--border);
+ background:#0a1728;
+ border-radius:14px;
+ padding:15px;
+ margin-bottom:10px;
+}
+
+.notification.unread{
+ border-color:var(--accent);
+ box-shadow:0 0 20px #61dafb10;
+}
+
+.notification-title{
+ font-weight:900;
+ margin-bottom:5px;
+}
+
+.notification-time{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:8px;
+}
+
+.employee-banner{
+ border:1px solid #61dafb44;
+ background:linear-gradient(135deg,#102a42,#0d1b2e);
+ border-radius:18px;
+ padding:20px;
+ margin-bottom:18px;
+}
+
+.owner-banner{
+ border:1px solid #a78bfa44;
+ background:linear-gradient(135deg,#211b3a,#0d1b2e);
+ border-radius:18px;
+ padding:20px;
+ margin-bottom:18px;
+}
+
 #toast{
  position:fixed;
  right:20px;
@@ -554,10 +585,46 @@ td{font-size:14px}
  opacity:1;
 }
 
-/* ================= PRINT ================= */
-
 .print-area{display:none}
 
+@media(max-width:1000px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{
+  border-right:0;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  overflow:auto;
+  gap:8px;
+ }
+ .nav-btn{
+  width:auto;
+  white-space:nowrap;
+  margin:0;
+ }
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .dashboard-grid{grid-template-columns:1fr}
+ .week-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:600px){
+ .topbar{
+  align-items:flex-start;
+  flex-direction:column;
+ }
+ .main{padding:15px}
+ .stats,.form-grid{grid-template-columns:1fr}
+ .full{grid-column:auto}
+ .search-row{flex-direction:column}
+ .customer-header{
+  flex-direction:column;
+  align-items:flex-start;
+ }
+ .balance{text-align:left}
+ .week-grid,.a4-customer-slots{grid-template-columns:1fr}
+ .login-choice{grid-template-columns:1fr}
+}
+
+/* A4 PRINT: 6 equal bills */
 @media print{
  @page{
   size:A4 portrait;
@@ -594,22 +661,22 @@ td{font-size:14px}
  .print-bill{
   display:block!important;
   border:1px solid #000;
-  padding:2.8mm;
+  padding:2.6mm;
   color:#000;
   font-family:Arial,sans-serif;
-  font-size:9px;
+  font-size:8px;
   overflow:hidden;
  }
 
  .print-bill h2{
-  font-size:12px;
+  font-size:11px;
   text-align:center;
   margin-bottom:1px;
  }
 
  .print-sub{
   text-align:center;
-  font-size:8px;
+  font-size:7px;
   margin-bottom:2px;
  }
 
@@ -622,7 +689,7 @@ td{font-size:14px}
 
  .print-total{
   font-weight:bold;
-  font-size:10px;
+  font-size:9px;
  }
 
  .print-week{
@@ -634,12 +701,12 @@ td{font-size:14px}
  .print-week th,
  .print-week td{
   border:1px solid #777;
-  padding:1.3px;
-  font-size:7.5px;
+  padding:1px;
+  font-size:6.7px;
   color:#000;
  }
 
- .print-week th{font-size:7px}
+ .print-week th{font-size:6.5px}
 
  .print-credit{
   margin-top:2px;
@@ -647,78 +714,14 @@ td{font-size:14px}
   padding-top:2px;
  }
 
- .print-bill small{font-size:6.5px}
-}
-
-@media(max-width:1000px){
- .layout{grid-template-columns:1fr}
-
- .sidebar{
-  border-right:0;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  overflow:auto;
-  gap:8px;
- }
-
- .nav-btn{
-  width:auto;
-  white-space:nowrap;
-  margin:0;
- }
-
- .stats{
-  grid-template-columns:repeat(2,1fr);
- }
-
- .dashboard-grid{
-  grid-template-columns:1fr;
- }
-
- .week-grid{
-  grid-template-columns:repeat(2,1fr);
- }
-}
-
-@media(max-width:600px){
- .topbar{
-  align-items:flex-start;
-  flex-direction:column;
- }
-
- .main{padding:15px}
-
- .stats,
- .form-grid{
-  grid-template-columns:1fr;
- }
-
- .full{grid-column:auto}
-
- .search-row{
-  flex-direction:column;
- }
-
- .customer-header{
-  flex-direction:column;
-  align-items:flex-start;
- }
-
- .balance{text-align:left}
-
- .week-grid,
- .a4-customer-slots{
-  grid-template-columns:1fr;
- }
+ .print-bill small{font-size:5.8px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- =====================================================
-     LOGIN SCREEN
-===================================================== -->
+<!-- ================= LOGIN ================= -->
 
 <section id="loginScreen">
 
@@ -727,127 +730,83 @@ td{font-size:14px}
  <div class="logo">🥛</div>
 
  <h1>DHANALAKSHMI MILK DAIRY</h1>
-
  <p>Digital Dairy Management System</p>
 
- <div class="login-type">
+ <div class="login-choice">
 
-  <button id="ownerTab"
+  <button id="ownerLoginChoice"
           class="active"
-          onclick="selectLoginType('owner')">
+          onclick="selectLoginMode('owner')">
    👑 OWNER LOGIN
   </button>
 
-  <button id="employeeTab"
-          onclick="selectLoginType('employee')">
-   👷 EMPLOYEE LOGIN
+  <button id="employeeLoginChoice"
+          onclick="selectLoginMode('employee')">
+   👨‍💼 EMPLOYEE LOGIN
   </button>
 
  </div>
 
- <div id="ownerLoginBox">
+ <div class="login-fields">
 
-  <div class="login-title">
-   👑 Owner Login
-  </div>
+  <input id="loginIdInput"
+         type="text"
+         placeholder="Owner Login ID"
+         autocomplete="username">
 
-  <div class="login-fields">
+  <input id="passwordInput"
+         type="password"
+         placeholder="Password"
+         autocomplete="current-password">
 
-   <input
-    id="ownerIdInput"
-    type="text"
-    placeholder="Enter Owner Login ID"
-    autocomplete="username">
+  <input id="securityCodeInput"
+         class="hidden"
+         type="password"
+         inputmode="numeric"
+         placeholder="Owner Security Code">
 
-   <input
-    id="ownerPasswordInput"
-    type="password"
-    placeholder="Enter Owner Password"
-    autocomplete="current-password">
-
-   <input
-    id="ownerSecurityInput"
-    type="password"
-    inputmode="numeric"
-    placeholder="Enter Owner Security Code"
-    autocomplete="one-time-code">
-
-   <button
-    class="btn"
-    onclick="ownerLogin()">
-    🔐 OWNER ENTER
-   </button>
-
-  </div>
-
-  <div class="login-help">
-   Owner access includes Access Management and Activity History.
-  </div>
+  <button class="btn" onclick="login()">
+   ENTER
+  </button>
 
  </div>
 
+ <div id="securityCodeNote"
+      class="small-note hidden">
+  Owner verification required.
+ </div>
 
- <div id="employeeLoginBox" class="hidden">
+ <div id="employeeRegisterBox"
+      class="hidden"
+      style="margin-top:18px">
 
-  <div class="login-title">
-   👷 Employee Login
-  </div>
+  <button class="btn green"
+          onclick="openEmployeeRequest()"
+          style="width:100%">
+   📝 REQUEST EMPLOYEE ACCESS
+  </button>
 
-  <div class="login-fields">
-
-   <input
-    id="employeeIdInput"
-    type="text"
-    placeholder="Enter Employee Login ID"
-    autocomplete="username">
-
-   <input
-    id="employeePasswordInput"
-    type="password"
-    placeholder="Enter Employee Password"
-    autocomplete="current-password">
-
-   <button
-    class="btn green"
-    onclick="employeeLogin()">
-    👷 EMPLOYEE ENTER
-   </button>
-
-  </div>
-
-  <div class="login-help">
-   If your employee ID is not approved yet, submitting it will send an access request to the owner.
+  <div class="small-note">
+   New employee? Choose your own Login ID and Password.
+   Owner approval is required before login.
   </div>
 
  </div>
 
  <div id="loginError" class="error"></div>
 
+ <div class="small-note">
+  🔐 Owner controls employee access and permissions.
+ </div>
+
 </div>
 
 </section>
 
 
-<!-- =====================================================
-     MAIN APP
-===================================================== -->
+<!-- ================= APP ================= -->
 
 <div id="app" class="hidden">
-
-<div id="firebaseSecurityNotice"
- style="margin:10px 0;
- padding:10px 12px;
- border-radius:10px;
- border:1px solid #6b7280;
- background:#172033;
- color:#f8fafc;
- font-size:12px">
-
- ⚠️ Firebase security is currently in testing mode.
- Secure Firestore rules before real business use.
-
-</div>
-
 
 <header class="topbar">
 
@@ -859,6 +818,7 @@ td{font-size:14px}
    <h2>DHANALAKSHMI MILK DAIRY</h2>
    <small>
     Logged in as <b id="loggedInAs"></b>
+    • <span id="roleLabel"></span>
    </small>
   </div>
 
@@ -866,21 +826,23 @@ td{font-size:14px}
 
  <div class="top-actions">
 
-  <span
-   id="cloudStatusInline"
-   style="color:var(--green);font-size:12px">
+  <span id="cloudStatusInline"
+        class="cloud-status">
    ☁️ Connecting...
   </span>
 
-  <button
-   class="btn dark"
-   onclick="backupData()">
+  <button class="btn dark"
+          onclick="openNotifications()">
+   🔔 <span id="notificationCount">0</span>
+  </button>
+
+  <button class="btn dark"
+          onclick="backupData()">
    💾 Backup
   </button>
 
-  <button
-   class="btn red"
-   onclick="logout()">
+  <button class="btn red"
+          onclick="logout()">
    🔒 Lock
   </button>
 
@@ -893,45 +855,38 @@ td{font-size:14px}
 
 <aside class="sidebar">
 
- <button
-  class="nav-btn active"
-  data-page="dashboard">
-  🏠 Dashboard
+ <button class="nav-btn active"
+         data-page="dashboard">
+  🏠 Home
  </button>
 
- <button
-  class="nav-btn"
-  data-page="customers">
-  👤 Customers
+ <button class="nav-btn"
+         data-page="customers">
+  👥 Customers
  </button>
 
- <button
-  class="nav-btn"
-  data-page="milk">
+ <button class="nav-btn"
+         data-page="milk">
   🥛 Milk Entry
  </button>
 
- <button
-  class="nav-btn"
-  data-page="credit">
+ <button class="nav-btn"
+         data-page="credit">
   💰 Credit
  </button>
 
- <button
-  class="nav-btn"
-  data-page="bills">
+ <button class="nav-btn"
+         data-page="bills">
   🧾 Bills
  </button>
 
- <button
-  class="nav-btn owner-only"
-  data-page="access">
+ <button class="nav-btn owner-only"
+         data-page="access">
   🔐 Access Management
  </button>
 
- <button
-  class="nav-btn owner-only"
-  data-page="activity">
+ <button class="nav-btn owner-only"
+         data-page="activity">
   📝 Activity History
  </button>
 
@@ -940,15 +895,46 @@ td{font-size:14px}
 
 <main class="main">
 
-
 <!-- ================= DASHBOARD ================= -->
 
 <section id="dashboard" class="page active">
 
  <div class="page-title">
-  <h1>Digital Dairy Dashboard</h1>
-  <p>Complete overview of DHANALAKSHMI MILK DAIRY</p>
+  <h1 id="dashboardTitle">
+   Digital Dairy Dashboard
+  </h1>
+
+  <p>
+   Complete overview of DHANALAKSHMI MILK DAIRY
+  </p>
  </div>
+
+
+ <div id="ownerWelcome"
+      class="owner-banner hidden">
+
+  <h2>👑 OWNER DASHBOARD</h2>
+
+  <p style="color:var(--muted);margin-top:7px">
+   You control employee access, passwords,
+   announcements, notifications and activity history.
+  </p>
+
+ </div>
+
+
+ <div id="employeeWelcome"
+      class="employee-banner hidden">
+
+  <h2>👨‍💼 EMPLOYEE HOME</h2>
+
+  <p style="color:var(--muted);margin-top:7px">
+   Welcome. Enter milk, manage customers,
+   record credit and prepare bills.
+  </p>
+
+ </div>
+
 
  <div class="stats">
 
@@ -983,39 +969,33 @@ td{font-size:14px}
 
    <div class="quick-actions">
 
-    <button
-     class="btn"
-     onclick="showPage('customers');openAddCustomer()">
+    <button class="btn"
+            onclick="showPage('customers');openAddCustomer()">
      ➕ NEW CUSTOMER
     </button>
 
-    <button
-     class="btn green"
-     onclick="showPage('customers');focusSearch()">
+    <button class="btn green"
+            onclick="showPage('customers');focusSearch()">
      🔎 FIND CUSTOMER
     </button>
 
-    <button
-     class="btn"
-     onclick="showPage('milk')">
+    <button class="btn"
+            onclick="showPage('milk')">
      🥛 ENTER MILK
     </button>
 
-    <button
-     class="btn yellow"
-     onclick="showPage('credit')">
+    <button class="btn yellow"
+            onclick="showPage('credit')">
      💰 ADD CREDIT
     </button>
 
-    <button
-     class="btn dark"
-     onclick="showPage('bills')">
+    <button class="btn dark"
+            onclick="showPage('bills')">
      🧾 BILL CENTER
     </button>
 
-    <button
-     class="btn green"
-     onclick="showPage('bills')">
+    <button class="btn green"
+            onclick="showPage('bills')">
      🖨️ PRINT 6 BILLS
     </button>
 
@@ -1034,6 +1014,15 @@ td{font-size:14px}
 
  </div>
 
+
+ <div class="panel">
+
+  <h3>📢 Latest Announcements</h3>
+
+  <div id="dashboardAnnouncements"></div>
+
+ </div>
+
 </section>
 
 
@@ -1042,33 +1031,38 @@ td{font-size:14px}
 <section id="customers" class="page">
 
  <div class="page-title">
-  <h1>👤 Customer Management</h1>
-  <p>Customer Code is the main key for every profile.</p>
+
+  <h1>👥 Customer Management</h1>
+
+  <p>
+   Customer Code is the main key for every profile.
+  </p>
+
  </div>
+
 
  <div class="panel">
 
   <div class="search-row">
 
-   <input
-    id="customerSearch"
-    placeholder="Enter Customer Code">
+   <input id="customerSearch"
+          placeholder="Enter Customer Code">
 
-   <button
-    class="btn green"
-    onclick="searchCustomer()">
+   <button class="btn green"
+           onclick="searchCustomer()">
     🔎 OPEN PROFILE
    </button>
 
-   <button
-    class="btn"
-    onclick="openAddCustomer()">
+   <button class="btn"
+           onclick="openAddCustomer()">
     ➕ ADD CUSTOMER
    </button>
 
   </div>
 
-  <div id="customerProfile" class="hidden"></div>
+
+  <div id="customerProfile"
+       class="hidden"></div>
 
   <div id="customerList"></div>
 
@@ -1082,9 +1076,15 @@ td{font-size:14px}
 <section id="milk" class="page">
 
  <div class="page-title">
+
   <h1>🥛 Milk Entry</h1>
-  <p>Thursday → Wednesday. Morning and Evening milk.</p>
+
+  <p>
+   Thursday → Wednesday • Morning + Evening
+  </p>
+
  </div>
+
 
  <div class="panel">
 
@@ -1094,9 +1094,8 @@ td{font-size:14px}
 
     <label>Customer Code</label>
 
-    <input
-     id="milkCustomerCode"
-     placeholder="Example: 10001">
+    <input id="milkCustomerCode"
+           placeholder="Example: 10001">
 
    </div>
 
@@ -1105,36 +1104,33 @@ td{font-size:14px}
 
     <label>Start Date — Thursday</label>
 
-    <input
-     id="milkStartDate"
-     type="date">
+    <input id="milkStartDate"
+           type="date">
 
    </div>
 
 
-   <div
-    class="field"
-    id="milkRateField">
+   <div class="field"
+        id="milkRateField">
 
     <label>Milk Price Per Liter</label>
 
-    <input
-     id="milkRate"
-     type="number"
-     min="0"
-     step=".01">
+    <input id="milkRate"
+           type="number"
+           min="0"
+           step=".01">
 
    </div>
 
 
-   <div
-    class="field hidden"
-    id="milkFatField">
+   <div class="field hidden"
+        id="milkFatField">
 
-    <label>Fat Based Entry</label>
+    <label>Fat Based Pricing</label>
 
     <div style="color:var(--muted);padding-top:8px">
-     6.0 Fat = ₹50/L • every 0.1 Fat = ₹0.40/L
+     6.0 Fat = ₹50/L<br>
+     Every 0.1 Fat = ₹0.40/L
     </div>
 
    </div>
@@ -1144,9 +1140,8 @@ td{font-size:14px}
 
     <label>Customer Name</label>
 
-    <input
-     id="milkCustomerName"
-     readonly>
+    <input id="milkCustomerName"
+           readonly>
 
    </div>
 
@@ -1159,26 +1154,22 @@ td{font-size:14px}
 
    <br>
 
-   <div
-    id="weekGrid"
-    class="week-grid">
-   </div>
+   <div id="weekGrid"
+        class="week-grid"></div>
 
   </div>
 
 
   <div class="form-actions">
 
-   <button
-    class="btn green"
-    onclick="saveMilkRecord()">
-    💾 SAVE 7-DAY RECORD
+   <button class="btn dark"
+           onclick="loadMilkCustomer()">
+    🔎 LOAD CUSTOMER
    </button>
 
-   <button
-    class="btn dark"
-    onclick="loadMilkCustomer()">
-    🔎 LOAD CUSTOMER
+   <button class="btn green"
+           onclick="saveMilkRecord()">
+    💾 SAVE 7-DAY RECORD
    </button>
 
   </div>
@@ -1193,9 +1184,15 @@ td{font-size:14px}
 <section id="credit" class="page">
 
  <div class="page-title">
+
   <h1>💰 Customer Credit</h1>
-  <p>Record money taken by the customer from the dairy.</p>
+
+  <p>
+   Record money taken by the customer from the dairy.
+  </p>
+
  </div>
+
 
  <div class="panel">
 
@@ -1205,9 +1202,8 @@ td{font-size:14px}
 
     <label>Customer Code</label>
 
-    <input
-     id="creditCustomerCode"
-     placeholder="Example: 10001">
+    <input id="creditCustomerCode"
+           placeholder="Example: 10001">
 
    </div>
 
@@ -1216,11 +1212,10 @@ td{font-size:14px}
 
     <label>Credit Amount</label>
 
-    <input
-     id="creditAmount"
-     type="number"
-     min="0"
-     step=".01">
+    <input id="creditAmount"
+           type="number"
+           min="0"
+           step=".01">
 
    </div>
 
@@ -1243,9 +1238,8 @@ td{font-size:14px}
    </div>
 
 
-   <div
-    class="field hidden"
-    id="otherReasonField">
+   <div class="field hidden"
+        id="otherReasonField">
 
     <label>Other Reason</label>
 
@@ -1258,25 +1252,21 @@ td{font-size:14px}
 
   <div class="form-actions">
 
-   <button
-    class="btn yellow"
-    onclick="addCredit()">
-    💰 SAVE CREDIT
-   </button>
-
-   <button
-    class="btn dark"
-    onclick="loadCreditCustomer()">
+   <button class="btn dark"
+           onclick="loadCreditCustomer()">
     🔎 LOAD CUSTOMER
    </button>
 
+   <button class="btn yellow"
+           onclick="addCredit()">
+    💰 SAVE CREDIT
+   </button>
+
   </div>
 
 
-  <div
-   id="creditCustomerInfo"
-   style="margin-top:20px">
-  </div>
+  <div id="creditCustomerInfo"
+       style="margin-top:20px"></div>
 
  </div>
 
@@ -1288,8 +1278,13 @@ td{font-size:14px}
 <section id="bills" class="page">
 
  <div class="page-title">
+
   <h1>🧾 Bill Center</h1>
-  <p>6 different customer bills on one A4 page.</p>
+
+  <p>
+   Six different customer bills on one A4 page.
+  </p>
+
  </div>
 
 
@@ -1299,32 +1294,28 @@ td{font-size:14px}
 
   <p style="color:var(--muted);margin-bottom:15px">
    Choose up to 6 customers.
-   Each bill uses one compact box on the same A4 page.
+   Each customer gets one equal-size bill.
   </p>
 
-  <div
-   id="a4CustomerSlots"
-   class="a4-customer-slots">
-  </div>
+
+  <div id="a4CustomerSlots"
+       class="a4-customer-slots"></div>
 
 
   <div class="form-actions">
 
-   <button
-    class="btn"
-    onclick="addA4CustomerSlot()">
+   <button class="btn"
+           onclick="addA4CustomerSlot()">
     ➕ ADD CUSTOMER
    </button>
 
-   <button
-    class="btn green"
-    onclick="printSixCustomerBills()">
+   <button class="btn green"
+           onclick="printSixCustomerBills()">
     🖨️ PRINT 6 ON ONE A4
    </button>
 
-   <button
-    class="btn dark"
-    onclick="clearA4CustomerSlots()">
+   <button class="btn dark"
+           onclick="clearA4CustomerSlots()">
     ✕ CLEAR ALL
    </button>
 
@@ -1333,27 +1324,22 @@ td{font-size:14px}
  </div>
 
 
- <div
-  class="panel"
-  style="margin-top:18px">
+ <div class="panel">
 
   <h3>🔎 Single Customer Bill</h3>
 
   <div class="search-row">
 
-   <input
-    id="billCustomerCode"
-    placeholder="Enter Customer Code">
+   <input id="billCustomerCode"
+          placeholder="Enter Customer Code">
 
-   <button
-    class="btn green"
-    onclick="loadBillCustomer()">
+   <button class="btn green"
+           onclick="loadBillCustomer()">
     🔎 LOAD BILL
    </button>
 
-   <button
-    class="btn"
-    onclick="printCurrentCustomer()">
+   <button class="btn"
+           onclick="printCurrentCustomer()">
     🖨️ PRINT CUSTOMER
    </button>
 
@@ -1368,16 +1354,16 @@ td{font-size:14px}
 
 <!-- ================= ACCESS ================= -->
 
-<section
- id="access"
- class="page owner-only-page">
+<section id="access"
+        class="page owner-only-page">
 
  <div class="page-title">
 
   <h1>🔐 Access Management</h1>
 
   <p>
-   Only the OWNER can approve or reject Login IDs.
+   OWNER ONLY • Employee approvals,
+   passwords and announcements.
   </p>
 
  </div>
@@ -1385,16 +1371,56 @@ td{font-size:14px}
 
  <div class="panel">
 
-  <h3>Pending Requests</h3>
+  <h3>⏳ Pending Employee Requests</h3>
 
   <div id="pendingRequests"></div>
 
+ </div>
 
-  <h3 style="margin-top:25px">
-   Approved Employees
-  </h3>
+
+ <div class="panel">
+
+  <h3>👨‍💼 Approved Employees</h3>
 
   <div id="approvedUsers"></div>
+
+ </div>
+
+
+ <div class="panel">
+
+  <h3>📢 Send Owner Announcement</h3>
+
+  <div class="form-grid">
+
+   <div class="field full">
+
+    <label>Announcement</label>
+
+    <textarea id="announcementText"
+              placeholder="Write announcement for employees..."></textarea>
+
+   </div>
+
+  </div>
+
+  <div class="form-actions">
+
+   <button class="btn purple"
+           onclick="sendAnnouncement()">
+    📢 SEND TO EMPLOYEES
+   </button>
+
+  </div>
+
+ </div>
+
+
+ <div class="panel">
+
+  <h3>📢 Previous Announcements</h3>
+
+  <div id="ownerAnnouncements"></div>
 
  </div>
 
@@ -1403,22 +1429,66 @@ td{font-size:14px}
 
 <!-- ================= ACTIVITY ================= -->
 
-<section
- id="activity"
- class="page owner-only-page">
+<section id="activity"
+        class="page owner-only-page">
 
  <div class="page-title">
 
   <h1>📝 Activity History</h1>
 
   <p>
-   See who changed what and when.
+   Organized by category • OWNER ONLY
   </p>
 
  </div>
 
 
  <div class="panel">
+
+  <div class="tabs">
+
+   <button class="tab-btn active"
+           onclick="activityFilter('all',this)">
+    ALL
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('login',this)">
+    🔐 LOGIN
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('customers',this)">
+    👥 CUSTOMERS
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('milk',this)">
+    🥛 MILK
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('credit',this)">
+    💰 CREDIT
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('bills',this)">
+    🧾 BILLS
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('access',this)">
+    🔐 ACCESS
+   </button>
+
+   <button class="tab-btn"
+           onclick="activityFilter('notifications',this)">
+    🔔 NOTIFICATIONS
+   </button>
+
+  </div>
+
 
   <div id="activityList"></div>
 
@@ -1428,17 +1498,14 @@ td{font-size:14px}
 
 
 </main>
-
+</div>
 </div>
 
-</div>
 
+<!-- ================= ADD CUSTOMER MODAL ================= -->
 
-<!-- ================= CUSTOMER MODAL ================= -->
-
-<div
- id="customerModal"
- class="modal">
+<div id="customerModal"
+     class="modal">
 
  <div class="modal-card">
 
@@ -1446,9 +1513,8 @@ td{font-size:14px}
 
    <h2>➕ Add Customer</h2>
 
-   <button
-    class="btn dark"
-    onclick="closeModal()">
+   <button class="btn dark"
+           onclick="closeModal()">
     ✕
    </button>
 
@@ -1498,9 +1564,8 @@ td{font-size:14px}
 
   <div class="form-actions">
 
-   <button
-    class="btn green"
-    onclick="saveCustomer()">
+   <button class="btn green"
+           onclick="saveCustomer()">
     💾 SAVE CUSTOMER
    </button>
 
@@ -1511,17 +1576,164 @@ td{font-size:14px}
 </div>
 
 
-<div
- id="printArea"
- class="print-area">
+<!-- ================= EMPLOYEE REQUEST MODAL ================= -->
+
+<div id="employeeRequestModal"
+     class="modal">
+
+ <div class="modal-card">
+
+  <div class="modal-head">
+
+   <h2>👨‍💼 Employee Access Request</h2>
+
+   <button class="btn dark"
+           onclick="closeEmployeeRequest()">
+    ✕
+   </button>
+
+  </div>
+
+
+  <div class="form-grid">
+
+   <div class="field">
+
+    <label>Choose Login ID</label>
+
+    <input id="requestEmployeeId"
+           placeholder="Example: RAVI">
+
+   </div>
+
+
+   <div class="field">
+
+    <label>Choose Password</label>
+
+    <input id="requestEmployeePassword"
+           type="password"
+           placeholder="Create password">
+
+   </div>
+
+
+   <div class="field full">
+
+    <label>Employee Name</label>
+
+    <input id="requestEmployeeName"
+           placeholder="Employee name">
+
+   </div>
+
+  </div>
+
+
+  <div class="form-actions">
+
+   <button class="btn green"
+           onclick="submitEmployeeRequest()">
+    📨 SEND REQUEST
+   </button>
+
+  </div>
+
+
+  <div id="requestError"
+       class="error"></div>
+
+ </div>
+
 </div>
+
+
+<!-- ================= PASSWORD MODAL ================= -->
+
+<div id="passwordModal"
+     class="modal">
+
+ <div class="modal-card">
+
+  <div class="modal-head">
+
+   <h2>🔑 Change Employee Password</h2>
+
+   <button class="btn dark"
+           onclick="closePasswordModal()">
+    ✕
+   </button>
+
+  </div>
+
+
+  <p id="passwordEmployeeName"
+     style="color:var(--muted);margin-bottom:15px"></p>
+
+
+  <input id="newEmployeePassword"
+         type="password"
+         placeholder="Enter new password">
+
+
+  <div class="form-actions">
+
+   <button class="btn green"
+           onclick="saveEmployeePassword()">
+    🔄 SAVE NEW PASSWORD
+   </button>
+
+  </div>
+
+ </div>
+
+</div>
+
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<div id="notificationModal"
+     class="modal">
+
+ <div class="modal-card">
+
+  <div class="modal-head">
+
+   <h2>🔔 Notification Center</h2>
+
+   <button class="btn dark"
+           onclick="closeNotifications()">
+    ✕
+   </button>
+
+  </div>
+
+
+  <div class="form-actions"
+       style="margin-bottom:15px">
+
+   <button class="btn red"
+           onclick="deleteAllMyNotifications()">
+    🗑️ DELETE ALL
+   </button>
+
+  </div>
+
+
+  <div id="notificationList"></div>
+
+ </div>
+
+</div>
+
+
+<div id="printArea"
+     class="print-area"></div>
 
 <div id="toast"></div>
 
 
-<!-- =====================================================
-     FIREBASE
-===================================================== -->
+<!-- Firebase connection kept from existing project -->
 
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
@@ -1529,9 +1741,9 @@ td{font-size:14px}
 
 <script>
 
-/* =====================================================
-   FIREBASE CONFIG
-===================================================== */
+/* =========================================================
+   EXISTING FIREBASE CONNECTION
+   ========================================================= */
 
 const firebaseConfig={
  apiKey:"AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",
@@ -1546,31 +1758,35 @@ const firebaseConfig={
 let firebaseReady=false;
 let firebaseSyncStarted=false;
 
-
 function firebaseConfigured(){
-
  return !!(
   firebaseConfig.apiKey &&
-  !firebaseConfig.apiKey.startsWith("PASTE_") &&
   firebaseConfig.projectId &&
-  !firebaseConfig.projectId.startsWith("PASTE_") &&
-  firebaseConfig.appId &&
-  !firebaseConfig.appId.startsWith("PASTE_")
+  firebaseConfig.appId
  );
-
 }
-
 
 function normalizeDatabase(d){
 
  d=d||{};
 
  return{
-  customers:Array.isArray(d.customers)?d.customers:[],
-  bills:Array.isArray(d.bills)?d.bills:[],
-  users:Array.isArray(d.users)?d.users:[],
-  requests:Array.isArray(d.requests)?d.requests:[],
-  activity:Array.isArray(d.activity)?d.activity:[]
+
+  customers:Array.isArray(d.customers)
+   ?d.customers:[],
+
+  bills:Array.isArray(d.bills)
+   ?d.bills:[],
+
+  users:Array.isArray(d.users)
+   ?d.users:[],
+
+  requests:Array.isArray(d.requests)
+   ?d.requests:[],
+
+  activity:Array.isArray(d.activity)
+   ?d.activity:[]
+
  };
 
 }
@@ -1587,11 +1803,7 @@ function showCloudStatus(message){
   el.id="cloudStatus";
 
   el.style.cssText=
-   "position:fixed;left:20px;bottom:20px;z-index:199;" +
-   "padding:9px 12px;border-radius:10px;" +
-   "background:#102840;border:1px solid var(--border);" +
-   "color:#dbeafe;font-size:12px;" +
-   "box-shadow:0 12px 35px #0005";
+   "position:fixed;left:20px;bottom:20px;z-index:199;padding:9px 12px;border-radius:10px;background:#102840;border:1px solid var(--border);color:#dbeafe;font-size:12px;box-shadow:0 12px 35px #0005";
 
   document.body.appendChild(el);
 
@@ -1599,14 +1811,16 @@ function showCloudStatus(message){
 
  el.textContent=message;
 
- const inline=
-  document.getElementById("cloudStatusInline");
+ const inline=document.getElementById("cloudStatusInline");
 
  if(inline)
   inline.textContent=message;
 
 }
 
+
+/* Keep the existing five Firestore documents.
+   This avoids breaking the existing database structure. */
 
 async function startFirebaseSync(){
 
@@ -1641,48 +1855,59 @@ async function startFirebaseSync(){
   ];
 
 
-  const mainSnap=
-   await root.doc("main").get();
+  /* Migration support for the previous main document */
 
+  try{
 
-  if(mainSnap.exists){
+   const mainSnap=
+    await root.doc("main").get();
 
-   const oldData=
-    normalizeDatabase(mainSnap.data());
+   if(mainSnap.exists){
 
-   for(const name of names){
+    const oldData=
+     normalizeDatabase(mainSnap.data());
 
-    const snap=
-     await root.doc(name).get();
+    for(const name of names){
 
-    if(!snap.exists){
+     const snap=
+      await root.doc(name).get();
 
-     await root.doc(name).set({
-      items:oldData[name]||[]
-     });
+     if(!snap.exists){
+
+      await root.doc(name).set({
+       items:oldData[name]||[]
+      });
+
+     }
+
+    }
+
+   }else{
+
+    for(const name of names){
+
+     const snap=
+      await root.doc(name).get();
+
+     if(!snap.exists){
+
+      await root.doc(name).set({
+       items:Array.isArray(database[name])
+        ?database[name]:[]
+      });
+
+     }
 
     }
 
    }
 
-  }else{
+  }catch(migrationError){
 
-   for(const name of names){
-
-    const snap=
-     await root.doc(name).get();
-
-    if(!snap.exists){
-
-     await root.doc(name).set({
-      items:Array.isArray(database[name])
-       ?database[name]
-       :[]
-     });
-
-    }
-
-   }
+   console.warn(
+    "Migration check:",
+    migrationError
+   );
 
   }
 
@@ -1690,38 +1915,21 @@ async function startFirebaseSync(){
   names.forEach(name=>{
 
    root.doc(name).onSnapshot(
+
     snap=>{
 
      if(snap.exists){
 
-      const data=
-       snap.data()||{};
+      const data=snap.data()||{};
 
       database[name]=
        Array.isArray(data.items)
-        ?data.items
-        :[];
+        ?data.items:[];
 
       localStorage.setItem(
        STORAGE_KEY,
        JSON.stringify(database)
       );
-
-      updateDashboard();
-      renderCustomerList();
-      renderA4CustomerSlots();
-
-      if(
-       typeof renderAccess==="function" &&
-       currentUserIsOwner()
-      )
-       renderAccess();
-
-      if(
-       typeof renderActivity==="function" &&
-       currentUserIsOwner()
-      )
-       renderActivity();
 
      }
 
@@ -1730,6 +1938,8 @@ async function startFirebaseSync(){
      showCloudStatus(
       "☁️ Cloud connected • Live sync ON"
      );
+
+     updateEverything();
 
     },
 
@@ -1740,8 +1950,13 @@ async function startFirebaseSync(){
       err
      );
 
+     /*
+       Do not destroy local data when a cloud read
+       temporarily fails.
+     */
+
      showCloudStatus(
-      "❌ Cloud read failed"
+      "⚠️ Cloud connection waiting..."
      );
 
     }
@@ -1757,7 +1972,6 @@ async function startFirebaseSync(){
    "☁️ Cloud connected • Live sync ON"
   );
 
-
  }catch(err){
 
   console.error(
@@ -1768,7 +1982,7 @@ async function startFirebaseSync(){
   firebaseReady=false;
 
   showCloudStatus(
-   "❌ Firebase connection error"
+   "⚠️ Cloud connection waiting..."
   );
 
  }
@@ -1794,13 +2008,22 @@ async function cloudSaveDatabase(){
   ];
 
   await Promise.all(
+
    names.map(name=>
+
     root.doc(name).set({
+
      items:Array.isArray(database[name])
-      ?database[name]
-      :[]
+      ?database[name]:[]
+
     })
+
    )
+
+  );
+
+  showCloudStatus(
+   "☁️ Cloud connected • Saved"
   );
 
  }catch(err){
@@ -1811,11 +2034,7 @@ async function cloudSaveDatabase(){
   );
 
   showCloudStatus(
-   "❌ Cloud save failed"
-  );
-
-  toast(
-   "Cloud save failed. Check your internet connection."
+   "⚠️ Local data saved • Cloud retrying"
   );
 
  }
@@ -1827,59 +2046,32 @@ async function cloudSaveDatabase(){
 
 <script>
 
-/* =====================================================
-   LOGIN SETTINGS
-===================================================== */
-
-/*
-  OWNER LOGIN
-
-  Owner ID:
-  ACHALKUMAR
-
-  Owner Password:
-  31122
-
-  Owner Security Code:
-  11223
-*/
+/* =========================================================
+   MAIN APPLICATION
+   ========================================================= */
 
 const OWNER_ID="ACHALKUMAR";
-
 const OWNER_PASSWORD="31122";
-
 const OWNER_SECURITY_CODE="11223";
-
-
-/*
-  IMPORTANT:
-  Employee passwords are stored in the browser/Firebase
-  by this demo system.
-
-  For real business security, Firebase Authentication
-  should be used instead of client-side passwords.
-*/
-
 
 const STORAGE_KEY=
  "dhanalakshmi_milk_dairy_database_v2";
 
-
-let database=
- loadDatabase();
+let database=loadDatabase();
 
 let currentCustomer=null;
-
 let currentLogin="";
-
 let currentRole="";
+let loginMode="owner";
+
+let securityCodeMode=false;
 
 let a4CustomerCodes=[];
 
+let activityCurrentFilter="all";
 
-/* =====================================================
-   DATABASE
-===================================================== */
+let passwordTargetId="";
+
 
 function loadDatabase(){
 
@@ -1890,10 +2082,7 @@ function loadDatabase(){
     localStorage.getItem(STORAGE_KEY)
    );
 
-  if(
-   d &&
-   Array.isArray(d.customers)
-  )
+  if(d&&Array.isArray(d.customers))
    return normalizeDatabase(d);
 
  }catch(e){
@@ -1923,94 +2112,133 @@ function saveDatabase(){
   JSON.stringify(database)
  );
 
- updateDashboard();
+ updateEverything();
 
  cloudSaveDatabase();
 
 }
 
 
-/* =====================================================
-   LOGIN TYPE
-===================================================== */
+function updateEverything(){
 
-function selectLoginType(type){
+ updateDashboard();
 
- currentRole=type;
+ renderCustomerList();
 
- const ownerBox=
-  document.getElementById(
-   "ownerLoginBox"
-  );
+ renderA4CustomerSlots();
 
- const employeeBox=
-  document.getElementById(
-   "employeeLoginBox"
-  );
+ updateNotificationCount();
 
- const ownerTab=
-  document.getElementById(
-   "ownerTab"
-  );
+ if(currentUserIsOwner()){
 
- const employeeTab=
-  document.getElementById(
-   "employeeTab"
-  );
-
-
- if(type==="owner"){
-
-  ownerBox.classList.remove("hidden");
-  employeeBox.classList.add("hidden");
-
-  ownerTab.classList.add("active");
-  employeeTab.classList.remove("active");
-
-  document.getElementById(
-   "ownerIdInput"
-  ).focus();
-
- }else{
-
-  ownerBox.classList.add("hidden");
-  employeeBox.classList.remove("hidden");
-
-  ownerTab.classList.remove("active");
-  employeeTab.classList.add("active");
-
-  document.getElementById(
-   "employeeIdInput"
-  ).focus();
+  renderAccess();
+  renderActivity();
 
  }
+
+ renderDashboardAnnouncements();
+
+}
+
+
+function currentUserIsOwner(){
+
+ return currentRole==="owner";
+
+}
+
+
+/* =========================================================
+   LOGIN MODE
+   ========================================================= */
+
+function selectLoginMode(mode){
+
+ loginMode=mode;
+
+ securityCodeMode=false;
+
+ document.getElementById(
+  "securityCodeInput"
+ ).classList.add("hidden");
+
+ document.getElementById(
+  "securityCodeNote"
+ ).classList.add("hidden");
 
  document.getElementById(
   "loginError"
  ).textContent="";
 
+
+ const owner=
+  document.getElementById(
+   "ownerLoginChoice"
+  );
+
+ const employee=
+  document.getElementById(
+   "employeeLoginChoice"
+  );
+
+
+ owner.classList.toggle(
+  "active",
+  mode==="owner"
+ );
+
+ employee.classList.toggle(
+  "active",
+  mode==="employee"
+ );
+
+
+ document.getElementById(
+  "loginIdInput"
+ ).placeholder=
+  mode==="owner"
+   ?"Owner Login ID"
+   :"Employee Login ID";
+
+
+ document.getElementById(
+  "passwordInput"
+ ).placeholder=
+  mode==="owner"
+   ?"Owner Password"
+   :"Employee Password";
+
+
+ document.getElementById(
+  "employeeRegisterBox"
+ ).classList.toggle(
+  "hidden",
+  mode!=="employee"
+ );
+
+
 }
 
 
-/* =====================================================
-   OWNER LOGIN
-===================================================== */
+/* =========================================================
+   LOGIN
+   ========================================================= */
 
-function ownerLogin(){
+function login(){
 
  const id=
   document.getElementById(
-   "ownerIdInput"
+   "loginIdInput"
   ).value.trim().toUpperCase();
 
- const password=
+ const pass=
   document.getElementById(
-   "ownerPasswordInput"
+   "passwordInput"
   ).value;
 
- const security=
+ const securityCode=
   document.getElementById(
-   "ownerSecurityInput"
+   "securityCodeInput"
   ).value.trim();
 
  const err=
@@ -2019,101 +2247,90 @@ function ownerLogin(){
   );
 
 
- if(!id||!password||!security){
+ if(!id||!pass){
 
   err.textContent=
-   "Enter Owner ID, Password and Security Code.";
+   "Enter Login ID and Password.";
 
   return;
 
  }
 
 
- if(id!==OWNER_ID){
+ /* OWNER */
 
-  err.textContent=
-   "Incorrect Owner Login ID.";
+ if(loginMode==="owner"){
 
-  return;
+  if(id!==OWNER_ID){
 
- }
+   err.textContent=
+    "Use Employee Login for an employee account.";
 
+   return;
 
- if(password!==OWNER_PASSWORD){
-
-  err.textContent=
-   "Incorrect Owner Password.";
-
-  return;
-
- }
+  }
 
 
- if(security!==OWNER_SECURITY_CODE){
+  if(pass!==OWNER_PASSWORD){
 
-  err.textContent=
-   "Incorrect Owner Security Code.";
+   err.textContent=
+    "Incorrect Owner password.";
 
-  return;
+   return;
 
- }
-
-
- currentLogin=OWNER_ID;
-
- currentRole="owner";
-
- enterApp();
-
- logAction(
-  "OWNER LOGIN",
-  "Owner login successful."
- );
-
-}
+  }
 
 
-/* =====================================================
-   EMPLOYEE LOGIN
-===================================================== */
+  if(!securityCodeMode){
 
-function employeeLogin(){
+   securityCodeMode=true;
 
- const id=
-  document.getElementById(
-   "employeeIdInput"
-  ).value.trim().toUpperCase();
+   document.getElementById(
+    "securityCodeInput"
+   ).classList.remove("hidden");
 
- const password=
-  document.getElementById(
-   "employeePasswordInput"
-  ).value;
+   document.getElementById(
+    "securityCodeNote"
+   ).classList.remove("hidden");
 
- const err=
-  document.getElementById(
-   "loginError"
+   document.getElementById(
+    "securityCodeInput"
+   ).focus();
+
+   err.textContent="";
+
+   return;
+
+  }
+
+
+  if(securityCode!==OWNER_SECURITY_CODE){
+
+   err.textContent=
+    "Incorrect Owner Security Code.";
+
+   return;
+
+  }
+
+
+  currentLogin=OWNER_ID;
+  currentRole="owner";
+
+  enterApp();
+
+  logAction(
+   "login",
+   "OWNER LOGIN",
+   "Owner login successful."
   );
 
-
- if(!id||!password){
-
-  err.textContent=
-   "Enter Employee Login ID and Password.";
-
   return;
 
  }
 
 
- if(id===OWNER_ID){
-
-  err.textContent=
-   "Use OWNER LOGIN for the owner account.";
-
-  return;
-
- }
-
+ /* EMPLOYEE */
 
  const user=
   database.users.find(
@@ -2123,119 +2340,66 @@ function employeeLogin(){
   );
 
 
- if(user){
+ if(!user){
 
-  /*
-    Existing old approved accounts may not have
-    a password because the previous version used
-    one common password.
-
-    Their first password can be set by the owner
-    in the database or migrated manually.
-  */
-
-  if(
-   user.password &&
-   user.password!==password
-  ){
-
-   err.textContent=
-    "Incorrect employee password.";
-
-   return;
-
-  }
-
-
-  if(!user.password){
-
-   err.textContent=
-    "This employee account has no password set. Ask the owner to approve/create it again.";
-
-   return;
-
-  }
-
-
-  currentLogin=id;
-
-  currentRole="employee";
-
-  enterApp();
-
-  logAction(
-   "EMPLOYEE LOGIN",
-   "Employee logged in."
-  );
-
-  return;
-
- }
-
-
- const existingRequest=
-  database.requests.find(
-   r=>
-    String(r.id).toUpperCase()===id
-  );
-
-
- if(
-  existingRequest &&
-  existingRequest.status==="pending"
- ){
-
-  err.textContent=
-   "Access request is already waiting for owner approval.";
-
-  return;
-
- }
-
-
- if(
-  existingRequest &&
-  existingRequest.status==="rejected"
- ){
-
-  database.requests=
-   database.requests.filter(
-    r=>String(r.id).toUpperCase()!==id
+  const pending=
+   database.requests.find(
+    r=>
+     r.kind==="employee" &&
+     String(r.id).toUpperCase()===id &&
+     r.status==="pending"
    );
 
+
+  if(pending){
+
+   err.textContent=
+    "Your employee request is waiting for Owner approval.";
+
+   return;
+
+  }
+
+
+  err.textContent=
+   "Employee not approved. Use REQUEST EMPLOYEE ACCESS.";
+
+  return;
+
  }
 
 
- database.requests.push({
-
-  id:id,
-
-  name:id,
-
-  password:password,
-
-  status:"pending",
-
-  date:new Date().toISOString()
-
- });
+ const savedPassword=
+  user.password||"";
 
 
- saveDatabase();
+ if(savedPassword!==pass){
 
- err.textContent=
-  "Access request sent. Owner approval is required.";
+  err.textContent=
+   "Incorrect employee password.";
 
- document.getElementById(
-  "employeePasswordInput"
- ).value="";
+  return;
+
+ }
+
+
+ currentLogin=user.id;
+ currentRole="employee";
+
+ enterApp();
+
+ logAction(
+  "login",
+  "EMPLOYEE LOGIN",
+  "Employee logged in."
+ );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ENTER APP
-===================================================== */
+   ========================================================= */
 
 function enterApp(){
 
@@ -2259,6 +2423,7 @@ function enterApp(){
   "loginScreen"
  ).classList.add("hidden");
 
+
  document.getElementById(
   "app"
  ).classList.remove("hidden");
@@ -2266,15 +2431,36 @@ function enterApp(){
 
  document.getElementById(
   "loggedInAs"
+ ).textContent=currentLogin;
+
+
+ document.getElementById(
+  "roleLabel"
  ).textContent=
   currentRole==="owner"
-   ?currentLogin+" 👑 OWNER"
-   :currentLogin+" 👷 EMPLOYEE";
+   ?"OWNER"
+   :"EMPLOYEE";
+
+
+ document.getElementById(
+  "ownerWelcome"
+ ).classList.toggle(
+  "hidden",
+  currentRole!=="owner"
+ );
+
+
+ document.getElementById(
+  "employeeWelcome"
+ ).classList.toggle(
+  "hidden",
+  currentRole!=="employee"
+ );
 
 
  setOwnerUI();
 
- updateDashboard();
+ updateEverything();
 
  buildWeekGrid();
 
@@ -2283,32 +2469,37 @@ function enterApp(){
 }
 
 
-function currentUserIsOwner(){
-
- return currentRole==="owner" &&
-        currentLogin===OWNER_ID;
-
-}
-
-
 function setOwnerUI(){
 
- document
-  .querySelectorAll(
-   ".owner-only,.owner-only-page"
-  )
-  .forEach(
-   x=>
-    x.classList.toggle(
-     "hidden",
-     !currentUserIsOwner()
-    )
+ document.querySelectorAll(
+  ".owner-only,.owner-only-page"
+ ).forEach(x=>{
+
+  x.classList.toggle(
+   "hidden",
+   !currentUserIsOwner()
   );
+
+ });
 
 }
 
 
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
 function logout(){
+
+ if(currentLogin){
+
+  logAction(
+   "login",
+   "LOGOUT",
+   currentLogin+" logged out."
+  );
+
+ }
 
  sessionStorage.clear();
 
@@ -2317,125 +2508,241 @@ function logout(){
 }
 
 
-/* =====================================================
-   LOGIN ENTER KEYS
-===================================================== */
+/* =========================================================
+   KEYBOARD LOGIN
+   ========================================================= */
 
-document
- .getElementById("ownerIdInput")
- .addEventListener(
-  "keydown",
-  e=>{
+document.getElementById(
+ "loginIdInput"
+).addEventListener(
+ "keydown",
+ e=>{
 
-   if(e.key==="Enter"){
+  if(e.key==="Enter"){
 
-    e.preventDefault();
+   e.preventDefault();
 
-    document
-     .getElementById(
-      "ownerPasswordInput"
-     )
-     .focus();
-
-   }
+   document.getElementById(
+    "passwordInput"
+   ).focus();
 
   }
+
+ }
+);
+
+
+document.getElementById(
+ "passwordInput"
+).addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key==="Enter"){
+
+   e.preventDefault();
+
+   login();
+
+  }
+
+ }
+);
+
+
+document.getElementById(
+ "securityCodeInput"
+).addEventListener(
+ "keydown",
+ e=>{
+
+  if(e.key==="Enter"){
+
+   e.preventDefault();
+
+   login();
+
+  }
+
+ }
+);
+
+
+/* =========================================================
+   EMPLOYEE REQUEST
+   ========================================================= */
+
+function openEmployeeRequest(){
+
+ document.getElementById(
+  "employeeRequestModal"
+ ).classList.add("open");
+
+ document.getElementById(
+  "requestEmployeeId"
+ ).value=
+  document.getElementById(
+   "loginIdInput"
+  ).value.trim().toUpperCase();
+
+ document.getElementById(
+  "requestEmployeePassword"
+ ).value="";
+
+ document.getElementById(
+  "requestEmployeeName"
+ ).value="";
+
+ document.getElementById(
+  "requestError"
+ ).textContent="";
+
+}
+
+
+function closeEmployeeRequest(){
+
+ document.getElementById(
+  "employeeRequestModal"
+ ).classList.remove("open");
+
+}
+
+
+function submitEmployeeRequest(){
+
+ const id=
+  document.getElementById(
+   "requestEmployeeId"
+  ).value.trim().toUpperCase();
+
+ const password=
+  document.getElementById(
+   "requestEmployeePassword"
+  ).value;
+
+ const name=
+  document.getElementById(
+   "requestEmployeeName"
+  ).value.trim();
+
+ const error=
+  document.getElementById(
+   "requestError"
+  );
+
+
+ if(!id||!password||!name){
+
+  error.textContent=
+   "Enter Login ID, Password and Employee Name.";
+
+  return;
+
+ }
+
+
+ if(id===OWNER_ID){
+
+  error.textContent=
+   "That Login ID is reserved for Owner.";
+
+  return;
+
+ }
+
+
+ const existing=
+  database.users.find(
+   u=>String(u.id).toUpperCase()===id
+  );
+
+ const pending=
+  database.requests.find(
+   r=>
+    r.kind==="employee" &&
+    String(r.id).toUpperCase()===id &&
+    r.status==="pending"
+  );
+
+
+ if(existing){
+
+  error.textContent=
+   "That employee Login ID already exists.";
+
+  return;
+
+ }
+
+
+ if(pending){
+
+  error.textContent=
+   "That employee request is already pending.";
+
+  return;
+
+ }
+
+
+ database.requests.push({
+
+  id,
+  name,
+  password,
+  kind:"employee",
+  status:"pending",
+  date:new Date().toISOString()
+
+ });
+
+
+ saveDatabase();
+
+ logAction(
+  "access",
+  "EMPLOYEE REQUEST",
+  id+" requested employee access."
  );
 
 
-document
- .getElementById("ownerPasswordInput")
- .addEventListener(
-  "keydown",
-  e=>{
+ closeEmployeeRequest();
 
-   if(e.key==="Enter"){
+ document.getElementById(
+  "loginIdInput"
+ ).value=id;
 
-    e.preventDefault();
+ document.getElementById(
+  "passwordInput"
+ ).value="";
 
-    document
-     .getElementById(
-      "ownerSecurityInput"
-     )
-     .focus();
+ document.getElementById(
+  "loginError"
+ ).textContent=
+  "Request sent. Owner approval is required.";
 
-   }
-
-  }
+ toast(
+  "Employee access request sent."
  );
 
-
-document
- .getElementById("ownerSecurityInput")
- .addEventListener(
-  "keydown",
-  e=>{
-
-   if(e.key==="Enter"){
-
-    e.preventDefault();
-
-    ownerLogin();
-
-   }
-
-  }
- );
+}
 
 
-document
- .getElementById("employeeIdInput")
- .addEventListener(
-  "keydown",
-  e=>{
-
-   if(e.key==="Enter"){
-
-    e.preventDefault();
-
-    document
-     .getElementById(
-      "employeePasswordInput"
-     )
-     .focus();
-
-   }
-
-  }
- );
-
-
-document
- .getElementById("employeePasswordInput")
- .addEventListener(
-  "keydown",
-  e=>{
-
-   if(e.key==="Enter"){
-
-    e.preventDefault();
-
-    employeeLogin();
-
-   }
-
-  }
- );
-
-
-/* =====================================================
+/* =========================================================
    NAVIGATION
-===================================================== */
+   ========================================================= */
 
-document
- .querySelectorAll(".nav-btn")
- .forEach(
-  b=>
-   b.addEventListener(
-    "click",
-    ()=>showPage(b.dataset.page)
-   )
+document.querySelectorAll(
+ ".nav-btn"
+).forEach(b=>{
+
+ b.addEventListener(
+  "click",
+  ()=>showPage(b.dataset.page)
  );
+
+});
 
 
 function showPage(id){
@@ -2452,27 +2759,29 @@ function showPage(id){
  }
 
 
- document
-  .querySelectorAll(".page")
-  .forEach(
-   p=>p.classList.remove("active")
-  );
+ document.querySelectorAll(
+  ".page"
+ ).forEach(
+  p=>p.classList.remove("active")
+ );
 
 
- document
-  .getElementById(id)
-  .classList.add("active");
+ const page=
+  document.getElementById(id);
+
+ if(page)
+  page.classList.add("active");
 
 
- document
-  .querySelectorAll(".nav-btn")
-  .forEach(
-   b=>
-    b.classList.toggle(
-     "active",
-     b.dataset.page===id
-    )
-  );
+ document.querySelectorAll(
+  ".nav-btn"
+ ).forEach(
+  b=>
+   b.classList.toggle(
+    "active",
+    b.dataset.page===id
+   )
+ );
 
 
  if(id==="customers")
@@ -2490,43 +2799,43 @@ function showPage(id){
 }
 
 
-/* =====================================================
+/* =========================================================
    DASHBOARD
-===================================================== */
+   ========================================================= */
 
 function updateDashboard(){
 
  let milk=0;
-
  let credit=0;
 
- let today=new Date();
+ const today=new Date();
 
- let cycle=getCurrentCycle();
+ const cycle=
+  getCurrentCycle();
 
 
  database.customers.forEach(c=>{
 
   const r=
-   (c.milkRecords||[])
-   .find(
+   (c.milkRecords||[]).find(
     x=>x.startDate===cycle.start
    );
-
 
   if(r){
 
    const i=
-    findDayIndex(r.days,today);
-
+    findDayIndex(
+     r.days,
+     today
+    );
 
    if(i>=0){
 
     milk+=
-     (+r.days[i].morning||0);
+     Number(r.days[i].morning)||0;
 
     milk+=
-     (+r.days[i].evening||0);
+     Number(r.days[i].evening)||0;
 
    }
 
@@ -2567,26 +2876,485 @@ function updateDashboard(){
   "cycleInfo"
  ).innerHTML=
   `<b style="font-size:22px">
-   ${formatDate(cycle.start)}
-   →
-   ${formatDate(cycle.end)}
-  </b>
-  <div style="color:var(--muted);margin-top:7px">
-   Thursday → Wednesday
-  </div>`;
+    ${formatDate(cycle.start)}
+    →
+    ${formatDate(cycle.end)}
+   </b>
+   <div style="color:var(--muted);margin-top:7px">
+    Thursday → Wednesday
+   </div>`;
 
 }
 
 
-/* =====================================================
-   CUSTOMER MANAGEMENT
-===================================================== */
+/* =========================================================
+   ANNOUNCEMENTS
+   ========================================================= */
+
+function getAnnouncements(){
+
+ return database.requests
+  .filter(
+   x=>
+    x.kind==="announcement" &&
+    x.deleted!==true
+  )
+  .sort(
+   (a,b)=>
+    new Date(b.date)-new Date(a.date)
+  );
+
+}
+
+
+function renderDashboardAnnouncements(){
+
+ const box=
+  document.getElementById(
+   "dashboardAnnouncements"
+  );
+
+ if(!box)return;
+
+ const list=
+  getAnnouncements();
+
+ if(!list.length){
+
+  box.innerHTML=
+   `<p style="color:var(--muted)">
+     No announcements.
+    </p>`;
+
+  return;
+
+ }
+
+
+ box.innerHTML=
+  list.slice(0,5).map(
+   a=>
+    `<div class="notification">
+      <div class="notification-title">
+       📢 ${escapeHtml(a.title||"Owner Announcement")}
+      </div>
+      <div>
+       ${escapeHtml(a.message||"")}
+      </div>
+      <div class="notification-time">
+       ${formatDateTime(a.date)}
+      </div>
+     </div>`
+  ).join("");
+
+}
+
+
+function sendAnnouncement(){
+
+ if(!currentUserIsOwner())
+  return toast("Owner access required.");
+
+ const text=
+  document.getElementById(
+   "announcementText"
+  ).value.trim();
+
+ if(!text)
+  return toast("Write an announcement first.");
+
+
+ database.requests.push({
+
+  id:"ANN-"+Date.now(),
+
+  kind:"announcement",
+
+  title:"Owner Announcement",
+
+  message:text,
+
+  date:new Date().toISOString(),
+
+  deleted:false
+
+ });
+
+
+ saveDatabase();
+
+ logAction(
+  "notifications",
+  "ANNOUNCEMENT",
+  text
+ );
+
+
+ document.getElementById(
+  "announcementText"
+ ).value="";
+
+
+ renderAccess();
+
+ toast(
+  "Announcement sent to employees."
+ );
+
+}
+
+
+function renderOwnerAnnouncements(){
+
+ const box=
+  document.getElementById(
+   "ownerAnnouncements"
+  );
+
+ if(!box)return;
+
+ const list=getAnnouncements();
+
+ if(!list.length){
+
+  box.innerHTML=
+   `<p style="color:var(--muted)">
+     No announcements yet.
+    </p>`;
+
+  return;
+
+ }
+
+
+ box.innerHTML=
+  list.map(
+   a=>
+    `<div class="notification">
+
+      <div class="notification-title">
+       📢 ${escapeHtml(a.title||"Announcement")}
+      </div>
+
+      <div>
+       ${escapeHtml(a.message||"")}
+      </div>
+
+      <div class="notification-time">
+       ${formatDateTime(a.date)}
+      </div>
+
+      <div class="form-actions">
+
+       <button class="btn red"
+        style="padding:7px 10px"
+        onclick="deleteAnnouncement('${escapeJs(a.id)}')">
+        🗑️ DELETE
+       </button>
+
+      </div>
+
+     </div>`
+  ).join("");
+
+}
+
+
+function deleteAnnouncement(id){
+
+ if(!currentUserIsOwner())
+  return toast("Owner access required.");
+
+ const item=
+  database.requests.find(
+   x=>x.id===id &&
+      x.kind==="announcement"
+  );
+
+ if(!item)return;
+
+ item.deleted=true;
+
+ saveDatabase();
+
+ logAction(
+  "notifications",
+  "DELETE ANNOUNCEMENT",
+  id
+ );
+
+ renderOwnerAnnouncements();
+
+ toast("Announcement deleted.");
+
+}
+
+
+/* =========================================================
+   NOTIFICATION CENTER
+   ========================================================= */
+
+function getMyNotifications(){
+
+ const list=
+  database.requests.filter(
+   x=>
+    (
+     x.kind==="announcement" ||
+     x.kind==="notification"
+    ) &&
+    x.deleted!==true &&
+    (
+     !x.target ||
+     x.target==="ALL" ||
+     x.target===currentLogin
+    )
+  );
+
+
+ return list.sort(
+  (a,b)=>
+   new Date(b.date)-new Date(a.date)
+ );
+
+}
+
+
+function updateNotificationCount(){
+
+ const el=
+  document.getElementById(
+   "notificationCount"
+  );
+
+ if(!el)return;
+
+ const unread=
+  getMyNotifications().filter(
+   x=>
+    !Array.isArray(x.readBy) ||
+    !x.readBy.includes(currentLogin)
+  ).length;
+
+ el.textContent=unread;
+
+}
+
+
+function openNotifications(){
+
+ renderNotifications();
+
+ document.getElementById(
+  "notificationModal"
+ ).classList.add("open");
+
+}
+
+
+function closeNotifications(){
+
+ document.getElementById(
+  "notificationModal"
+ ).classList.remove("open");
+
+}
+
+
+function renderNotifications(){
+
+ const box=
+  document.getElementById(
+   "notificationList"
+  );
+
+ const list=
+  getMyNotifications();
+
+ if(!list.length){
+
+  box.innerHTML=
+   `<p style="color:var(--muted)">
+     No notifications.
+    </p>`;
+
+  return;
+
+ }
+
+
+ box.innerHTML=
+  list.map(
+   n=>{
+
+    const unread=
+     !Array.isArray(n.readBy) ||
+     !n.readBy.includes(currentLogin);
+
+    return `
+     <div class="notification ${unread?"unread":""}">
+
+      <div class="notification-title">
+       ${n.kind==="announcement"?"📢":"🔔"}
+       ${escapeHtml(n.title||"Notification")}
+      </div>
+
+      <div>
+       ${escapeHtml(n.message||"")}
+      </div>
+
+      <div class="notification-time">
+       ${formatDateTime(n.date)}
+      </div>
+
+      <div class="form-actions">
+
+       ${
+        unread
+        ?
+        `<button class="btn green"
+          style="padding:7px 10px"
+          onclick="markNotificationRead('${escapeJs(n.id)}')">
+          ✓ MARK READ
+         </button>`
+        :
+        `<span class="badge green">
+          READ
+         </span>`
+       }
+
+       <button class="btn red"
+        style="padding:7px 10px"
+        onclick="deleteMyNotification('${escapeJs(n.id)}')">
+        🗑️ DELETE
+       </button>
+
+      </div>
+
+     </div>
+    `;
+
+   }
+  ).join("");
+
+}
+
+
+function markNotificationRead(id){
+
+ const n=
+  database.requests.find(
+   x=>x.id===id
+  );
+
+ if(!n)return;
+
+ if(!Array.isArray(n.readBy))
+  n.readBy=[];
+
+ if(!n.readBy.includes(currentLogin))
+  n.readBy.push(currentLogin);
+
+ saveDatabase();
+
+ logAction(
+  "notifications",
+  "READ NOTIFICATION",
+  id
+ );
+
+ renderNotifications();
+
+ updateNotificationCount();
+
+}
+
+
+function deleteMyNotification(id){
+
+ const n=
+  database.requests.find(
+   x=>x.id===id
+  );
+
+ if(!n)return;
+
+ if(!Array.isArray(n.deletedFor))
+  n.deletedFor=[];
+
+ if(!n.deletedFor.includes(currentLogin))
+  n.deletedFor.push(currentLogin);
+
+
+ n.deleted=true;
+
+ saveDatabase();
+
+ logAction(
+  "notifications",
+  "DELETE NOTIFICATION",
+  id
+ );
+
+ renderNotifications();
+
+ updateNotificationCount();
+
+}
+
+
+function deleteAllMyNotifications(){
+
+ const list=
+  getMyNotifications();
+
+ if(!list.length)
+  return toast("No notifications.");
+
+ if(!confirm(
+  "Delete all your notifications?"
+ ))return;
+
+
+ list.forEach(n=>{
+
+  if(!Array.isArray(n.deletedFor))
+   n.deletedFor=[];
+
+  if(!n.deletedFor.includes(currentLogin))
+   n.deletedFor.push(currentLogin);
+
+  n.deleted=true;
+
+ });
+
+
+ saveDatabase();
+
+ logAction(
+  "notifications",
+  "DELETE ALL NOTIFICATIONS",
+  currentLogin
+ );
+
+ renderNotifications();
+
+ updateNotificationCount();
+
+ toast("All notifications deleted.");
+
+}
+
+
+/* =========================================================
+   CUSTOMER
+   ========================================================= */
 
 function openAddCustomer(){
 
- document
-  .getElementById("customerModal")
-  .classList.add("open");
+ document.getElementById(
+  "customerModal"
+ ).classList.add("open");
 
 
  [
@@ -2598,18 +3366,15 @@ function openAddCustomer(){
  );
 
 
- document
-  .getElementById(
-   "newCustomerPricingType"
-  ).value="fixed";
+ document.getElementById(
+  "newCustomerPricingType"
+ ).value="fixed";
 
 
  setTimeout(
-  ()=>document
-   .getElementById(
-    "newCustomerCode"
-   )
-   .focus(),
+  ()=>document.getElementById(
+   "newCustomerCode"
+  ).focus(),
  100
  );
 
@@ -2618,11 +3383,9 @@ function openAddCustomer(){
 
 function closeModal(){
 
- document
-  .getElementById(
-   "customerModal"
-  )
-  .classList.remove("open");
+ document.getElementById(
+  "customerModal"
+ ).classList.remove("open");
 
 }
 
@@ -2630,43 +3393,31 @@ function closeModal(){
 function saveCustomer(){
 
  const code=
-  document
-   .getElementById(
-    "newCustomerCode"
-   )
-   .value.trim();
+  document.getElementById(
+   "newCustomerCode"
+  ).value.trim();
 
  const name=
-  document
-   .getElementById(
-    "newCustomerName"
-   )
-   .value.trim();
+  document.getElementById(
+   "newCustomerName"
+  ).value.trim();
 
  const pricingType=
-  document
-   .getElementById(
-    "newCustomerPricingType"
-   )
-   .value;
+  document.getElementById(
+   "newCustomerPricingType"
+  ).value;
 
 
- if(!code||!name){
-
+ if(!code||!name)
   return toast(
    "Customer Code and Name are required."
   );
 
- }
 
-
- if(getCustomer(code)){
-
+ if(getCustomer(code))
   return toast(
    "Customer Code already exists."
   );
-
- }
 
 
  const c={
@@ -2676,7 +3427,6 @@ function saveCustomer(){
   pricingType,
 
   milkRecords:[],
-
   creditTransactions:[],
 
   createdAt:
@@ -2690,6 +3440,7 @@ function saveCustomer(){
  saveDatabase();
 
  logAction(
+  "customers",
   "ADD CUSTOMER",
   `${code} - ${name}`
  );
@@ -2709,8 +3460,7 @@ function getCustomer(code){
 
  return database.customers.find(
   c=>
-   c.code===
-   String(code).trim()
+   c.code===String(code).trim()
  );
 
 }
@@ -2719,11 +3469,9 @@ function getCustomer(code){
 function searchCustomer(){
 
  const code=
-  document
-   .getElementById(
-    "customerSearch"
-   )
-   .value.trim();
+  document.getElementById(
+   "customerSearch"
+  ).value.trim();
 
  if(code)
   openCustomer(code);
@@ -2736,11 +3484,9 @@ function searchCustomer(){
 function focusSearch(){
 
  setTimeout(
-  ()=>document
-   .getElementById(
-    "customerSearch"
-   )
-   .focus(),
+  ()=>document.getElementById(
+   "customerSearch"
+  ).focus(),
  100
  );
 
@@ -2751,14 +3497,8 @@ function openCustomer(code){
 
  const c=getCustomer(code);
 
- if(!c){
-
-  toast("Customer not found.");
-
-  return;
-
- }
-
+ if(!c)
+  return toast("Customer not found.");
 
  currentCustomer=c;
 
@@ -2773,115 +3513,99 @@ function openCustomer(code){
  p.classList.remove("hidden");
 
 
- p.innerHTML=
+ p.innerHTML=`
 
- `<div class="customer-header">
+  <div class="customer-header">
 
-  <div>
+   <div>
 
-   <div class="customer-code">
-    CUSTOMER CODE:
-    ${escapeHtml(c.code)}
-   </div>
+    <div class="customer-code">
+     CUSTOMER CODE:
+     ${escapeHtml(c.code)}
+    </div>
 
-   <div class="customer-name">
-    ${escapeHtml(c.name)}
-   </div>
+    <div class="customer-name">
+     ${escapeHtml(c.name)}
+    </div>
 
-   <div style="color:var(--muted);font-size:13px;margin-top:5px">
+    <div style="color:var(--muted);font-size:13px;margin-top:5px">
 
-    ${
-     c.pricingType==="fat"
+     ${
+      c.pricingType==="fat"
       ?"🥛 Fat Based Pricing"
       :"💰 Fixed Price"
-    }
+     }
+
+    </div>
+
+   </div>
+
+
+   <div class="balance">
+
+    <small>
+     OUTSTANDING BALANCE
+    </small>
+
+    <strong class="${
+     bal<0?"negative":"positive"
+    }">
+
+     ${formatBalance(bal)}
+
+    </strong>
 
    </div>
 
   </div>
 
-  <div class="balance">
 
-   <small>
-    OUTSTANDING BALANCE
-   </small>
+  <div class="tabs">
 
-   <strong
-    class="${bal<0?"negative":"positive"}">
+   <button class="tab-btn active"
+    onclick="openCustomerTab('overview',this)">
+    Overview
+   </button>
 
-    ${formatBalance(bal)}
+   <button class="tab-btn"
+    onclick="openCustomerTab('milkHistory',this)">
+    🥛 Milk
+   </button>
 
-   </strong>
+   <button class="tab-btn"
+    onclick="openCustomerTab('creditHistory',this)">
+    💰 Credit
+   </button>
+
+   <button class="tab-btn"
+    onclick="openCustomerTab('billHistory',this)">
+    🧾 Bills
+   </button>
 
   </div>
 
- </div>
 
+  <div id="overview"
+       class="tab-content active">
+   ${customerOverview(c)}
+  </div>
 
- <div class="tabs">
+  <div id="milkHistory"
+       class="tab-content">
+   ${milkHistory(c)}
+  </div>
 
-  <button
-   class="tab-btn active"
-   onclick="openCustomerTab('overview',this)">
-   Overview
-  </button>
+  <div id="creditHistory"
+       class="tab-content">
+   ${creditHistory(c)}
+  </div>
 
-  <button
-   class="tab-btn"
-   onclick="openCustomerTab('milkHistory',this)">
-   🥛 Milk
-  </button>
+  <div id="billHistory"
+       class="tab-content">
+   ${billHistory(c)}
+  </div>
 
-  <button
-   class="tab-btn"
-   onclick="openCustomerTab('creditHistory',this)">
-   💰 Credit
-  </button>
-
-  <button
-   class="tab-btn"
-   onclick="openCustomerTab('billHistory',this)">
-   🧾 Bills
-  </button>
-
- </div>
-
-
- <div
-  id="overview"
-  class="tab-content active">
-
-  ${customerOverview(c)}
-
- </div>
-
-
- <div
-  id="milkHistory"
-  class="tab-content">
-
-  ${milkHistory(c)}
-
- </div>
-
-
- <div
-  id="creditHistory"
-  class="tab-content">
-
-  ${creditHistory(c)}
-
- </div>
-
-
- <div
-  id="billHistory"
-  class="tab-content">
-
-  ${billHistory(c)}
-
- </div>`;
-
+ `;
 
  renderCustomerList();
 
@@ -2890,28 +3614,21 @@ function openCustomer(code){
 
 function openCustomerTab(id,b){
 
- document
-  .querySelectorAll(
-   "#customerProfile .tab-content"
-  )
-  .forEach(
-   x=>x.classList.remove("active")
-  );
+ document.querySelectorAll(
+  "#customerProfile .tab-content"
+ ).forEach(
+  x=>x.classList.remove("active")
+ );
 
+ document.querySelectorAll(
+  "#customerProfile .tab-btn"
+ ).forEach(
+  x=>x.classList.remove("active")
+ );
 
- document
-  .querySelectorAll(
-   "#customerProfile .tab-btn"
-  )
-  .forEach(
-   x=>x.classList.remove("active")
-  );
-
-
- document
-  .getElementById(id)
-  .classList.add("active");
-
+ document.getElementById(
+  id
+ ).classList.add("active");
 
  b.classList.add("active");
 
@@ -2921,25 +3638,24 @@ function openCustomerTab(id,b){
 function customerOverview(c){
 
  const r=
-  (c.milkRecords||[])
-   .find(
-    x=>
-     x.startDate===
-     getCurrentCycle().start
-   );
+  (c.milkRecords||[]).find(
+   x=>x.startDate===getCurrentCycle().start
+  );
 
  const bal=
   calculateCustomerBalance(c);
 
 
- return`
+ return `
 
  <div class="stats">
 
   <div class="stat">
    <span>CURRENT 7-DAY MILK</span>
    <strong>
-    ${formatNumber(r?getRecordTotal(r):0)} L
+    ${formatNumber(
+     r?getRecordTotal(r):0
+    )} L
    </strong>
   </div>
 
@@ -2973,39 +3689,36 @@ function customerOverview(c){
 
   <div class="form-actions">
 
-   <button
-    class="btn"
+   <button class="btn"
     onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">
     🥛 Enter Milk
    </button>
 
-   <button
-    class="btn yellow"
+   <button class="btn yellow"
     onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">
     💰 Add Credit
    </button>
 
-   <button
-    class="btn green"
+   <button class="btn green"
     onclick="prepareBillForCustomer('${escapeJs(c.code)}')">
     🧾 View Bill
    </button>
 
-   <button
-    class="btn dark"
+   <button class="btn dark"
     onclick="printCustomerBills('${escapeJs(c.code)}')">
     🖨️ Print
    </button>
 
-   <button
-    class="btn red"
+   <button class="btn red"
     onclick="deleteCustomerProfile('${escapeJs(c.code)}')">
     🗑️ DELETE CUSTOMER
    </button>
 
   </div>
 
- </div>`;
+ </div>
+
+ `;
 
 }
 
@@ -3013,12 +3726,15 @@ function customerOverview(c){
 function milkHistory(c){
 
  if(!(c.milkRecords||[]).length)
-  return `<p style="color:var(--muted)">
-   No milk records.
-  </p>`;
+
+  return `
+   <p style="color:var(--muted)">
+    No milk records.
+   </p>
+  `;
 
 
- return`
+ return `
 
  <div class="table-wrap">
 
@@ -3033,36 +3749,23 @@ function milkHistory(c){
  </tr>
 
  ${
-  c.milkRecords.map(r=>
-
-   `<tr>
-
-    <td>Thu → Wed</td>
-
-    <td>
-     ${formatDate(r.startDate)}
-    </td>
-
-    <td>
-     ${formatDate(r.endDate)}
-    </td>
-
-    <td>
-     ${formatNumber(getRecordTotal(r))} L
-    </td>
-
-    <td>
-     ${money(calculateMilkBill(r))}
-    </td>
-
-   </tr>`
-
+  c.milkRecords.map(
+   r=>
+    `<tr>
+      <td>Thu → Wed</td>
+      <td>${formatDate(r.startDate)}</td>
+      <td>${formatDate(r.endDate)}</td>
+      <td>${formatNumber(getRecordTotal(r))} L</td>
+      <td>${money(calculateMilkBill(r))}</td>
+     </tr>`
   ).join("")
  }
 
  </table>
 
- </div>`;
+ </div>
+
+ `;
 
 }
 
@@ -3070,12 +3773,15 @@ function milkHistory(c){
 function creditHistory(c){
 
  if(!(c.creditTransactions||[]).length)
-  return `<p style="color:var(--muted)">
-   No credit records.
-  </p>`;
+
+  return `
+   <p style="color:var(--muted)">
+    No credit records.
+   </p>
+  `;
 
 
- return`
+ return `
 
  <div class="table-wrap">
 
@@ -3088,30 +3794,23 @@ function creditHistory(c){
  </tr>
 
  ${
-  c.creditTransactions.map(t=>
-
-   `<tr>
-
-    <td>
-     ${formatDateTime(t.date)}
-    </td>
-
-    <td>
-     ${escapeHtml(t.reason)}
-    </td>
-
-    <td class="negative">
-     -${money(t.amount)}
-    </td>
-
-   </tr>`
-
+  c.creditTransactions.map(
+   t=>
+    `<tr>
+      <td>${formatDateTime(t.date)}</td>
+      <td>${escapeHtml(t.reason)}</td>
+      <td class="negative">
+       -${money(t.amount)}
+      </td>
+     </tr>`
   ).join("")
  }
 
  </table>
 
- </div>`;
+ </div>
+
+ `;
 
 }
 
@@ -3125,12 +3824,15 @@ function billHistory(c){
 
 
  if(!b.length)
-  return `<p style="color:var(--muted)">
-   No saved bills.
-  </p>`;
+
+  return `
+   <p style="color:var(--muted)">
+    No saved bills.
+   </p>
+  `;
 
 
- return`
+ return `
 
  <div class="table-wrap">
 
@@ -3145,40 +3847,27 @@ function billHistory(c){
  </tr>
 
  ${
-  b.map(x=>
-
-   `<tr>
-
-    <td>
-     ${formatDateTime(x.createdAt)}
-    </td>
-
-    <td>
-     ${formatDate(x.startDate)}
-     →
-     ${formatDate(x.endDate)}
-    </td>
-
-    <td>
-     ${formatNumber(x.totalMilk)} L
-    </td>
-
-    <td>
-     ${money(x.milkBill)}
-    </td>
-
-    <td>
-     ${formatBalance(x.finalBalance)}
-    </td>
-
-   </tr>`
-
+  b.map(
+   x=>
+    `<tr>
+      <td>${formatDateTime(x.createdAt)}</td>
+      <td>
+       ${formatDate(x.startDate)}
+       →
+       ${formatDate(x.endDate)}
+      </td>
+      <td>${formatNumber(x.totalMilk)} L</td>
+      <td>${money(x.milkBill)}</td>
+      <td>${formatBalance(x.finalBalance)}</td>
+     </tr>`
   ).join("")
  }
 
  </table>
 
- </div>`;
+ </div>
+
+ `;
 
 }
 
@@ -3190,13 +3879,12 @@ function renderCustomerList(){
    "customerList"
   );
 
-
  if(!database.customers.length){
 
   box.innerHTML=
    `<div style="padding:30px;text-align:center;color:var(--muted)">
     No customers yet.
-   </div>`;
+    </div>`;
 
   return;
 
@@ -3212,48 +3900,63 @@ function renderCustomerList(){
  <tr>
   <th>Customer Code</th>
   <th>Name</th>
+  <th>Price Type</th>
   <th>Balance</th>
   <th>Action</th>
  </tr>
 
  ${
-  database.customers.map(c=>{
+  database.customers.map(
+   c=>{
 
-   const b=
-    calculateCustomerBalance(c);
+    const b=
+     calculateCustomerBalance(c);
 
-   return`
+    return `
+     <tr>
 
-   <tr>
+      <td>
+       <b>${escapeHtml(c.code)}</b>
+      </td>
 
-    <td>
-     <b>${escapeHtml(c.code)}</b>
-    </td>
+      <td>
+       ${escapeHtml(c.name)}
+      </td>
 
-    <td>
-     ${escapeHtml(c.name)}
-    </td>
+      <td>
+       ${
+        c.pricingType==="fat"
+        ?
+        `<span class="badge blue">
+          FAT
+         </span>`
+        :
+        `<span class="badge green">
+          FIXED
+         </span>`
+       }
+      </td>
 
-    <td
-     class="${b<0?"negative":"positive"}">
+      <td class="${
+       b<0?"negative":"positive"
+      }">
+       ${formatBalance(b)}
+      </td>
 
-     ${formatBalance(b)}
+      <td>
 
-    </td>
+       <button class="btn dark"
+        onclick="openCustomer('${escapeJs(c.code)}')">
+        OPEN
+       </button>
 
-    <td>
+      </td>
 
-     <button
-      class="btn dark"
-      onclick="openCustomer('${escapeJs(c.code)}')">
-      OPEN
-     </button>
+     </tr>
+    `;
 
-    </td>
-
-   </tr>`;
-
-  }).join("")
+   }
+  ).join("")
  }
 
  </table>
@@ -3267,13 +3970,11 @@ function deleteCustomerProfile(code){
 
  const c=getCustomer(code);
 
- if(
-  !c ||
-  !confirm(
-   `Delete ${c.name} (${c.code})?`
-  )
- )
-  return;
+ if(!c)return;
+
+ if(!confirm(
+  `Delete ${c.name} (${c.code})?`
+ ))return;
 
 
  database.customers=
@@ -3291,15 +3992,15 @@ function deleteCustomerProfile(code){
  saveDatabase();
 
  logAction(
+  "customers",
   "DELETE CUSTOMER",
   `${c.code} - ${c.name}`
  );
 
- document
-  .getElementById(
-   "customerProfile"
-  )
-  .classList.add("hidden");
+
+ document.getElementById(
+  "customerProfile"
+ ).classList.add("hidden");
 
  renderCustomerList();
 
@@ -3308,9 +4009,9 @@ function deleteCustomerProfile(code){
 }
 
 
-/* =====================================================
+/* =========================================================
    THURSDAY → WEDNESDAY
-===================================================== */
+   ========================================================= */
 
 function getCurrentCycle(){
 
@@ -3318,10 +4019,10 @@ function getCurrentCycle(){
 
  const d=n.getDay();
 
- const diff=
-  d-4<0
-   ?d-4+7
-   :d-4;
+ let diff=d-4;
+
+ if(diff<0)
+  diff+=7;
 
 
  const s=new Date(n);
@@ -3348,18 +4049,12 @@ function getCurrentCycle(){
 }
 
 
-/* =====================================================
-   MILK GRID
-===================================================== */
-
 function buildWeekGrid(startValue){
 
  const start=
   parseDate(
-   startValue||
-   getCurrentCycle().start
+   startValue||getCurrentCycle().start
   );
-
 
  const days=[
   "Thursday",
@@ -3371,16 +4066,12 @@ function buildWeekGrid(startValue){
   "Wednesday"
  ];
 
-
  const c=
   getCustomer(
-   document
-    .getElementById(
-     "milkCustomerCode"
-    )
-    .value.trim()
+   document.getElementById(
+    "milkCustomerCode"
+   ).value.trim()
   );
-
 
  const fat=
   c?.pricingType==="fat";
@@ -3390,130 +4081,131 @@ function buildWeekGrid(startValue){
   "weekGrid"
  ).innerHTML=
 
- days.map((day,i)=>{
+ days.map(
+  (day,i)=>{
 
-  const d=new Date(start);
+   const d=
+    new Date(start);
 
-  d.setDate(
-   d.getDate()+i
-  );
-
-
-  return`
-
-  <div class="day-card">
-
-   <h4>${day}</h4>
-
-   <small>
-    ${formatDate(dateInputValue(d))}
-   </small>
+   d.setDate(
+    d.getDate()+i
+   );
 
 
-   <label
-    style="display:block;font-size:11px;margin-top:7px">
-    🌅 Morning L
-   </label>
+   return `
 
-   <input
-    class="morning-input"
-    data-index="${i}"
-    type="number"
-    min="0"
-    step=".01"
-    value="0">
+    <div class="day-card">
+
+     <h4>${day}</h4>
+
+     <small>
+      ${formatDate(
+       dateInputValue(d)
+      )}
+     </small>
 
 
-   ${
-    fat
-     ?`
-
-     <label
-      style="display:block;font-size:11px;margin-top:7px">
-      🥛 Morning Fat
+     <label style="display:block;font-size:11px;margin-top:7px">
+      🌅 Morning L
      </label>
 
      <input
-      class="morning-fat-input"
+      class="morning-input"
       data-index="${i}"
       type="number"
       min="0"
-      step=".1"
-      placeholder="6.0">
-
-     `
-     :""
-   }
+      step=".01"
+      value="0">
 
 
-   <label
-    style="display:block;font-size:11px;margin-top:7px">
-    🌆 Evening L
-   </label>
+     ${
+      fat
+      ?
+      `
+       <label style="display:block;font-size:11px;margin-top:7px">
+        🥛 Morning Fat
+       </label>
 
-   <input
-    class="evening-input"
-    data-index="${i}"
-    type="number"
-    min="0"
-    step=".01"
-    value="0">
+       <input
+        class="morning-fat-input"
+        data-index="${i}"
+        type="number"
+        min="0"
+        step=".1"
+        placeholder="6.0">
+      `
+      :
+      ""
+     }
 
 
-   ${
-    fat
-     ?`
-
-     <label
-      style="display:block;font-size:11px;margin-top:7px">
-      🥛 Evening Fat
+     <label style="display:block;font-size:11px;margin-top:7px">
+      🌆 Evening L
      </label>
 
      <input
-      class="evening-fat-input"
+      class="evening-input"
       data-index="${i}"
       type="number"
       min="0"
-      step=".1"
-      placeholder="6.0">
+      step=".01"
+      value="0">
 
-     `
-     :""
-   }
 
-  </div>`;
+     ${
+      fat
+      ?
+      `
+       <label style="display:block;font-size:11px;margin-top:7px">
+        🥛 Evening Fat
+       </label>
 
- }).join("");
+       <input
+        class="evening-fat-input"
+        data-index="${i}"
+        type="number"
+        min="0"
+        step=".1"
+        placeholder="6.0">
+      `
+      :
+      ""
+     }
+
+    </div>
+
+   `;
+
+  }
+ ).join("");
 
 }
 
 
-document
- .getElementById(
-  "milkStartDate"
- )
- .addEventListener(
-  "change",
-  function(){
+document.getElementById(
+ "milkStartDate"
+).addEventListener(
+ "change",
+ function(){
 
-   const d=
-    parseDate(this.value);
+  const d=
+   parseDate(this.value);
 
-   if(d.getDay()!==4){
+  if(d.getDay()!==4){
 
-    toast(
-     "Start Date must be Thursday."
-    );
+   toast(
+    "Start Date must be Thursday."
+   );
 
-    this.value=
-     getCurrentCycle().start;
-
-   }
-
-   buildWeekGrid(this.value);
+   this.value=
+    getCurrentCycle().start;
 
   }
- );
+
+  buildWeekGrid(this.value);
+
+ }
+);
 
 
 function updateMilkPricingFields(c){
@@ -3521,24 +4213,19 @@ function updateMilkPricingFields(c){
  const fat=
   c.pricingType==="fat";
 
- document
-  .getElementById(
-   "milkRateField"
-  )
-  .classList.toggle(
-   "hidden",
-   fat
-  );
+ document.getElementById(
+  "milkRateField"
+ ).classList.toggle(
+  "hidden",
+  fat
+ );
 
-
- document
-  .getElementById(
-   "milkFatField"
-  )
-  .classList.toggle(
-   "hidden",
-   !fat
-  );
+ document.getElementById(
+  "milkFatField"
+ ).classList.toggle(
+  "hidden",
+  !fat
+ );
 
 }
 
@@ -3546,31 +4233,19 @@ function updateMilkPricingFields(c){
 function loadMilkCustomer(){
 
  const code=
-  document
-   .getElementById(
-    "milkCustomerCode"
-   )
-   .value.trim();
-
+  document.getElementById(
+   "milkCustomerCode"
+  ).value.trim();
 
  const c=getCustomer(code);
 
-
- if(!c){
-
-  toast("Customer not found.");
-
-  return;
-
- }
+ if(!c)
+  return toast("Customer not found.");
 
 
- document
-  .getElementById(
-   "milkCustomerName"
-  )
-  .value=c.name;
-
+ document.getElementById(
+  "milkCustomerName"
+ ).value=c.name;
 
  updateMilkPricingFields(c);
 
@@ -3578,71 +4253,62 @@ function loadMilkCustomer(){
  const cycle=
   getCurrentCycle();
 
+ document.getElementById(
+  "milkStartDate"
+ ).value=cycle.start;
 
- document
-  .getElementById(
-   "milkStartDate"
-  )
-  .value=cycle.start;
-
-
- buildWeekGrid(
-  cycle.start
- );
+ buildWeekGrid(cycle.start);
 
 
  const r=
-  (c.milkRecords||[])
-   .find(
-    x=>x.startDate===cycle.start
-   );
+  (c.milkRecords||[]).find(
+   x=>x.startDate===cycle.start
+  );
 
 
  if(r){
 
-  document
-   .getElementById(
-    "milkRate"
-   )
-   .value=r.rate??"";
+  document.getElementById(
+   "milkRate"
+  ).value=r.rate??"";
 
 
-  r.days.forEach((d,i)=>{
+  r.days.forEach(
+   (d,i)=>{
 
-   const m=
-    document.querySelector(
-     `.morning-input[data-index="${i}"]`
-    );
+    const m=
+     document.querySelector(
+      `.morning-input[data-index="${i}"]`
+     );
 
-   const e=
-    document.querySelector(
-     `.evening-input[data-index="${i}"]`
-    );
+    const e=
+     document.querySelector(
+      `.evening-input[data-index="${i}"]`
+     );
 
-   const mf=
-    document.querySelector(
-     `.morning-fat-input[data-index="${i}"]`
-    );
+    const mf=
+     document.querySelector(
+      `.morning-fat-input[data-index="${i}"]`
+     );
 
-   const ef=
-    document.querySelector(
-     `.evening-fat-input[data-index="${i}"]`
-    );
+    const ef=
+     document.querySelector(
+      `.evening-fat-input[data-index="${i}"]`
+     );
 
 
-   if(m)
-    m.value=d.morning??0;
+    if(m)m.value=d.morning??0;
 
-   if(e)
-    e.value=d.evening??0;
+    if(e)e.value=d.evening??0;
 
-   if(mf)
-    mf.value=d.morningFat??"";
+    if(mf)
+     mf.value=d.morningFat??"";
 
-   if(ef)
-    ef.value=d.eveningFat??"";
+    if(ef)
+     ef.value=d.eveningFat??"";
 
-  });
+   }
+  );
 
 
   toast(
@@ -3663,45 +4329,28 @@ function loadMilkCustomer(){
 function saveMilkRecord(){
 
  const code=
-  document
-   .getElementById(
-    "milkCustomerCode"
-   )
-   .value.trim();
-
+  document.getElementById(
+   "milkCustomerCode"
+  ).value.trim();
 
  const c=getCustomer(code);
 
-
- if(!c){
-
-  toast("Customer not found.");
-
-  return;
-
- }
+ if(!c)
+  return toast("Customer not found.");
 
 
  const sv=
-  document
-   .getElementById(
-    "milkStartDate"
-   )
-   .value;
-
+  document.getElementById(
+   "milkStartDate"
+  ).value;
 
  const s=parseDate(sv);
 
 
- if(s.getDay()!==4){
-
-  toast(
+ if(s.getDay()!==4)
+  return toast(
    "Start date must be Thursday."
   );
-
-  return;
-
- }
 
 
  let rate=null;
@@ -3711,26 +4360,15 @@ function saveMilkRecord(){
 
   rate=
    Number(
-    document
-     .getElementById(
-      "milkRate"
-     )
-     .value
+    document.getElementById(
+     "milkRate"
+    ).value
    );
 
-
-  if(
-   !isFinite(rate)||
-   rate<0
-  ){
-
-   toast(
+  if(!isFinite(rate)||rate<0)
+   return toast(
     "Enter milk price per litre."
    );
-
-   return;
-
-  }
 
  }
 
@@ -3754,7 +4392,6 @@ function saveMilkRecord(){
     ).value
    )||0;
 
-
   const v=
    Number(
     document.querySelector(
@@ -3764,7 +4401,6 @@ function saveMilkRecord(){
 
 
   let mf=null;
-
   let ef=null;
 
 
@@ -3777,7 +4413,6 @@ function saveMilkRecord(){
      )?.value
     );
 
-
    ef=
     Number(
      document.querySelector(
@@ -3789,29 +4424,22 @@ function saveMilkRecord(){
    if(
     m>0 &&
     (!isFinite(mf)||mf<=0)
-   ){
-
+   )
     return toast(
      "Enter Morning Fat for day "+(i+1)
     );
-
-   }
 
 
    if(
     v>0 &&
     (!isFinite(ef)||ef<=0)
-   ){
-
+   )
     return toast(
      "Enter Evening Fat for day "+(i+1)
     );
 
-   }
-
 
    if(!m)mf=null;
-
    if(!v)ef=null;
 
   }
@@ -3826,7 +4454,8 @@ function saveMilkRecord(){
 
   days.push({
 
-   date:dateInputValue(d),
+   date:
+    dateInputValue(d),
 
    morning:m,
 
@@ -3845,11 +4474,13 @@ function saveMilkRecord(){
 
   startDate:sv,
 
-  endDate:dateInputValue(e),
+  endDate:
+   dateInputValue(e),
 
   rate,
 
-  pricingType:c.pricingType,
+  pricingType:
+   c.pricingType,
 
   days
 
@@ -3870,8 +4501,8 @@ function saveMilkRecord(){
 
  saveDatabase();
 
-
  logAction(
+  "milk",
   "SAVE MILK RECORD",
   `${c.code} - ${c.name} - ${getRecordTotal(r)} L`
  );
@@ -3879,71 +4510,56 @@ function saveMilkRecord(){
 
  currentCustomer=c;
 
-
  toast(
   "7-day milk record saved."
  );
-
 
  openCustomer(c.code);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    CREDIT
-===================================================== */
+   ========================================================= */
 
-document
- .getElementById(
-  "creditReason"
- )
- .addEventListener(
-  "change",
-  function(){
+document.getElementById(
+ "creditReason"
+).addEventListener(
+ "change",
+ function(){
 
-   document
-    .getElementById(
-     "otherReasonField"
-    )
-    .classList.toggle(
-     "hidden",
-     this.value!=="Other"
-    );
+  document.getElementById(
+   "otherReasonField"
+  ).classList.toggle(
+   "hidden",
+   this.value!=="Other"
+  );
 
-  }
- );
+ }
+);
 
 
 function addCredit(){
 
  const code=
-  document
-   .getElementById(
-    "creditCustomerCode"
-   )
-   .value.trim();
-
+  document.getElementById(
+   "creditCustomerCode"
+  ).value.trim();
 
  const c=getCustomer(code);
 
-
  const amount=
   Number(
-   document
-    .getElementById(
-     "creditAmount"
-    )
-    .value
+   document.getElementById(
+    "creditAmount"
+   ).value
   );
 
-
  let reason=
-  document
-   .getElementById(
-    "creditReason"
-   )
-   .value;
+  document.getElementById(
+   "creditReason"
+  ).value;
 
 
  if(!c)
@@ -3961,12 +4577,9 @@ function addCredit(){
  if(reason==="Other"){
 
   reason=
-   document
-    .getElementById(
-     "otherReason"
-    )
-    .value.trim();
-
+   document.getElementById(
+    "otherReason"
+   ).value.trim();
 
   if(!reason)
    return toast(
@@ -3990,22 +4603,19 @@ function addCredit(){
 
  saveDatabase();
 
-
  logAction(
+  "credit",
   "ADD CREDIT",
   `${c.code} - ${money(amount)} - ${reason}`
  );
 
 
- document
-  .getElementById(
-   "creditAmount"
-  )
-  .value="";
+ document.getElementById(
+  "creditAmount"
+ ).value="";
 
 
  loadCreditCustomer();
-
 
  toast(
   "Credit saved."
@@ -4018,91 +4628,75 @@ function loadCreditCustomer(){
 
  const c=
   getCustomer(
-   document
-    .getElementById(
-     "creditCustomerCode"
-    )
-    .value.trim()
+   document.getElementById(
+    "creditCustomerCode"
+   ).value.trim()
   );
 
-
- if(!c){
-
-  toast(
+ if(!c)
+  return toast(
    "Customer not found."
   );
-
-  return;
-
- }
 
 
  currentCustomer=c;
 
 
- document
-  .getElementById(
-   "creditCustomerInfo"
-  )
-  .innerHTML=
+ document.getElementById(
+  "creditCustomerInfo"
+ ).innerHTML=
 
  `<div class="stats">
 
-  <div class="stat">
-   <span>CUSTOMER</span>
-   <strong>
-    ${escapeHtml(c.name)}
-   </strong>
-  </div>
+   <div class="stat">
+    <span>CUSTOMER</span>
+    <strong>${escapeHtml(c.name)}</strong>
+   </div>
 
-  <div class="stat">
-   <span>TOTAL CREDIT</span>
-   <strong>
-    ${money(getTotalCredit(c))}
-   </strong>
-  </div>
+   <div class="stat">
+    <span>TOTAL CREDIT</span>
+    <strong>${money(getTotalCredit(c))}</strong>
+   </div>
 
-  <div class="stat">
-   <span>BALANCE</span>
-   <strong>
-    ${formatBalance(
+   <div class="stat">
+    <span>BALANCE</span>
+    <strong>${formatBalance(
      calculateCustomerBalance(c)
-    )}
-   </strong>
+    )}</strong>
+   </div>
+
   </div>
 
- </div>
+  <br>
 
- <br>
-
- ${creditHistory(c)}`;
+  ${creditHistory(c)}
+ `;
 
 }
 
 
 function getTotalCredit(c){
 
- return(
-  c.creditTransactions||[]
- ).reduce(
-  (s,t)=>
-   s+Number(t.amount||0),
-  0
- );
+ return (c.creditTransactions||[])
+  .reduce(
+   (s,t)=>
+    s+Number(t.amount||0),
+   0
+  );
 
 }
 
 
 function calculateCustomerBalance(c){
 
- return(
-  c.milkRecords||[]
- ).reduce(
-  (s,r)=>
-   s+calculateMilkBill(r),
-  0
- )-
- getTotalCredit(c);
+ return (c.milkRecords||[])
+  .reduce(
+   (s,r)=>
+    s+calculateMilkBill(r),
+   0
+  )
+  -
+  getTotalCredit(c);
 
 }
 
@@ -4119,24 +4713,26 @@ function getOutstandingCredit(c){
 }
 
 
+/* =========================================================
+   FAT PRICING
+   ========================================================= */
+
 function fatRate(f){
 
  f=Number(f||0);
 
- return f>0
-  ?Math.round(
-    (50+(f-6)*4)*100
-   )/100
-  :0;
+ if(f<=0)return 0;
+
+ return Math.round(
+  (50+(f-6)*4)*100
+ )/100;
 
 }
 
 
 function calculateMilkBill(r){
 
- if(
-  r.pricingType==="fat"
- ){
+ if(r.pricingType==="fat"){
 
   return r.days.reduce(
    (s,d)=>
@@ -4154,10 +4750,8 @@ function calculateMilkBill(r){
  }
 
 
- return(
-  getRecordTotal(r)*
-  Number(r.rate||0)
- );
+ return getRecordTotal(r)*
+  Number(r.rate||0);
 
 }
 
@@ -4175,19 +4769,17 @@ function getRecordTotal(r){
 }
 
 
-/* =====================================================
-   BILL CENTER
-===================================================== */
+/* =========================================================
+   QUICK CUSTOMER ACTIONS
+   ========================================================= */
 
 function prepareMilkForCustomer(code){
 
  showPage("milk");
 
- document
-  .getElementById(
-   "milkCustomerCode"
-  )
-  .value=code;
+ document.getElementById(
+  "milkCustomerCode"
+ ).value=code;
 
  loadMilkCustomer();
 
@@ -4198,11 +4790,9 @@ function prepareCreditForCustomer(code){
 
  showPage("credit");
 
- document
-  .getElementById(
-   "creditCustomerCode"
-  )
-  .value=code;
+ document.getElementById(
+  "creditCustomerCode"
+ ).value=code;
 
  loadCreditCustomer();
 
@@ -4213,38 +4803,32 @@ function prepareBillForCustomer(code){
 
  showPage("bills");
 
- document
-  .getElementById(
-   "billCustomerCode"
-  )
-  .value=code;
+ document.getElementById(
+  "billCustomerCode"
+ ).value=code;
 
  loadBillCustomer();
 
 }
 
 
+/* =========================================================
+   BILLS
+   ========================================================= */
+
 function loadBillCustomer(){
 
  const c=
   getCustomer(
-   document
-    .getElementById(
-     "billCustomerCode"
-    )
-    .value.trim()
+   document.getElementById(
+    "billCustomerCode"
+   ).value.trim()
   );
 
-
- if(!c){
-
-  toast(
+ if(!c)
+  return toast(
    "Customer not found."
   );
-
-  return;
-
- }
 
 
  currentCustomer=c;
@@ -4256,12 +4840,9 @@ function loadBillCustomer(){
 
  if(!r){
 
-  document
-   .getElementById(
-    "billPreview"
-   )
-   .innerHTML=
-
+  document.getElementById(
+   "billPreview"
+  ).innerHTML=
    `<p style="color:var(--muted)">
     No milk record available.
    </p>`;
@@ -4271,51 +4852,48 @@ function loadBillCustomer(){
  }
 
 
- document
-  .getElementById(
-   "billPreview"
-  )
-  .innerHTML=
+ document.getElementById(
+  "billPreview"
+ ).innerHTML=
 
- `<div
-  class="stats"
-  style="margin-top:15px">
+ `<div class="stats"
+       style="margin-top:15px">
 
-  <div class="stat">
-   <span>CUSTOMER</span>
-   <strong>
-    ${escapeHtml(c.name)}
-   </strong>
-  </div>
+   <div class="stat">
+    <span>CUSTOMER</span>
+    <strong>
+     ${escapeHtml(c.name)}
+    </strong>
+   </div>
 
-  <div class="stat">
-   <span>MILK</span>
-   <strong>
-    ${formatNumber(
-     getRecordTotal(r)
-    )} L
-   </strong>
-  </div>
+   <div class="stat">
+    <span>MILK</span>
+    <strong>
+     ${formatNumber(
+      getRecordTotal(r)
+     )} L
+    </strong>
+   </div>
 
-  <div class="stat">
-   <span>BILL</span>
-   <strong>
-    ${money(
-     calculateMilkBill(r)
-    )}
-   </strong>
-  </div>
+   <div class="stat">
+    <span>BILL</span>
+    <strong>
+     ${money(
+      calculateMilkBill(r)
+     )}
+    </strong>
+   </div>
 
-  <div class="stat">
-   <span>BALANCE</span>
-   <strong>
-    ${formatBalance(
-     calculateCustomerBalance(c)
-    )}
-   </strong>
-  </div>
+   <div class="stat">
+    <span>BALANCE</span>
+    <strong>
+     ${formatBalance(
+      calculateCustomerBalance(c)
+     )}
+    </strong>
+   </div>
 
- </div>`;
+  </div>`;
 
 }
 
@@ -4335,9 +4913,7 @@ function getBestBillRecord(c){
 
 
  return cur||
-  [
-   ...c.milkRecords
-  ].sort(
+  [...c.milkRecords].sort(
    (a,b)=>
     parseDate(b.startDate)-
     parseDate(a.startDate)
@@ -4351,13 +4927,10 @@ function printCurrentCustomer(){
  const c=
   currentCustomer||
   getCustomer(
-   document
-    .getElementById(
-     "billCustomerCode"
-    )
-    .value.trim()
+   document.getElementById(
+    "billCustomerCode"
+   ).value.trim()
   );
-
 
  if(c)
   printSix([c]);
@@ -4379,9 +4952,9 @@ function printCustomerBills(code){
 }
 
 
-/* =====================================================
-   A4 SIX BILLS
-===================================================== */
+/* =========================================================
+   A4 SIX CUSTOMERS
+   ========================================================= */
 
 function addA4CustomerSlot(){
 
@@ -4389,7 +4962,6 @@ function addA4CustomerSlot(){
   return toast(
    "Maximum 6 customers."
   );
-
 
  a4CustomerCodes.push("");
 
@@ -4432,18 +5004,15 @@ function renderA4CustomerSlots(){
    "a4CustomerSlots"
   );
 
-
  if(!box)return;
 
 
  if(!a4CustomerCodes.length){
 
   box.innerHTML=
-
-   `<div
-    style="grid-column:1/-1;text-align:center;color:var(--muted);padding:18px">
+   `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:18px">
     Click ADD CUSTOMER to choose customers.
-   </div>`;
+    </div>`;
 
   return;
 
@@ -4452,83 +5021,84 @@ function renderA4CustomerSlots(){
 
  box.innerHTML=
 
- a4CustomerCodes
-  .map(
-   (code,i)=>{
+ a4CustomerCodes.map(
+  (code,i)=>{
 
-    const c=
-     getCustomer(code);
+   const c=getCustomer(code);
 
-    const r=
-     c?
-      getBestBillRecord(c)
-      :null;
+   const r=
+    c?getBestBillRecord(c):null;
 
 
-    return`
+   return `
 
-    <div class="a4-slot">
+   <div class="a4-slot">
 
-     <div class="a4-slot-head">
+    <div class="a4-slot-head">
 
-      <span class="a4-slot-title">
-       CUSTOMER ${i+1}
-      </span>
+     <span class="a4-slot-title">
+      CUSTOMER ${i+1}
+     </span>
 
-      <button
-       class="btn red"
-       style="padding:7px 10px"
-       onclick="removeA4CustomerSlot(${i})">
-       ✕
-      </button>
+     <button
+      class="btn red"
+      style="padding:7px 10px"
+      onclick="removeA4CustomerSlot(${i})">
+      ✕
+     </button>
 
-     </div>
-
-
-     <input
-      value="${escapeHtml(code)}"
-      placeholder="Customer Code"
-      oninput="updateA4CustomerCode(${i},this.value)">
+    </div>
 
 
-     <div class="a4-slot-actions">
-
-      <button
-       class="btn green"
-       style="padding:9px 12px"
-       onclick="loadA4CustomerSlot(${i})">
-       🔎 LOAD
-      </button>
-
-     </div>
+    <input
+     value="${escapeHtml(code)}"
+     placeholder="Customer Code"
+     oninput="updateA4CustomerCode(${i},this.value)">
 
 
-     <div class="a4-slot-preview">
+    <div class="a4-slot-actions">
 
-      ${
-       c
-        ?(
-          r
-           ?`${escapeHtml(c.name)}
-             • ${formatNumber(getRecordTotal(r))} L
-             • ${money(calculateMilkBill(r))}`
-           :`${escapeHtml(c.name)}
-             • No milk record`
-         )
-        :(
-          code
-           ?"Customer not found"
-           :"Enter Customer Code"
-         )
-      }
+     <button
+      class="btn green"
+      style="padding:9px 12px"
+      onclick="loadA4CustomerSlot(${i})">
+      🔎 LOAD
+     </button>
 
-     </div>
+    </div>
 
-    </div>`;
 
-   }
-  )
-  .join("");
+    <div class="a4-slot-preview">
+
+     ${
+      c
+      ?
+       (
+        r
+        ?
+        `${escapeHtml(c.name)}
+         • ${formatNumber(getRecordTotal(r))} L
+         • ${money(calculateMilkBill(r))}`
+        :
+        `${escapeHtml(c.name)}
+         • No milk record`
+       )
+      :
+       (
+        code
+        ?"Customer not found"
+        :"Enter Customer Code"
+       )
+     }
+
+    </div>
+
+   </div>
+
+   `;
+
+  }
+ ).join("");
 
 }
 
@@ -4539,7 +5109,6 @@ function loadA4CustomerSlot(i){
   getCustomer(
    a4CustomerCodes[i]
   );
-
 
  if(!c)
   return toast(
@@ -4565,15 +5134,12 @@ function printSixCustomerBills(){
  const cs=[];
 
 
- for(
-  const code of a4CustomerCodes
- ){
+ for(const code of a4CustomerCodes){
 
   if(!code)continue;
 
 
   const c=getCustomer(code);
-
 
   if(!c)
    return toast(
@@ -4624,24 +5190,75 @@ function printSix(customers){
   arr.push(null);
 
 
- document
-  .getElementById(
-   "printArea"
-  )
-  .innerHTML=
+ document.getElementById(
+  "printArea"
+ ).innerHTML=
 
-  arr.map(
-   c=>
-    c
-     ?createPrintableBill(
-       c,
-       getBestBillRecord(c)
-      )
-     :""
-  ).join("");
+ arr.map(
+  c=>
+   c
+   ?
+    createPrintableBill(
+     c,
+     getBestBillRecord(c)
+    )
+   :
+    ""
+ ).join("");
+
+
+ /* Save a bill snapshot */
+
+ customers.forEach(
+  c=>{
+
+   const r=
+    getBestBillRecord(c);
+
+   if(!r)return;
+
+
+   database.bills.push({
+
+    id:
+     "BILL-"+Date.now()+"-"+Math.random(),
+
+    customerCode:c.code,
+
+    customerName:c.name,
+
+    startDate:r.startDate,
+
+    endDate:r.endDate,
+
+    totalMilk:
+     getRecordTotal(r),
+
+    milkBill:
+     calculateMilkBill(r),
+
+    finalBalance:
+     calculateBalanceThroughRecord(
+      c,
+      r
+     ),
+
+    createdAt:
+     new Date().toISOString(),
+
+    printedBy:currentLogin
+
+   });
+
+  }
+ );
+
+
+ saveDatabase();
 
 
  logAction(
+  "bills",
   "PRINT BILLS",
   `${customers.length} customer bill(s)`
  );
@@ -4649,7 +5266,7 @@ function printSix(customers){
 
  setTimeout(
   ()=>window.print(),
-  100
+  150
  );
 
 }
@@ -4660,17 +5277,14 @@ function createPrintableBill(c,r){
  const mt=
   getRecordTotal(r);
 
-
  const bill=
   calculateMilkBill(r);
-
 
  const bal=
   calculateBalanceThroughRecord(
    c,
    r
   );
-
 
  const mor=
   r.days.reduce(
@@ -4679,14 +5293,12 @@ function createPrintableBill(c,r){
    0
   );
 
-
  const eve=
   r.days.reduce(
    (s,d)=>
     s+Number(d.evening||0),
    0
   );
-
 
  const fat=
   r.pricingType==="fat";
@@ -4697,67 +5309,68 @@ function createPrintableBill(c,r){
    d=>{
 
     const n=
-     parseDate(
-      d.date
-     ).toLocaleDateString(
-      "en-IN",
-      {weekday:"short"}
-     );
+     parseDate(d.date)
+      .toLocaleDateString(
+       "en-IN",
+       {weekday:"short"}
+      );
 
 
-    return`
+    return `
+     <tr>
 
-    <tr>
+      <td>${n}</td>
 
-     <td>${n}</td>
+      <td>
+       <b>
+        ${formatNumber(d.morning)} L
+       </b>
 
-     <td>
-      <b>
-       ${formatNumber(d.morning)} L
-      </b>
+       ${
+        fat
+        ?
+        `<br>
+         <small>
+          F:${formatNumber(d.morningFat)}
+         </small>`
+        :
+        ""
+       }
 
-      ${
-       fat
-        ?`<br>
-          <small>
-           F:${formatNumber(d.morningFat)}
-          </small>`
-        :""
-      }
-
-     </td>
-
-
-     <td>
-
-      <b>
-       ${formatNumber(d.evening)} L
-      </b>
-
-      ${
-       fat
-        ?`<br>
-          <small>
-           F:${formatNumber(d.eveningFat)}
-          </small>`
-        :""
-      }
-
-     </td>
+      </td>
 
 
-     <td>
+      <td>
 
-      <b>
-       ${formatNumber(
-        Number(d.morning)+
-        Number(d.evening)
-       )} L
-      </b>
+       <b>
+        ${formatNumber(d.evening)} L
+       </b>
 
-     </td>
+       ${
+        fat
+        ?
+        `<br>
+         <small>
+          F:${formatNumber(d.eveningFat)}
+         </small>`
+        :
+        ""
+       }
 
-    </tr>`;
+      </td>
+
+
+      <td>
+       <b>
+        ${formatNumber(
+         Number(d.morning)+
+         Number(d.evening)
+        )} L
+       </b>
+      </td>
+
+     </tr>
+    `;
 
    }
   ).join("");
@@ -4765,42 +5378,44 @@ function createPrintableBill(c,r){
 
  const credits=
   (c.creditTransactions||[])
-   .filter(t=>{
+   .filter(
+    t=>{
 
-    const d=new Date(t.date);
+     const d=
+      new Date(t.date);
 
-    const s=
-     parseDate(r.startDate);
+     const s=
+      parseDate(r.startDate);
 
-    const e=
-     parseDate(r.endDate);
+     const e=
+      parseDate(r.endDate);
 
-    e.setHours(
-     23,59,59
-    );
+     e.setHours(23,59,59);
 
-    return d>=s&&d<=e;
+     return d>=s&&d<=e;
 
-   })
+    }
+   )
    .map(
     t=>
-
      `<div class="print-line">
-
-      <b>
-       ${escapeHtml(t.reason)}
-      </b>
-
-      <b>
-       -${money(t.amount)}
-      </b>
-
-     </div>`
+       <b>
+        ${escapeHtml(t.reason)}
+       </b>
+       <b>
+        -${money(t.amount)}
+       </b>
+      </div>`
    )
    .join("");
 
 
- return`
+ /*
+   IMPORTANT:
+   Price is NOT printed.
+ */
+
+ return `
 
  <div class="print-bill">
 
@@ -4866,17 +5481,13 @@ function createPrintableBill(c,r){
 
   ${
    credits
-    ?`
-
-     <div class="print-credit">
-
-      <b>Credit Taken</b>
-
-      ${credits}
-
-     </div>`
-
-    :""
+   ?
+   `<div class="print-credit">
+     <b>Credit Taken</b>
+     ${credits}
+    </div>`
+   :
+   ""
   }
 
 
@@ -4892,7 +5503,9 @@ function createPrintableBill(c,r){
 
   </div>
 
- </div>`;
+ </div>
+
+ `;
 
 }
 
@@ -4906,9 +5519,9 @@ function calculateBalanceThroughRecord(
 
 
  for(
-  const r of [
-   ...(c.milkRecords||[])
-  ].sort(
+  const r of
+  [...(c.milkRecords||[])]
+  .sort(
    (a,b)=>
     parseDate(a.startDate)-
     parseDate(b.startDate)
@@ -4917,7 +5530,6 @@ function calculateBalanceThroughRecord(
 
   b+=
    calculateMilkBill(r);
-
 
   if(
    r.startDate===
@@ -4930,23 +5542,21 @@ function calculateBalanceThroughRecord(
 
  b-=
 
-  (c.creditTransactions||[])
-   .filter(
-    t=>
-     new Date(t.date)<=
-     new Date(
-      parseDate(
-       target.endDate
-      ).setHours(
-       23,59,59
-      )
-     )
+ (c.creditTransactions||[])
+ .filter(
+  t=>
+   new Date(t.date)<=
+   new Date(
+    parseDate(
+     target.endDate
+    ).setHours(23,59,59)
    )
-   .reduce(
-    (s,t)=>
-     s+Number(t.amount||0),
-    0
-   );
+ )
+ .reduce(
+  (s,t)=>
+   s+Number(t.amount||0),
+  0
+ );
 
 
  return b;
@@ -4954,9 +5564,9 @@ function calculateBalanceThroughRecord(
 }
 
 
-/* =====================================================
-   OWNER ACCESS MANAGEMENT
-===================================================== */
+/* =========================================================
+   ACCESS MANAGEMENT
+   ========================================================= */
 
 function renderAccess(){
 
@@ -4966,7 +5576,9 @@ function renderAccess(){
 
  const p=
   database.requests.filter(
-   r=>r.status==="pending"
+   r=>
+    r.kind==="employee" &&
+    r.status==="pending"
   );
 
 
@@ -4976,145 +5588,167 @@ function renderAccess(){
   );
 
 
- document
-  .getElementById(
-   "pendingRequests"
-  )
-  .innerHTML=
+ document.getElementById(
+  "pendingRequests"
+ ).innerHTML=
 
-  p.length
+ p.length
 
-   ?`
+ ?
+ `
+ <div class="table-wrap">
 
-   <div class="table-wrap">
+ <table>
 
-   <table>
+ <tr>
+  <th>Login ID</th>
+  <th>Employee</th>
+  <th>Requested</th>
+  <th>Action</th>
+ </tr>
 
-   <tr>
-    <th>Login ID</th>
-    <th>Requested</th>
-    <th>Action</th>
-   </tr>
+ ${
+  p.map(
+   r=>
+    `<tr>
 
-   ${
-    p.map(
-     r=>
+      <td>
+       <b>${escapeHtml(r.id)}</b>
+      </td>
 
-      `<tr>
+      <td>
+       ${escapeHtml(r.name||"")}
+      </td>
 
-       <td>
-        <b>${escapeHtml(r.id)}</b>
-       </td>
+      <td>
+       ${formatDateTime(r.date)}
+      </td>
 
-       <td>
-        ${formatDateTime(r.date)}
-       </td>
+      <td>
 
-       <td>
+       <button class="btn green"
+        onclick="approveUser('${escapeJs(r.id)}')">
+        ✅ APPROVE
+       </button>
 
-        <button
-         class="btn green"
-         onclick="approveUser('${escapeJs(r.id)}')">
-         ✅ APPROVE
-        </button>
+       <button class="btn red"
+        onclick="rejectUser('${escapeJs(r.id)}')">
+        ❌ REJECT
+       </button>
 
-        <button
-         class="btn red"
-         onclick="rejectUser('${escapeJs(r.id)}')">
-         ❌ REJECT
-        </button>
+      </td>
 
-       </td>
+     </tr>`
+  ).join("")
+ }
 
-      </tr>`
-    ).join("")
-   }
+ </table>
 
-   </table>
+ </div>
+ `
 
-   </div>`
-
-   :`<p style="color:var(--muted)">
-     No pending requests.
-    </p>`;
+ :
+ `
+ <p style="color:var(--muted)">
+  No pending employee requests.
+ </p>
+ `;
 
 
- document
-  .getElementById(
-   "approvedUsers"
-  )
-  .innerHTML=
+ document.getElementById(
+  "approvedUsers"
+ ).innerHTML=
 
-  a.length
+ a.length
 
-   ?`
+ ?
+ `
+ <div class="table-wrap">
 
-   <div class="table-wrap">
+ <table>
 
-   <table>
+ <tr>
+  <th>Login ID</th>
+  <th>Employee</th>
+  <th>Status</th>
+  <th>Password</th>
+  <th>Action</th>
+ </tr>
 
-   <tr>
-    <th>Login ID</th>
-    <th>Status</th>
-    <th>Action</th>
-   </tr>
+ ${
+  a.map(
+   u=>
+    `<tr>
 
-   ${
-    a.map(
-     u=>
+      <td>
+       <b>${escapeHtml(u.id)}</b>
+      </td>
 
-      `<tr>
+      <td>
+       ${escapeHtml(u.name||"")}
+      </td>
 
-       <td>
-        <b>${escapeHtml(u.id)}</b>
-       </td>
+      <td>
+       <span class="badge green">
+        APPROVED
+       </span>
+      </td>
 
-       <td>
-        <span class="badge green">
-         APPROVED
-        </span>
-       </td>
+      <td>
+       <span class="badge blue">
+        PROTECTED
+       </span>
+      </td>
 
-       <td>
+      <td>
 
-        <button
-         class="btn red"
-         onclick="removeUser('${escapeJs(u.id)}')">
-         REMOVE
-        </button>
+       <button class="btn yellow"
+        onclick="openPasswordModal('${escapeJs(u.id)}')">
+        🔑 CHANGE PASSWORD
+       </button>
 
-       </td>
+       <button class="btn red"
+        onclick="removeUser('${escapeJs(u.id)}')">
+        🗑️ REMOVE
+       </button>
 
-      </tr>`
-    ).join("")
-   }
+      </td>
 
-   </table>
+     </tr>`
+  ).join("")
+ }
 
-   </div>`
+ </table>
 
-   :`<p style="color:var(--muted)">
-     No other approved users.
-    </p>`;
+ </div>
+ `
+
+ :
+ `
+ <p style="color:var(--muted)">
+  No approved employees yet.
+ </p>
+ `;
+
+
+ renderOwnerAnnouncements();
 
 }
 
 
-/* =====================================================
-   APPROVE EMPLOYEE
-===================================================== */
-
 function approveUser(id){
 
  if(!currentUserIsOwner())
-  return;
+  return toast(
+   "Owner access required."
+  );
 
 
  const r=
   database.requests.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase() &&
+    x.kind==="employee" &&
+    x.id===id &&
     x.status==="pending"
   );
 
@@ -5124,17 +5758,17 @@ function approveUser(id){
 
  if(
   !database.users.some(
-   u=>
-    String(u.id).toUpperCase()===
-    String(id).toUpperCase()
+   u=>u.id===id
   )
  ){
 
   database.users.push({
 
-   id:id.toUpperCase(),
+   id:r.id,
 
-   password:r.password,
+   name:r.name||r.id,
+
+   password:r.password||"",
 
    status:"approved",
 
@@ -5152,17 +5786,45 @@ function approveUser(id){
   new Date().toISOString();
 
 
+ /*
+   Create employee notification.
+ */
+
+ database.requests.push({
+
+  id:
+   "NOT-"+Date.now(),
+
+  kind:"notification",
+
+  title:"Employee Access Approved",
+
+  message:
+   "Your employee account has been approved by the Owner.",
+
+  target:id,
+
+  date:
+   new Date().toISOString(),
+
+  deleted:false,
+
+  readBy:[]
+
+ });
+
+
  saveDatabase();
 
 
  logAction(
+  "access",
   "APPROVE EMPLOYEE",
   id
  );
 
 
  renderAccess();
-
 
  toast(
   id+" approved."
@@ -5174,14 +5836,16 @@ function approveUser(id){
 function rejectUser(id){
 
  if(!currentUserIsOwner())
-  return;
+  return toast(
+   "Owner access required."
+  );
 
 
  const r=
   database.requests.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase() &&
+    x.kind==="employee" &&
+    x.id===id &&
     x.status==="pending"
   );
 
@@ -5191,18 +5855,45 @@ function rejectUser(id){
 
  r.status="rejected";
 
+ r.rejectedAt=
+  new Date().toISOString();
+
+
+ database.requests.push({
+
+  id:
+   "NOT-"+Date.now(),
+
+  kind:"notification",
+
+  title:"Employee Request Rejected",
+
+  message:
+   "Your employee access request was rejected by the Owner.",
+
+  target:id,
+
+  date:
+   new Date().toISOString(),
+
+  deleted:false,
+
+  readBy:[]
+
+ });
+
 
  saveDatabase();
 
 
  logAction(
+  "access",
   "REJECT EMPLOYEE",
   id
  );
 
 
  renderAccess();
-
 
  toast(
   id+" rejected."
@@ -5214,28 +5905,58 @@ function rejectUser(id){
 function removeUser(id){
 
  if(!currentUserIsOwner())
+  return toast(
+   "Owner access required."
+  );
+
+
+ if(!confirm(
+  "Remove employee "+id+"?"
+ ))
   return;
 
 
  database.users=
   database.users.filter(
-   u=>
-    String(u.id).toUpperCase()!==
-    String(id).toUpperCase()
+   u=>u.id!==id
   );
+
+
+ database.requests.push({
+
+  id:
+   "NOT-"+Date.now(),
+
+  kind:"notification",
+
+  title:"Employee Access Removed",
+
+  message:
+   "Your employee access was removed by the Owner.",
+
+  target:id,
+
+  date:
+   new Date().toISOString(),
+
+  deleted:false,
+
+  readBy:[]
+
+ });
 
 
  saveDatabase();
 
 
  logAction(
+  "access",
   "REMOVE EMPLOYEE",
   id
  );
 
 
  renderAccess();
-
 
  toast(
   id+" removed."
@@ -5244,11 +5965,153 @@ function removeUser(id){
 }
 
 
-/* =====================================================
-   ACTIVITY
-===================================================== */
+/* =========================================================
+   OWNER PASSWORD CHANGE
+   ========================================================= */
+
+function openPasswordModal(id){
+
+ if(!currentUserIsOwner())
+  return toast(
+   "Owner access required."
+  );
+
+
+ passwordTargetId=id;
+
+
+ const user=
+  database.users.find(
+   u=>u.id===id
+  );
+
+
+ if(!user)return;
+
+
+ document.getElementById(
+  "passwordEmployeeName"
+ ).textContent=
+  `Employee: ${user.name||id}`;
+
+
+ document.getElementById(
+  "newEmployeePassword"
+ ).value="";
+
+
+ document.getElementById(
+  "passwordModal"
+ ).classList.add("open");
+
+
+ document.getElementById(
+  "newEmployeePassword"
+ ).focus();
+
+}
+
+
+function closePasswordModal(){
+
+ document.getElementById(
+  "passwordModal"
+ ).classList.remove("open");
+
+ passwordTargetId="";
+
+}
+
+
+function saveEmployeePassword(){
+
+ if(!currentUserIsOwner())
+  return toast(
+   "Owner access required."
+  );
+
+
+ const password=
+  document.getElementById(
+   "newEmployeePassword"
+  ).value;
+
+
+ if(password.length<4)
+  return toast(
+   "Password must contain at least 4 characters."
+  );
+
+
+ const user=
+  database.users.find(
+   u=>u.id===passwordTargetId
+  );
+
+
+ if(!user)
+  return toast(
+   "Employee not found."
+  );
+
+
+ user.password=password;
+
+ user.passwordChangedAt=
+  new Date().toISOString();
+
+
+ database.requests.push({
+
+  id:
+   "NOT-"+Date.now(),
+
+  kind:"notification",
+
+  title:"Password Changed",
+
+  message:
+   "Your employee password was changed by the Owner.",
+
+  target:user.id,
+
+  date:
+   new Date().toISOString(),
+
+  deleted:false,
+
+  readBy:[]
+
+ });
+
+
+ saveDatabase();
+
+
+ logAction(
+  "access",
+  "CHANGE EMPLOYEE PASSWORD",
+  user.id
+ );
+
+
+ closePasswordModal();
+
+ renderAccess();
+
+ toast(
+  "Employee password changed."
+ );
+
+}
+
+
+/* =========================================================
+   ACTIVITY HISTORY
+   ========================================================= */
 
 function logAction(
+ category,
  action,
  details=""
 ){
@@ -5256,11 +6119,12 @@ function logAction(
  database.activity.unshift({
 
   id:
-   Date.now()+
-   Math.random(),
+   Date.now()+Math.random(),
 
   loginId:
-   currentLogin,
+   currentLogin||"SYSTEM",
+
+  category,
 
   action,
 
@@ -5272,13 +6136,41 @@ function logAction(
  });
 
 
- if(
-  database.activity.length>500
- )
-  database.activity.length=500;
+ if(database.activity.length>1000)
+  database.activity.length=1000;
 
 
- saveDatabase();
+ localStorage.setItem(
+  STORAGE_KEY,
+  JSON.stringify(database)
+ );
+
+
+ cloudSaveDatabase();
+
+}
+
+
+function activityFilter(
+ category,
+ button
+){
+
+ activityCurrentFilter=category;
+
+
+ document.querySelectorAll(
+  "#activity .tab-btn"
+ ).forEach(
+  x=>x.classList.remove("active")
+ );
+
+
+ if(button)
+  button.classList.add("active");
+
+
+ renderActivity();
 
 }
 
@@ -5289,49 +6181,64 @@ function renderActivity(){
   return;
 
 
- const a=
-  database.activity;
+ const list=
+  activityCurrentFilter==="all"
+  ?
+   database.activity
+  :
+   database.activity.filter(
+    x=>x.category===
+      activityCurrentFilter
+   );
 
 
- document
-  .getElementById(
+ const box=
+  document.getElementById(
    "activityList"
-  )
-  .innerHTML=
-
-  a.length
-
-   ?`
-
-   <div
-    class="form-actions"
-    style="margin-bottom:15px">
-
-    <button
-     class="btn red"
-     onclick="deleteAllActivity()">
-     🗑️ DELETE ALL HISTORY
-    </button>
-
-   </div>
+  );
 
 
-   <div class="table-wrap">
+ if(!list.length){
 
-   <table>
+  box.innerHTML=
+   `<div style="padding:30px;text-align:center;color:var(--muted)">
+    No activity in this category.
+    </div>`;
+
+  return;
+
+ }
+
+
+ box.innerHTML=
+
+ `<div class="form-actions"
+       style="margin-bottom:15px">
+
+   <button class="btn red"
+    onclick="deleteAllActivity()">
+    🗑️ DELETE ALL HISTORY
+   </button>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+  <table>
 
    <tr>
     <th>Date & Time</th>
     <th>Login ID</th>
+    <th>Category</th>
     <th>Action</th>
     <th>Details</th>
     <th>Delete</th>
    </tr>
 
    ${
-    a.map(
+    list.map(
      x=>
-
       `<tr>
 
        <td>
@@ -5340,6 +6247,12 @@ function renderActivity(){
 
        <td>
         <b>${escapeHtml(x.loginId)}</b>
+       </td>
+
+       <td>
+        <span class="badge blue">
+         ${escapeHtml(x.category||"")}
+        </span>
        </td>
 
        <td>
@@ -5365,13 +6278,9 @@ function renderActivity(){
     ).join("")
    }
 
-   </table>
+  </table>
 
-   </div>`
-
-   :`<p style="color:var(--muted)">
-     No activity yet.
-    </p>`;
+  </div>`;
 
 }
 
@@ -5384,11 +6293,9 @@ function deleteActivity(id){
   );
 
 
- if(
-  !confirm(
-   "Delete this activity record?"
-  )
- )
+ if(!confirm(
+  "Delete this activity record?"
+ ))
   return;
 
 
@@ -5405,7 +6312,8 @@ function deleteActivity(id){
 
 
  if(
-  database.activity.length===before
+  database.activity.length===
+  before
  )
   return toast(
    "Activity record not found."
@@ -5431,15 +6339,13 @@ function deleteAllActivity(){
 
  if(!database.activity.length)
   return toast(
-   "No activity history to delete."
+   "No activity history."
   );
 
 
- if(
-  !confirm(
-   "Delete ALL activity history? This cannot be undone."
-  )
- )
+ if(!confirm(
+  "Delete ALL activity history? This cannot be undone."
+ ))
   return;
 
 
@@ -5456,9 +6362,9 @@ function deleteAllActivity(){
 }
 
 
-/* =====================================================
+/* =========================================================
    BACKUP
-===================================================== */
+   ========================================================= */
 
 function backupData(){
 
@@ -5489,10 +6395,7 @@ function backupData(){
   "dhanalakshmi-dairy-backup.json";
 
 
- document
-  .body
-  .appendChild(a);
-
+ document.body.appendChild(a);
 
  a.click();
 
@@ -5505,6 +6408,13 @@ function backupData(){
  );
 
 
+ logAction(
+  "access",
+  "BACKUP",
+  "Database backup downloaded."
+ );
+
+
  toast(
   "Backup downloaded."
  );
@@ -5512,9 +6422,9 @@ function backupData(){
 }
 
 
-/* =====================================================
+/* =========================================================
    HELPERS
-===================================================== */
+   ========================================================= */
 
 function money(v){
 
@@ -5533,10 +6443,11 @@ function formatBalance(v){
  const n=
   Number(v||0);
 
-
  return n<0
-  ?"-"+money(Math.abs(n))
-  :money(n);
+  ?
+   "-"+money(Math.abs(n))
+  :
+   money(n);
 
 }
 
@@ -5554,13 +6465,11 @@ function formatNumber(v){
 
 function dateInputValue(d){
 
- return`
-
- ${d.getFullYear()}-
- ${String(d.getMonth()+1).padStart(2,"0")}-
- ${String(d.getDate()).padStart(2,"0")}
-
- `.replaceAll(" ","").replaceAll("\n","");
+ return `${d.getFullYear()}-${
+  String(d.getMonth()+1).padStart(2,"0")
+ }-${
+  String(d.getDate()).padStart(2,"0")
+ }`;
 
 }
 
@@ -5622,9 +6531,12 @@ function formatDateTime(v){
 }
 
 
-function findDayIndex(days,date){
+function findDayIndex(
+ days,
+ date
+){
 
- return(days||[])
+ return (days||[])
   .findIndex(
    d=>
     d.date===
@@ -5662,7 +6574,6 @@ function toast(m){
    "toast"
   );
 
-
  e.textContent=m;
 
  e.classList.add("show");
@@ -5678,18 +6589,19 @@ function toast(m){
 }
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
 
 (function init(){
 
- document
-  .getElementById(
-   "milkStartDate"
-  )
-  .value=
-   getCurrentCycle().start;
+ selectLoginMode("owner");
+
+
+ document.getElementById(
+  "milkStartDate"
+ ).value=
+  getCurrentCycle().start;
 
 
  buildWeekGrid();
@@ -5699,65 +6611,62 @@ function toast(m){
  addA4CustomerSlot();
 
 
- const a=
+ const authenticated=
   sessionStorage.getItem(
    "dairyAuthenticated"
   );
 
-
- const id=
+ const savedLogin=
   sessionStorage.getItem(
    "dairyLogin"
   );
 
-
- const role=
+ const savedRole=
   sessionStorage.getItem(
    "dairyRole"
   );
 
 
  if(
-  a==="true" &&
-  id &&
-  role
+  authenticated==="true" &&
+  savedLogin &&
+  savedRole
  ){
 
-  currentLogin=id;
-
-  currentRole=role;
-
-
-  document
-   .getElementById(
-    "loginScreen"
-   )
-   .classList.add("hidden");
+  currentLogin=savedLogin;
+  currentRole=savedRole;
 
 
-  document
-   .getElementById(
-    "app"
-   )
-   .classList.remove("hidden");
+  document.getElementById(
+   "loginScreen"
+  ).classList.add("hidden");
 
 
-  document
-   .getElementById(
-    "loggedInAs"
-   )
-   .textContent=
-    role==="owner"
-     ?id+" 👑 OWNER"
-     :id+" 👷 EMPLOYEE";
+  document.getElementById(
+   "app"
+  ).classList.remove("hidden");
+
+
+  document.getElementById(
+   "loggedInAs"
+  ).textContent=
+   savedLogin;
+
+
+  document.getElementById(
+   "roleLabel"
+  ).textContent=
+   savedRole==="owner"
+   ?"OWNER"
+   :"EMPLOYEE";
 
 
   setOwnerUI();
 
-  updateDashboard();
-
  }
 
+
+ updateEverything();
 
  showCloudStatus(
   "☁️ Connecting to cloud..."
@@ -5769,10 +6678,10 @@ function toast(m){
 })();
 
 
-/* =====================================================
+/* =========================================================
    ENTER = NEXT FIELD
-   SHIFT + ENTER = PREVIOUS
-===================================================== */
+   SHIFT+ENTER = PREVIOUS FIELD
+   ========================================================= */
 
 document.addEventListener(
  "keydown",
@@ -5787,23 +6696,18 @@ document.addEventListener(
 
 
   if(
-   !el||
-   !["INPUT","SELECT"]
-    .includes(el.tagName)
+   !el ||
+   !["INPUT","SELECT"].includes(
+    el.tagName
+   ) ||
+   el.id==="passwordInput" ||
+   el.id==="securityCodeInput"
   )
    return;
 
 
   if(
-   el.id==="ownerPasswordInput"||
-   el.id==="ownerSecurityInput"||
-   el.id==="employeePasswordInput"
-  )
-   return;
-
-
-  if(
-   el.readOnly||
+   el.readOnly ||
    el.disabled
   )
    return;
@@ -5812,37 +6716,74 @@ document.addEventListener(
   e.preventDefault();
 
 
-  const f=
+  const fields=
    [
     ...document.querySelectorAll(
      "input:not([disabled]):not([readonly]),select:not([disabled])"
     )
-   ].filter(
+   ]
+   .filter(
     x=>x.offsetParent!==null
    );
 
 
-  const i=f.indexOf(el);
+  const i=
+   fields.indexOf(el);
 
 
-  const n=
+  const next=
    e.shiftKey
-    ?i-1
-    :i+1;
+   ?i-1
+   :i+1;
 
 
-  if(f[n]){
+  if(fields[next]){
 
-   f[n].focus();
+   fields[next].focus();
 
    if(
-    typeof f[n].select==="function"
+    typeof fields[next].select===
+    "function"
    )
-    f[n].select();
+    fields[next].select();
 
   }
 
  });
+
+</script>
+
+
+<!-- PWA / SERVICE WORKER -->
+
+<script>
+
+if("serviceWorker" in navigator){
+
+ window.addEventListener(
+  "load",
+  ()=>{
+
+   navigator.serviceWorker
+    .register("./sw.js")
+    .then(
+     ()=>
+      console.log(
+       "Dhanalakshmi Dairy PWA ready"
+      )
+    )
+    .catch(
+     error=>
+      console.error(
+       "Service Worker failed:",
+       error
+      )
+    );
+
+  }
+ );
+
+}
 
 </script>
 
