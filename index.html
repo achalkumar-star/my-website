@@ -1,128 +1,712 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07111f">
-<meta name="description" content="Dhanalakshmi Milk Dairy digital management system">
-<link rel="manifest" href="manifest.webmanifest">
-<title>DHANALAKSHMI MILK DAIRY • Cloud Sync</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dhanalakshmi Milk Dairy • Cloud Sync</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 10% 10%,#61dafb22,transparent 28%),radial-gradient(circle at 90% 90%,#39e58c18,transparent 30%),#07111f;color:#f4f8ff;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.wrap{max-width:1450px;margin:auto;padding:18px}.card{background:#0d1b2ef5;border:1px solid #28415f;border-radius:18px;box-shadow:0 14px 45px #0005}.btn{border:1px solid #315172;background:#12243b;color:#fff;padding:10px 14px;border-radius:11px;font-weight:700}.btn:hover{filter:brightness(1.15)}.primary{background:#146b8a;border-color:#2e9ec5}.success{background:#126640;border-color:#24a86f}.danger{background:#742d3a;border-color:#c95869}.warning{background:#70541a;border-color:#c79b37}.muted{color:#91a5bc}.small{font-size:12px}.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:99px;background:#12243b;border:1px solid #28415f;font-size:12px}.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}}@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}.wrap{padding:10px}}
-#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}.login{width:min(500px,100%);padding:30px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:20px}.brand .logo{font-size:42px}.brand h1{font-size:22px}.tabs{display:flex;gap:8px;margin:16px 0}.tabs button{flex:1}.field{display:grid;gap:6px;margin:11px 0}.field label{font-size:12px;color:#91a5bc;font-weight:700}.field input,.field select,.field textarea{width:100%;background:#081727;color:#fff;border:1px solid #28415f;border-radius:10px;padding:11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:#61dafb}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}.nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}.nav button.active{background:#146b8a;border-color:#61dafb}.stat{padding:18px}.stat b{display:block;font-size:27px;margin-top:7px}.section{padding:18px;margin-bottom:15px}.section h2{font-size:18px;margin-bottom:12px}.tableWrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{padding:9px;border-bottom:1px solid #203650;text-align:left;font-size:13px}.table th{color:#91a5bc;background:#0b1929;position:sticky;top:0}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.right{margin-left:auto}.toast{position:fixed;right:18px;bottom:18px;z-index:99;max-width:380px;background:#10243a;border:1px solid #3d6388;border-radius:13px;padding:13px 15px;box-shadow:0 10px 30px #0008}.notice{padding:12px;border-radius:12px;background:#0b1d2d;border:1px solid #28415f;margin:8px 0}.dangerText{color:#ff6675}.successText{color:#39e58c}.empty{padding:30px;text-align:center;color:#91a5bc}.daygrid{display:grid;grid-template-columns:110px repeat(7,minmax(105px,1fr));gap:1px;background:#28415f;border:1px solid #28415f;overflow:auto}.daygrid>div{background:#0b1929;padding:8px}.daygrid .head{font-weight:800;color:#61dafb}.daygrid input{width:100%;background:#07111f;color:#fff;border:1px solid #28415f;border-radius:7px;padding:7px}.billSheet{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bill{background:#fff;color:#111;border:1px solid #999;padding:10px;min-height:220px}.bill h3{font-size:15px;text-align:center}.bill table{width:100%;border-collapse:collapse;font-size:11px}.bill td{padding:2px;border-bottom:1px solid #ddd}.modal{position:fixed;inset:0;background:#0009;display:flex;align-items:center;justify-content:center;padding:15px;z-index:90}.modalBox{width:min(600px,100%);max-height:90vh;overflow:auto;padding:20px}.loading{position:fixed;inset:0;background:#07111ff0;display:flex;align-items:center;justify-content:center;z-index:100;font-size:20px}.printOnly{display:none}
-@media print{body{background:#fff;color:#000}.noPrint,#appHeader,#nav,.toast,.modal{display:none!important}.printOnly{display:block}.billSheet{grid-template-columns:1fr 1fr;gap:7px}.bill{break-inside:avoid;min-height:0;height:125mm}.wrap{padding:0}.section{border:0;box-shadow:none}}
+html.auth-checking #loginScreen{visibility:hidden}
+html.auth-checking #app{visibility:hidden}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07111f;--panel:#0d1b2e;--panel2:#12243b;--border:#28415f;--text:#f4f8ff;--muted:#91a5bc;--accent:#61dafb;--green:#39e58c;--red:#ff6675;--yellow:#ffd166}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 15% 10%,#61dafb1f,transparent 30%),radial-gradient(circle at 85% 80%,#39e58c14,transparent 30%),var(--bg);color:var(--text);min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+#loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{width:min(460px,100%);background:#0d1b2ef2;border:1px solid var(--border);border-radius:28px;padding:40px;box-shadow:0 20px 60px #0008;text-align:center}
+.logo{width:90px;height:90px;margin:0 auto 20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:45px;background:linear-gradient(135deg,#fff,#9cecff);color:#092039}
+.login-card h1{font-size:27px;margin-bottom:8px}.login-card p{color:var(--muted);margin-bottom:28px}
+input,select{width:100%;padding:13px 15px;background:#091729;color:var(--text);border:1px solid var(--border);border-radius:12px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb14}.login-fields{display:grid;gap:10px}
+.btn{border:0;padding:12px 17px;border-radius:12px;color:#06111d;font-weight:800;background:var(--accent);transition:.2s}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.yellow{background:var(--yellow)}.btn.dark{background:#203650;color:#fff}.error{color:var(--red);margin-top:15px;min-height:20px}.login-switch{display:flex;gap:8px;margin-bottom:12px}.login-switch .btn{flex:1}.login-switch .active{box-shadow:0 0 0 2px var(--accent) inset}.notice-card{border:1px solid var(--border);background:#10243a;border-radius:14px;padding:14px;margin-bottom:10px}.notice-card small{color:var(--muted)}.category-pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#203650;color:#bfe8ff;font-size:11px;font-weight:800;margin-right:6px}
+.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:15px 24px;background:#07111fe8;backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}.brand-icon{width:45px;height:45px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#06111d;font-size:23px}.brand h2{font-size:18px}.brand small{color:var(--muted)}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap}.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 76px)}
+.sidebar{border-right:1px solid var(--border);padding:20px 14px;background:#09172999}.nav-btn{width:100%;text-align:left;padding:13px 15px;margin-bottom:8px;border:1px solid transparent;border-radius:12px;color:#c9d7e8;background:transparent}
+.nav-btn:hover,.nav-btn.active{background:#132840;border-color:var(--border);color:#fff}.main{padding:25px;max-width:1600px;width:100%;margin:auto}.page{display:none}.page.active{display:block}
+.page-title{margin-bottom:20px}.page-title h1{font-size:28px}.page-title p{color:var(--muted);margin-top:5px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+.stat{padding:20px;border:1px solid var(--border);background:linear-gradient(145deg,#0d1d32,#0a1728);border-radius:18px}.stat span{color:var(--muted);font-size:13px}.stat strong{display:block;font-size:29px;margin-top:8px}
+.dashboard-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px}.panel{background:#0d1b2ed9;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 12px 35px #0002}.panel h3{margin-bottom:15px}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.quick-actions button{min-height:65px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.field label{display:block;color:#b8c8da;font-size:13px;margin-bottom:7px}.full{grid-column:1/-1}.form-actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.search-row{display:flex;gap:10px;margin-bottom:20px}.search-row input{max-width:450px}.customer-header{display:flex;justify-content:space-between;gap:15px;align-items:center;padding:20px;background:linear-gradient(135deg,#102a42,#0d1b2e);border:1px solid var(--border);border-radius:18px;margin-bottom:18px}
+.customer-code{font-size:14px;color:var(--accent)}.customer-name{font-size:28px;font-weight:900;margin-top:4px}.balance{text-align:right}.balance small{color:var(--muted)}.balance strong{display:block;font-size:28px}
+.negative{color:var(--red)!important;font-weight:800}.positive{color:var(--green)!important;font-weight:800}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:15px}
+.tab-btn{border:1px solid var(--border);background:#0d1d32;color:#b9cbe0;padding:10px 15px;border-radius:10px;white-space:nowrap}.tab-btn.active{background:var(--accent);color:#06111d}.tab-content{display:none}.tab-content.active{display:block}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:12px 10px;border-bottom:1px solid #1d324b;text-align:left;white-space:nowrap}th{color:#9db2c8;font-size:13px}td{font-size:14px}
+.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}.badge.red{background:#ff66751f;color:var(--red)}.badge.green{background:#39e58c1f;color:var(--green)}.badge.yellow{background:#ffd16622;color:var(--yellow)}
+.modal{position:fixed;inset:0;z-index:100;background:#000b;display:none;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modal-card{width:min(800px,100%);max-height:90vh;overflow:auto;background:#0d1b2e;border:1px solid var(--border);border-radius:20px;padding:22px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.day-card{border:1px solid var(--border);background:#0a1728;border-radius:14px;padding:10px}.day-card h4{font-size:13px;margin-bottom:8px}.day-card small{color:var(--muted)}.day-card input{padding:9px;margin-top:5px}
+.a4-customer-slots{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.a4-slot{border:1px solid var(--border);background:#0a1728;border-radius:14px;padding:14px}.a4-slot-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.a4-slot-title{font-weight:900;color:var(--accent)}.a4-slot-actions{display:flex;gap:7px;margin-top:8px;flex-wrap:wrap}.a4-slot-preview{margin-top:9px;font-size:12px;color:var(--muted);min-height:18px}
+#toast{position:fixed;right:20px;bottom:20px;z-index:200;padding:14px 18px;border-radius:12px;background:#102840;border:1px solid var(--border);box-shadow:0 20px 60px #0008;transform:translateY(120px);opacity:0;transition:.3s}#toast.show{transform:translateY(0);opacity:1}
+.print-area{display:none}
+@media(max-width:1000px){.layout{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--border);display:flex;overflow:auto;gap:8px}.nav-btn{width:auto;white-space:nowrap;margin:0}.stats{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}.week-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.topbar{align-items:flex-start;flex-direction:column}.main{padding:15px}.stats,.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.search-row{flex-direction:column}.customer-header{flex-direction:column;align-items:flex-start}.balance{text-align:left}.week-grid,.a4-customer-slots{grid-template-columns:1fr}}
+@media print{
+@page{size:A4 portrait;margin:5mm}body{background:#fff!important;color:#000!important}body *{visibility:hidden!important}#printArea,#printArea *{visibility:visible!important}#printArea{display:grid!important;position:absolute;left:0;top:0;width:100%;height:287mm;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:2.5mm;background:#fff}
+.print-bill{display:block!important;border:1px solid #000;padding:2.8mm;color:#000;font-family:Arial,sans-serif;font-size:9px;overflow:hidden}.print-bill h2{font-size:12px;text-align:center;margin-bottom:1px}.print-sub{text-align:center;font-size:8px;margin-bottom:2px}
+.print-line{display:flex;justify-content:space-between;border-bottom:1px solid #999;padding:1px 0}.print-total{font-weight:bold;font-size:10px}.print-week{width:100%;border-collapse:collapse;margin-top:2px}.print-week th,.print-week td{border:1px solid #777;padding:1.3px;font-size:7.5px;color:#000}.print-week th{font-size:7px}.print-credit{margin-top:2px;border-top:1px solid #000;padding-top:2px}.print-bill small{font-size:6.5px}
+}
 </style>
 </head>
 <body>
-<div id="loading" class="loading">🥛 Loading DHANALAKSHMI MILK DAIRY…</div>
+<script>
+(function(){try{const a=localStorage.getItem("dairyAuthenticated"),id=localStorage.getItem("dairyLogin");if(a==="true"&&id){document.documentElement.classList.add("auth-checking")}}catch(e){}})();
+</script>
+
 <section id="loginScreen">
-  <div class="card login">
-    <div class="brand"><div class="logo">🥛</div><div><h1>DHANALAKSHMI MILK DAIRY</h1><div class="muted small">Digital Dairy Management • Cloud Sync</div></div></div>
-    <div class="tabs"><button id="ownerTab" class="btn primary" onclick="setLoginMode('owner')">👑 Owner</button><button id="employeeTab" class="btn" onclick="setLoginMode('employee')">👨‍💼 Employee</button></div>
-    <div id="loginForm">
-      <div class="field"><label>LOGIN ID</label><input id="loginId" autocomplete="username" placeholder="Enter login ID"></div>
-      <div class="field"><label>PASSWORD</label><input id="loginPass" type="password" autocomplete="current-password" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()"></div>
-      <div id="ownerCodeWrap" class="field"><label>OWNER SECURITY CODE</label><input id="ownerCode" type="password" placeholder="Required for owner access" onkeydown="if(event.key==='Enter')login()"></div>
-      <button class="btn primary" style="width:100%" onclick="login()">🔐 LOGIN</button>
-      <button id="requestBtn" class="btn" style="width:100%;margin-top:8px" onclick="openRequest()">📝 Request Employee Access</button>
-    </div>
-    <div id="loginMsg" class="notice small">First-time owner login: use the owner credentials configured below.</div>
-    <div id="cloudLoginStatus" class="small muted">☁️ Checking cloud connection…</div>
-  </div>
+<div class="login-card">
+<div class="logo">🥛</div>
+<h1>DHANALAKSHMI MILK DAIRY</h1>
+<p>Digital Dairy Management System</p>
+<div class="login-switch">
+<button id="ownerLoginBtn" class="btn active" onclick="setLoginMode('owner')">👑 OWNER LOGIN</button>
+<button id="employeeLoginBtn" class="btn dark" onclick="setLoginMode('employee')">👨‍💼 EMPLOYEE LOGIN</button>
+</div>
+<div id="loginModeText" style="color:var(--muted);font-size:13px;margin-bottom:12px">Owner login • owner-only controls available after verification</div>
+<div class="login-fields">
+<input id="loginIdInput" type="text" placeholder="Owner Login ID" autocomplete="username">
+<input id="passwordInput" type="password" placeholder="Password" autocomplete="current-password">
+<input id="securityCodeInput" class="hidden" type="password" inputmode="numeric" placeholder="Owner Security Code" autocomplete="one-time-code">
+<button class="btn" onclick="login()">🔐 LOGIN</button>
+<button id="requestAccessBtn" class="btn dark hidden" onclick="openEmployeeRequest()">📝 REQUEST EMPLOYEE ACCESS</button>
+</div>
+<div id="securityCodeNote" class="hidden" style="margin-top:10px;color:var(--yellow);font-size:13px">Owner verification required.</div>
+<div id="loginError" class="error"></div>
+</div>
 </section>
 
-<main id="app" class="hidden">
-<div class="wrap">
-<header id="appHeader" class="top card" style="padding:14px">
-  <div class="brand" style="margin:0"><div class="logo">🥛</div><div><b>DHANALAKSHMI MILK DAIRY</b><div id="roleLine" class="small muted"></div></div></div>
-  <div class="row"><span id="syncPill" class="pill">☁️ Offline</span><button class="btn" onclick="lockApp()">🔒 Lock</button></div>
+<div id="app" class="hidden">
+<div id="firebaseSecurityNotice" style="margin:10px 0;padding:10px 12px;border-radius:10px;border:1px solid #6b7280;background:#172033;color:#f8fafc;font-size:12px">
+⚠️ Firebase security is currently in testing mode. Secure Firestore rules before real business use.
+</div>
+<header class="topbar">
+<div class="brand"><div class="brand-icon">🥛</div><div><h2>DHANALAKSHMI MILK DAIRY</h2><small>Logged in as <b id="loggedInAs"></b></small></div></div>
+<div class="top-actions"><span id="cloudStatusInline" style="color:var(--green);font-size:12px">☁️ Connecting...</span><button class="btn dark" onclick="backupData()">💾 Backup</button><button class="btn red" onclick="logout()">🔒 Lock</button></div>
 </header>
-<nav id="nav" class="nav"></nav>
-<section id="content"></section>
-</div></main>
+<div class="layout">
+<aside class="sidebar">
+<button class="nav-btn active" data-page="dashboard">🏠 Dashboard</button>
+<button class="nav-btn" data-page="customers">👤 Customers</button>
+<button class="nav-btn" data-page="milk">🥛 Milk Entry</button>
+<button class="nav-btn" data-page="credit">💰 Credit</button>
+<button class="nav-btn" data-page="bills">🧾 Bills</button>
+<button class="nav-btn owner-only" data-page="access">🔐 Access Management</button>
+<button class="nav-btn owner-only" data-page="activity">📝 Activity History</button>
+</aside>
+<main class="main">
 
-<div id="modal" class="modal hidden"><div id="modalBox" class="card modalBox"></div></div>
-<div id="toast" class="toast hidden"></div>
+<section id="dashboard" class="page active">
+<div class="page-title"><h1>Digital Dairy Dashboard</h1><p>Complete overview of DHANALAKSHMI MILK DAIRY</p></div>
+<div class="stats">
+<div class="stat"><span>👥 CUSTOMERS</span><strong id="statCustomers">0</strong></div>
+<div class="stat"><span>🥛 TODAY'S MILK</span><strong id="statMilk">0 L</strong></div>
+<div class="stat"><span>💰 OUTSTANDING CREDIT</span><strong id="statCredit">₹0</strong></div>
+<div class="stat"><span>🧾 BILLS</span><strong id="statBills">0</strong></div>
+</div>
+<div class="dashboard-grid">
+<div class="panel"><h3>⚡ Quick Actions</h3><div class="quick-actions">
+<button class="btn" onclick="showPage('customers');openAddCustomer()">➕ NEW CUSTOMER</button>
+<button class="btn green" onclick="showPage('customers');focusSearch()">🔎 FIND CUSTOMER</button>
+<button class="btn" onclick="showPage('milk')">🥛 ENTER MILK</button>
+<button class="btn yellow" onclick="showPage('credit')">💰 ADD CREDIT</button>
+<button class="btn dark" onclick="showPage('bills')">🧾 BILL CENTER</button>
+<button class="btn green" onclick="showPage('bills')">🖨️ PRINT 6 BILLS</button>
+</div></div>
+<div class="panel"><h3>📅 Current Cycle</h3><div id="cycleInfo"></div></div>
+</div>
+<div class="panel" style="margin-top:20px"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap"><h3>🔔 Notification Center</h3><button class="btn dark owner-only" onclick="openAnnouncement()">📢 NEW ANNOUNCEMENT</button></div><div id="notificationCenter" style="margin-top:10px"></div></div>
+</section>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<section id="customers" class="page">
+<div class="page-title"><h1>👤 Customer Management</h1><p>Customer Code is the main key for every profile.</p></div>
+<div class="panel">
+<div class="search-row"><input id="customerSearch" placeholder="Enter Customer Code"><button class="btn green" onclick="searchCustomer()">🔎 OPEN PROFILE</button><button class="btn" onclick="openAddCustomer()">➕ ADD CUSTOMER</button></div>
+<div id="customerProfile" class="hidden"></div><div id="customerList"></div>
+</div>
+</section>
+
+<section id="milk" class="page">
+<div class="page-title"><h1>🥛 Milk Entry</h1><p>Thursday → Wednesday. Morning and Evening milk.</p></div>
+<div class="panel">
+<div class="form-grid">
+<div class="field"><label>Customer Code</label><input id="milkCustomerCode" placeholder="Example: 10001"></div>
+<div class="field"><label>Start Date — Thursday</label><input id="milkStartDate" type="date"></div>
+<div class="field" id="milkRateField"><label>Milk Price Per Liter</label><input id="milkRate" type="number" min="0" step=".01"></div>
+<div class="field hidden" id="milkFatField"><label>Fat Based Entry</label><div style="color:var(--muted);padding-top:8px">6.0 Fat = ₹50/L • every 0.1 Fat = ₹0.40/L</div></div>
+<div class="field"><label>Customer Name</label><input id="milkCustomerName" readonly></div>
+</div>
+<div style="margin-top:20px"><h3>7-Day Milk Record</h3><br><div id="weekGrid" class="week-grid"></div></div>
+<div class="form-actions"><button class="btn green" onclick="saveMilkRecord()">💾 SAVE 7-DAY RECORD</button><button class="btn dark" onclick="loadMilkCustomer()">🔎 LOAD CUSTOMER</button></div>
+</div>
+</section>
+
+<section id="credit" class="page">
+<div class="page-title"><h1>💰 Customer Credit</h1><p>Record money taken by the customer from the dairy.</p></div>
+<div class="panel">
+<div class="form-grid">
+<div class="field"><label>Customer Code</label><input id="creditCustomerCode" placeholder="Example: 10001"></div>
+<div class="field"><label>Credit Amount</label><input id="creditAmount" type="number" min="0" step=".01"></div>
+<div class="field"><label>Reason</label><select id="creditReason"><option>Recharge</option><option>Cattle Food</option><option>Baki</option><option>Shop</option><option>Cylinder</option><option>Other</option></select></div>
+<div class="field hidden" id="otherReasonField"><label>Other Reason</label><input id="otherReason"></div>
+</div>
+<div class="form-actions"><button class="btn yellow" onclick="addCredit()">💰 SAVE CREDIT</button><button class="btn dark" onclick="loadCreditCustomer()">🔎 LOAD CUSTOMER</button></div>
+<div id="creditCustomerInfo" style="margin-top:20px"></div>
+</div>
+</section>
+
+<section id="bills" class="page">
+<div class="page-title"><h1>🧾 Bill Center</h1><p>6 different customer bills on one A4 page.</p></div>
+<div class="panel">
+<h3>🧾 6 CUSTOMER A4 BILL SHEET</h3><p style="color:var(--muted);margin-bottom:15px">Choose up to 6 customers. Each bill uses one compact box on the same A4 page.</p>
+<div id="a4CustomerSlots" class="a4-customer-slots"></div>
+<div class="form-actions"><button class="btn" onclick="addA4CustomerSlot()">➕ ADD CUSTOMER</button><button class="btn green" onclick="printSixCustomerBills()">🖨️ PRINT 6 ON ONE A4</button><button class="btn dark" onclick="clearA4CustomerSlots()">✕ CLEAR ALL</button></div>
+</div>
+<div class="panel" style="margin-top:18px"><h3>🔎 Single Customer Bill</h3><div class="search-row"><input id="billCustomerCode" placeholder="Enter Customer Code"><button class="btn green" onclick="loadBillCustomer()">🔎 LOAD BILL</button><button class="btn" onclick="printCurrentCustomer()">🖨️ PRINT CUSTOMER</button></div><div id="billPreview"></div></div>
+</section>
+
+<section id="access" class="page owner-only-page">
+<div class="page-title"><h1>🔐 Access Management</h1><p>Only the OWNER can approve or reject Login IDs.</p></div>
+<div class="panel"><h3>Pending Requests</h3><div id="pendingRequests"></div><h3 style="margin-top:25px">Approved Users</h3><div id="approvedUsers"></div></div>
+</section>
+
+<section id="activity" class="page owner-only-page">
+<div class="page-title"><h1>📝 Activity History</h1><p>See who changed what and when.</p></div>
+<div class="panel"><div id="activityList"></div></div>
+</section>
+
+</main></div></div>
+
+<div id="customerModal" class="modal"><div class="modal-card">
+<div class="modal-head"><h2>➕ Add Customer</h2><button class="btn dark" onclick="closeModal()">✕</button></div>
+<div class="form-grid">
+<div class="field"><label>Customer Code</label><input id="newCustomerCode"></div>
+<div class="field"><label>Customer Name</label><input id="newCustomerName"></div>
+<div class="field"><label>Milk Price Type</label><select id="newCustomerPricingType"><option value="fixed">Fixed Price</option><option value="fat">Fat Based</option></select></div>
+</div>
+<div class="form-actions"><button class="btn green" onclick="saveCustomer()">💾 SAVE CUSTOMER</button></div>
+</div></div>
+
+<div id="employeeRequestModal" class="modal"><div class="modal-card">
+<div class="modal-head"><h2>📝 Employee Access Request</h2><button class="btn dark" onclick="closeEmployeeRequest()">✕</button></div>
+<div class="form-grid">
+<div class="field"><label>Employee Name</label><input id="requestName"></div>
+<div class="field"><label>Login ID</label><input id="requestLoginId"></div>
+<div class="field"><label>Password</label><input id="requestPassword" type="password"></div>
+<div class="field"><label>Confirm Password</label><input id="requestPassword2" type="password"></div>
+</div><div class="form-actions"><button class="btn green" onclick="submitEmployeeRequest()">📨 SEND REQUEST</button></div>
+</div></div>
+
+<div id="announcementModal" class="modal"><div class="modal-card">
+<div class="modal-head"><h2>📢 New Announcement</h2><button class="btn dark" onclick="closeAnnouncement()">✕</button></div>
+<div class="form-grid"><div class="field full"><label>Title</label><input id="announcementTitle"></div><div class="field full"><label>Message</label><textarea id="announcementMessage" rows="5" style="width:100%;padding:13px;background:#091729;color:var(--text);border:1px solid var(--border);border-radius:12px"></textarea></div></div>
+<div class="form-actions"><button class="btn green" onclick="saveAnnouncement()">📢 PUBLISH</button></div>
+</div></div>
+
+<div id="printArea" class="print-area"></div><div id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
 <script>
-'use strict';
-const firebaseConfig={apiKey:"AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",authDomain:"dhanalakshmi-milk-dairy.firebaseapp.com",projectId:"dhanalakshmi-milk-dairy",storageBucket:"dhanalakshmi-milk-dairy.firebasestorage.app",messagingSenderId:"548531175682",appId:"1:548531175682:web:39bf5359670e1056ac421b",measurementId:"G-Y12H5PGSGT"};
-const DBKEY='DMD_FULL_V3';
-const DEFAULT={customers:[],milk:[],credits:[],bills:[],users:[],requests:[],announcements:[],activity:[],settings:{ownerId:'owner',ownerPassword:'11223',ownerCode:'11223'},lastSync:null};
-let dbLocal=loadLocal(), firestore=null, cloudReady=false, loginMode='owner', session=null, page='dashboard', saveTimer=null;
-function clone(x){return JSON.parse(JSON.stringify(x))}
-function loadLocal(){try{return Object.assign(clone(DEFAULT),JSON.parse(localStorage.getItem(DBKEY)||'{}'))}catch(e){return clone(DEFAULT)}}
-function saveLocal(){localStorage.setItem(DBKEY,JSON.stringify(dbLocal));}
-function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.add('hidden'),3200)}
-function modal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modal').classList.remove('hidden')}
-function closeModal(){document.getElementById('modal').classList.add('hidden')}
-function setLoginMode(mode){loginMode=mode;document.getElementById('ownerTab').className='btn '+(mode==='owner'?'primary':'');document.getElementById('employeeTab').className='btn '+(mode==='employee'?'primary':'');document.getElementById('ownerCodeWrap').classList.toggle('hidden',mode!=='owner');document.getElementById('requestBtn').classList.toggle('hidden',mode!=='employee');document.getElementById('loginMsg').textContent=mode==='owner'?'Owner access includes employee management, activity history and settings.':'Use an approved employee Login ID and password. New employees can request access.'}
-function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
-async function cloudInit(){try{firebase.initializeApp(firebaseConfig);firestore=firebase.firestore();await firestore.collection('dairy').doc('system').get();cloudReady=true;document.getElementById('cloudLoginStatus').textContent='☁️ Cloud connection ready';setSync('☁️ Cloud connected');await pullCloud()}catch(e){cloudReady=false;document.getElementById('cloudLoginStatus').textContent='⚠️ Cloud unavailable — local mode is active';setSync('⚠️ Local mode')}}
-async function pullCloud(){if(!cloudReady)return;try{const snap=await firestore.collection('dairy').doc('system').get();if(snap.exists){const d=snap.data().data;if(d&&typeof d==='object'){dbLocal=Object.assign(clone(DEFAULT),d);saveLocal()}}setSync('☁️ Synced');}catch(e){setSync('⚠️ Cloud read failed');}}
-function setSync(s){document.getElementById('syncPill').textContent=s}
-async function pushCloud(){saveLocal();if(!cloudReady){setSync('💾 Saved locally');return false}try{setSync('⏳ Saving…');await firestore.collection('dairy').doc('system').set({data:dbLocal,updatedAt:new Date().toISOString()});dbLocal.lastSync=new Date().toISOString();saveLocal();setSync('☁️ Synced');return true}catch(e){setSync('⚠️ Cloud save failed');return false}}
-function queueSave(){saveLocal();clearTimeout(saveTimer);saveTimer=setTimeout(pushCloud,500)}
-function log(action,details){dbLocal.activity.unshift({id:Date.now()+Math.random(),at:new Date().toISOString(),user:session?.id||'system',role:session?.role||'system',action,details});dbLocal.activity=dbLocal.activity.slice(0,1000);queueSave()}
-function login(){const id=document.getElementById('loginId').value.trim();const pass=document.getElementById('loginPass').value;const code=document.getElementById('ownerCode').value;
- if(!id||!pass)return toast('Enter Login ID and password.');
- if(loginMode==='owner'){if(id!==dbLocal.settings.ownerId||pass!==dbLocal.settings.ownerPassword||code!==dbLocal.settings.ownerCode)return toast('Owner login details are incorrect.');session={id,role:'owner',name:'Owner'};startApp();log('LOGIN','Owner logged in');return}
- const u=dbLocal.users.find(x=>x.id===id&&x.password===pass&&x.status==='approved');if(!u)return toast('Employee account not found, not approved, or password is wrong.');session={id:u.id,role:'employee',name:u.name};startApp();log('LOGIN','Employee logged in');}
-function lockApp(){if(session)log('LOGOUT','Session locked');session=null;document.getElementById('app').classList.add('hidden');document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('loginPass').value='';document.getElementById('ownerCode').value='';}
-function startApp(){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('app').classList.remove('hidden');document.getElementById('roleLine').textContent=(session.role==='owner'?'👑 OWNER':'👨‍💼 EMPLOYEE')+' • '+session.name;renderNav();renderPage()}
-function isOwner(){return session?.role==='owner'}
-function renderNav(){const items=isOwner()?[['dashboard','🏠 Dashboard'],['customers','👥 Customers'],['milk','🥛 Milk Entry'],['credit','💰 Credit'],['bills','🧾 Bills'],['employees','👨‍💼 Access Management'],['activity','📜 Activity History'],['announcements','📢 Announcements'],['settings','⚙️ Settings']]:[['dashboard','🏠 Dashboard'],['customers','👥 Customers'],['milk','🥛 Milk Entry'],['credit','💰 Credit'],['bills','🧾 Bills'],['announcements','📢 Notices']];document.getElementById('nav').innerHTML=items.map(x=>`<button class="btn ${page===x[0]?'active':''}" onclick="go('${x[0]}')">${x[1]}</button>`).join('')}
-function go(p){page=p;renderNav();renderPage()}
-function renderPage(){const c=document.getElementById('content');({dashboard:renderDashboard,customers:renderCustomers,milk:renderMilk,credit:renderCredit,bills:renderBills,employees:renderEmployees,activity:renderActivity,announcements:renderAnnouncements,settings:renderSettings}[page]||renderDashboard)()}
-function renderDashboard(){const unpaid=dbLocal.bills.filter(x=>x.balance>0).reduce((a,x)=>a+x.balance,0);const today=dbLocal.milk.filter(x=>x.date===new Date().toISOString().slice(0,10)).length;c.innerHTML=`<div class="grid g4"><div class="card stat">👥 Customers<b>${dbLocal.customers.length}</b></div><div class="card stat">🥛 Milk Entries<b>${dbLocal.milk.length}</b></div><div class="card stat">🧾 Bills<b>${dbLocal.bills.length}</b></div><div class="card stat">💰 Outstanding<b>₹${unpaid.toFixed(2)}</b></div></div><div class="card section"><h2>Welcome, ${esc(session.name)} 👋</h2><p class="muted">${isOwner()?'Owner control center. Manage employees, customers, milk, bills, credits, notices and activity.':'Employee workspace. Changes are saved locally and synced to the dairy cloud when available.'}</p><div class="row" style="margin-top:14px"><button class="btn primary" onclick="go('milk')">🥛 Enter Milk</button><button class="btn" onclick="go('customers')">👥 Customers</button><button class="btn" onclick="go('bills')">🧾 Bills</button></div></div><div class="card section"><h2>Latest Notices</h2>${dbLocal.announcements.slice(0,5).map(a=>`<div class="notice"><b>${esc(a.title)}</b><div class="small muted">${new Date(a.at).toLocaleString()}</div><div style="margin-top:5px">${esc(a.text)}</div></div>`).join('')||'<div class="empty">No notices.</div>'}</div>`}
-function renderCustomers(){c.innerHTML=`<div class="card section"><div class="top"><h2>Customer Management</h2><button class="btn primary" onclick="customerForm()">➕ Add Customer</button></div><div class="field"><label>SEARCH BY CUSTOMER CODE OR NAME</label><input id="custSearch" oninput="filterCustomers()" placeholder="Search…"></div><div id="custTable"></div></div>`;filterCustomers()}
-function filterCustomers(){const q=(document.getElementById('custSearch')?.value||'').toLowerCase();const a=dbLocal.customers.filter(x=>(x.code+' '+x.name).toLowerCase().includes(q));document.getElementById('custTable').innerHTML=`<div class="tableWrap"><table class="table"><thead><tr><th>Code</th><th>Name</th><th>Pricing</th><th>Price/Fat</th><th>Actions</th></tr></thead><tbody>${a.map(x=>`<tr><td>${esc(x.code)}</td><td>${esc(x.name)}</td><td>${x.type==='fat'?'Fat based':'Fixed price'}</td><td>${x.type==='fat'?'6.0 = ₹'+x.basePrice+'/L':'₹'+x.price+'/L'}</td><td><button class="btn" onclick="customerForm('${esc(x.code)}')">Edit</button> <button class="btn danger" onclick="deleteCustomer('${esc(x.code)}')">Delete</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">No customers.</td></tr>'}</tbody></table></div>`}
-function customerForm(code=''){const x=dbLocal.customers.find(a=>a.code===code)||{code:'',name:'',type:'fixed',price:50,basePrice:50};modal(`<h2>${code?'Edit':'Add'} Customer</h2><div class="field"><label>Customer Code</label><input id="fCode" value="${esc(x.code)}" ${code?'readonly':''}></div><div class="field"><label>Name</label><input id="fName" value="${esc(x.name)}"></div><div class="field"><label>Pricing Type</label><select id="fType" onchange="document.getElementById('fatPrice').classList.toggle('hidden',this.value!=='fat');document.getElementById('fixedPrice').classList.toggle('hidden',this.value!=='fixed')"><option value="fixed" ${x.type==='fixed'?'selected':''}>Fixed Price</option><option value="fat" ${x.type==='fat'?'selected':''}>Fat Based</option></select></div><div id="fixedPrice" class="field ${x.type==='fat'?'hidden':''}"><label>Price per litre</label><input id="fPrice" type="number" step="0.01" value="${x.price||50}"></div><div id="fatPrice" class="field ${x.type!=='fat'?'hidden':''}"><label>Price at 6.0 Fat (₹/L)</label><input id="fBase" type="number" step="0.01" value="${x.basePrice||50}"><div class="small muted">Every 0.1 Fat changes price by ₹0.40/L.</div></div><div class="row"><button class="btn primary" onclick="saveCustomer('${esc(code)}')">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
-function saveCustomer(oldCode){const code=document.getElementById('fCode').value.trim(),name=document.getElementById('fName').value.trim(),type=document.getElementById('fType').value,price=Number(document.getElementById('fPrice')?.value||50),basePrice=Number(document.getElementById('fBase')?.value||50);if(!code||!name)return toast('Code and name are required.');if(!oldCode&&dbLocal.customers.some(x=>x.code===code))return toast('Customer code already exists.');let x=dbLocal.customers.find(a=>a.code===(oldCode||code));if(!x){x={code,name,type,price,basePrice};dbLocal.customers.push(x)}else Object.assign(x,{name,type,price,basePrice});closeModal();queueSave();log('CUSTOMER_SAVE',code);renderPage();toast('Customer saved.')}
-function deleteCustomer(code){if(!confirm('Delete customer '+code+'?'))return;dbLocal.customers=dbLocal.customers.filter(x=>x.code!==code);queueSave();log('CUSTOMER_DELETE',code);renderPage()}
-function weekDays(){const now=new Date(),day=now.getDay(),diff=(day+3)%7;const thu=new Date(now);thu.setDate(now.getDate()-diff);return Array.from({length:7},(_,i)=>{const d=new Date(thu);d.setDate(thu.getDate()+i);return d.toISOString().slice(0,10)})}
-function calcFatPrice(base,fat){return base+(Number(fat)-6)*4}
-function renderMilk(){const days=weekDays();c.innerHTML=`<div class="card section"><div class="top"><h2>🥛 7-Day Milk Record</h2><span class="pill">Thursday → Wednesday</span></div><div class="row" style="margin-bottom:10px"><select id="milkCustomer" style="background:#081727;color:#fff;border:1px solid #28415f;border-radius:10px;padding:10px"><option value="">Select customer</option>${dbLocal.customers.map(x=>`<option value="${esc(x.code)}">${esc(x.code)} • ${esc(x.name)}</option>`).join('')}</select><button class="btn primary" onclick="loadMilkCustomer()">Load Customer</button></div><div id="milkEditor" class="empty">Select a customer and click Load Customer.</div></div>`}
-function loadMilkCustomer(){const code=document.getElementById('milkCustomer').value,x=dbLocal.customers.find(a=>a.code===code);if(!x)return toast('Select customer.');const days=weekDays();document.getElementById('milkEditor').innerHTML=`<div class="notice"><b>${esc(x.code)} • ${esc(x.name)}</b> — ${x.type==='fat'?'Fat based':'Fixed price'}</div><div class="daygrid"><div class="head">Session</div>${days.map(d=>`<div class="head">${new Date(d+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short'})}<br><span class="small">${d}</span></div>`).join('')}<div>🌅 Morning L</div>${days.map(d=>`<div><input id="m_${d}" type="number" min="0" step="0.01" placeholder="L"></div>`).join('')}<div>🌆 Evening L</div>${days.map(d=>`<div><input id="e_${d}" type="number" min="0" step="0.01" placeholder="L"></div>`).join('')}${x.type==='fat'?`<div>Morning Fat</div>${days.map(d=>`<div><input id="mf_${d}" type="number" min="0" step="0.1" placeholder="Fat"></div>`).join('')}<div>Evening Fat</div>${days.map(d=>`<div><input id="ef_${d}" type="number" min="0" step="0.1" placeholder="Fat"></div>`).join('')}`:''}</div><div class="row" style="margin-top:12px"><button class="btn success" onclick="saveMilk('${esc(x.code)}','${x.type}',${x.basePrice||50},${x.price||50})">💾 Save 7-Day Record</button><button class="btn" onclick="go('bills')">Go to Bills</button></div>`}
-function saveMilk(code,type,base,price){const days=weekDays();days.forEach(d=>{['m','e'].forEach(s=>{const liters=Number(document.getElementById(s+'_'+d)?.value||0),fat=type==='fat'?Number(document.getElementById((s==='m'?'mf':'ef')+'_'+d)?.value||0):0;if(liters>0){const existing=dbLocal.milk.find(x=>x.customer===code&&x.date===d&&x.session===s);const row={id:existing?.id||Date.now()+Math.random(),customer:code,date:d,session:s,liters,fat,price:type==='fat'?calcFatPrice(base,fat):price};if(existing)Object.assign(existing,row);else dbLocal.milk.push(row)}})});queueSave();log('MILK_SAVE',code+' 7-day record');toast('Milk record saved and synced when cloud is available.')}
-function renderCredit(){c.innerHTML=`<div class="card section"><div class="top"><h2>💰 Customer Credit</h2><button class="btn primary" onclick="creditForm()">➕ Add Credit</button></div><div class="tableWrap"><table class="table"><thead><tr><th>Date</th><th>Customer</th><th>Amount</th><th>Reason</th><th>By</th></tr></thead><tbody>${dbLocal.credits.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.customer)}</td><td>₹${Number(x.amount).toFixed(2)}</td><td>${esc(x.reason)}</td><td>${esc(x.by)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">No credit records.</td></tr>'}</tbody></table></div></div>`}
-function creditForm(){modal(`<h2>Add Customer Credit</h2><div class="field"><label>Customer</label><select id="crCust">${dbLocal.customers.map(x=>`<option value="${esc(x.code)}">${esc(x.code)} • ${esc(x.name)}</option>`).join('')}</select></div><div class="field"><label>Amount</label><input id="crAmt" type="number" step="0.01"></div><div class="field"><label>Reason</label><select id="crReason"><option>Recharge</option><option>Cattle Food</option><option>Baki</option><option>Shop</option><option>Cylinder</option><option>Other</option></select></div><div class="row"><button class="btn primary" onclick="saveCredit()">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
-function saveCredit(){const amount=Number(document.getElementById('crAmt').value);if(!(amount>0))return toast('Enter a valid amount.');dbLocal.credits.unshift({id:Date.now(),date:new Date().toISOString().slice(0,10),customer:document.getElementById('crCust').value,amount,reason:document.getElementById('crReason').value,by:session.id});closeModal();queueSave();log('CREDIT_ADD','₹'+amount);renderPage()}
-function renderBills(){const codes=[...new Set(dbLocal.milk.map(x=>x.customer))];c.innerHTML=`<div class="card section noPrint"><div class="top"><h2>🧾 Bill Center</h2><span class="pill">6 bills per A4</span></div><div class="field"><label>Select up to 6 customers</label><select id="billCust" multiple size="6">${dbLocal.customers.map(x=>`<option value="${esc(x.code)}">${esc(x.code)} • ${esc(x.name)}</option>`).join('')}</select></div><div class="row"><button class="btn primary" onclick="previewBills()">Preview 6 Bills</button><button class="btn success" onclick="printBills()">🖨️ Print</button><button class="btn" onclick="saveBills()">💾 Save Bills</button></div></div><div id="billPreview" class="card section"><div class="empty">Choose customers to preview bills.</div></div>`}
-function billData(code){const x=dbLocal.customers.find(a=>a.code===code),rows=dbLocal.milk.filter(a=>a.customer===code),total=rows.reduce((s,r)=>s+r.liters*r.price,0),credit=dbLocal.credits.filter(a=>a.customer===code).reduce((s,r)=>s+r.amount,0);return {x,rows,total,credit,balance:total-credit}}
-function billHtml(code){const b=billData(code);return `<div class="bill"><h3>DHANALAKSHMI MILK DAIRY</h3><div style="font-size:12px;margin:4px 0"><b>${esc(b.x.code)}</b> • ${esc(b.x.name)}</div><table><tbody>${b.rows.slice(-14).map(r=>`<tr><td>${new Date(r.date+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short'})} ${r.session==='m'?'M':'E'}</td><td>${r.liters} L</td><td>₹${(r.liters*r.price).toFixed(2)}</td></tr>`).join('')}</tbody></table><div style="margin-top:7px;font-size:12px"><b>Milk Total: ₹${b.total.toFixed(2)}</b><br>Credit: ₹${b.credit.toFixed(2)}<br><b>Balance: ₹${b.balance.toFixed(2)}</b></div></div>`}
-function selectedBillCodes(){return [...document.getElementById('billCust').selectedOptions].slice(0,6).map(o=>o.value)}
-function previewBills(){const codes=selectedBillCodes();if(!codes.length)return toast('Select customers.');document.getElementById('billPreview').innerHTML='<div class="billSheet">'+codes.map(billHtml).join('')+'</div>'}
-function printBills(){previewBills();setTimeout(()=>window.print(),150)}
-function saveBills(){const codes=selectedBillCodes();if(!codes.length)return toast('Select customers.');codes.forEach(code=>{const b=billData(code);dbLocal.bills.push({id:Date.now()+Math.random(),date:new Date().toISOString(),customer:code,total:b.total,credit:b.credit,balance:b.balance})});queueSave();log('BILLS_SAVE',codes.join(','));toast('Bills saved.')}
-function renderEmployees(){const pending=dbLocal.requests.filter(x=>x.status==='pending');c.innerHTML=`<div class="card section"><div class="top"><h2>👨‍💼 Access Management</h2><button class="btn primary" onclick="employeeForm()">➕ Create Employee</button></div><h3>Pending Requests</h3>${pending.map(r=>`<div class="notice"><b>${esc(r.name)}</b> • ${esc(r.id)}<div class="small muted">${esc(r.reason||'No message')}</div><div class="row" style="margin-top:8px"><button class="btn success" onclick="approveRequest('${esc(r.id)}')">Approve</button><button class="btn danger" onclick="rejectRequest('${esc(r.id)}')">Reject</button></div></div>`).join('')||'<div class="empty">No pending requests.</div>'}</div><div class="card section"><h2>Employee Accounts</h2><div class="tableWrap"><table class="table"><thead><tr><th>ID</th><th>Name</th><th>Status</th><th>Actions</th></tr></thead><tbody>${dbLocal.users.map(u=>`<tr><td>${esc(u.id)}</td><td>${esc(u.name)}</td><td>${esc(u.status)}</td><td><button class="btn" onclick="employeeForm('${esc(u.id)}')">Edit</button> <button class="btn danger" onclick="removeEmployee('${esc(u.id)}')">Remove</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">No employees.</td></tr>'}</tbody></table></div></div>`}
-function employeeForm(id=''){const u=dbLocal.users.find(x=>x.id===id)||{id:'',name:'',password:'',status:'approved'};modal(`<h2>${id?'Edit':'Create'} Employee</h2><div class="field"><label>Login ID</label><input id="uId" value="${esc(u.id)}"></div><div class="field"><label>Name</label><input id="uName" value="${esc(u.name)}"></div><div class="field"><label>Password</label><input id="uPass" value="${esc(u.password)}"></div><div class="field"><label>Status</label><select id="uStatus"><option ${u.status==='approved'?'selected':''}>approved</option><option ${u.status==='disabled'?'selected':''}>disabled</option></select></div><div class="row"><button class="btn primary" onclick="saveEmployee('${esc(id)}')">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
-function saveEmployee(old){const id=document.getElementById('uId').value.trim(),name=document.getElementById('uName').value.trim(),password=document.getElementById('uPass').value,status=document.getElementById('uStatus').value;if(!id||!name||!password)return toast('All fields are required.');if(!old&&dbLocal.users.some(x=>x.id===id))return toast('Login ID already exists.');let u=dbLocal.users.find(x=>x.id===(old||id));if(!u){u={id,name,password,status};dbLocal.users.push(u)}else Object.assign(u,{id,name,password,status});closeModal();queueSave();log('EMPLOYEE_SAVE',id);renderPage()}
-function approveRequest(id){const r=dbLocal.requests.find(x=>x.id===id);if(!r)return;const password=r.requestedPassword||'12345';if(!dbLocal.users.some(x=>x.id===id))dbLocal.users.push({id,name:r.name,password,status:'approved'});r.status='approved';r.approvedAt=new Date().toISOString();queueSave();log('EMPLOYEE_APPROVE',id);renderPage();toast('Employee approved. Password: '+password)}
-function rejectRequest(id){const r=dbLocal.requests.find(x=>x.id===id);if(r)r.status='rejected';queueSave();log('EMPLOYEE_REJECT',id);renderPage()}
-function removeEmployee(id){if(!confirm('Remove employee '+id+'?'))return;dbLocal.users=dbLocal.users.filter(x=>x.id!==id);queueSave();log('EMPLOYEE_REMOVE',id);renderPage()}
-function openRequest(){modal(`<h2>📝 Employee Access Request</h2><div class="field"><label>Requested Login ID</label><input id="rId"></div><div class="field"><label>Your Name</label><input id="rName"></div><div class="field"><label>Password you want</label><input id="rPass" type="password"></div><div class="field"><label>Message</label><textarea id="rMsg" rows="3"></textarea></div><div class="row"><button class="btn primary" onclick="submitRequest()">Send Request</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
-function submitRequest(){const id=document.getElementById('rId').value.trim(),name=document.getElementById('rName').value.trim(),password=document.getElementById('rPass').value;if(!id||!name||!password)return toast('Fill all required fields.');if(dbLocal.users.some(x=>x.id===id)||dbLocal.requests.some(x=>x.id===id&&x.status==='pending'))return toast('That Login ID is already in use or pending.');dbLocal.requests.unshift({id,name,requestedPassword:password,reason:document.getElementById('rMsg').value,status:'pending',at:new Date().toISOString()});queueSave();closeModal();toast('Request sent to owner.');}
-function renderActivity(){c.innerHTML=`<div class="card section"><div class="top"><h2>📜 Activity History</h2><button class="btn danger" onclick="clearActivity()">Clear History</button></div><div class="tableWrap"><table class="table"><thead><tr><th>Time</th><th>User</th><th>Role</th><th>Action</th><th>Details</th></tr></thead><tbody>${dbLocal.activity.map(a=>`<tr><td>${new Date(a.at).toLocaleString()}</td><td>${esc(a.user)}</td><td>${esc(a.role)}</td><td>${esc(a.action)}</td><td>${esc(a.details)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">No activity.</td></tr>'}</tbody></table></div></div>`}
-function clearActivity(){if(!confirm('Clear activity history?'))return;dbLocal.activity=[];queueSave();renderPage()}
-function renderAnnouncements(){c.innerHTML=`<div class="card section"><div class="top"><h2>📢 Announcements & Notifications</h2>${isOwner()?'<button class="btn primary" onclick="announcementForm()">➕ New Announcement</button>':''}</div>${dbLocal.announcements.map(a=>`<div class="notice"><div class="row"><b>${esc(a.title)}</b><span class="pill">${new Date(a.at).toLocaleString()}</span>${isOwner()?'<button class="btn danger right" onclick="deleteAnnouncement(\''+esc(a.id)+'\')">Delete</button>':''}</div><div style="margin-top:6px">${esc(a.text)}</div><div class="small muted" style="margin-top:5px">By ${esc(a.by||'Owner')}</div></div>`).join('')||'<div class="empty">No announcements.</div>'}</div>`}
-function announcementForm(){modal(`<h2>📢 New Announcement</h2><div class="field"><label>Title</label><input id="aTitle"></div><div class="field"><label>Message</label><textarea id="aText" rows="5"></textarea></div><div class="row"><button class="btn primary" onclick="saveAnnouncement()">Publish</button><button class="btn" onclick="closeModal()">Cancel</button></div>`)}
-function saveAnnouncement(){const title=document.getElementById('aTitle').value.trim(),text=document.getElementById('aText').value.trim();if(!title||!text)return toast('Title and message required.');dbLocal.announcements.unshift({id:String(Date.now()),title,text,by:session.id,at:new Date().toISOString()});queueSave();log('ANNOUNCEMENT_CREATE',title);closeModal();renderPage()}
-function deleteAnnouncement(id){dbLocal.announcements=dbLocal.announcements.filter(a=>a.id!==id);queueSave();log('ANNOUNCEMENT_DELETE',id);renderPage()}
-function renderSettings(){if(!isOwner())return go('dashboard');c.innerHTML=`<div class="card section"><h2>⚙️ Owner Settings</h2><div class="grid g2"><div><div class="field"><label>Owner Login ID</label><input id="sId" value="${esc(dbLocal.settings.ownerId)}"></div><div class="field"><label>Owner Password</label><input id="sPass" value="${esc(dbLocal.settings.ownerPassword)}"></div><div class="field"><label>Owner Security Code</label><input id="sCode" value="${esc(dbLocal.settings.ownerCode)}"></div><button class="btn primary" onclick="saveSettings()">Save Owner Settings</button></div><div><div class="notice"><b>Firebase project</b><br>${esc(firebaseConfig.projectId)}</div><div class="notice"><b>Local backup</b><br>${(new Blob([JSON.stringify(dbLocal)]).size/1024).toFixed(1)} KB</div><button class="btn success" onclick="downloadBackup()">⬇️ Download Backup</button> <button class="btn" onclick="document.getElementById('restoreFile').click()">⬆️ Restore</button><input id="restoreFile" type="file" accept="application/json" class="hidden" onchange="restoreBackup(this)"></div></div></div>`}
-function saveSettings(){const id=document.getElementById('sId').value.trim(),pass=document.getElementById('sPass').value,code=document.getElementById('sCode').value;if(!id||!pass||!code)return toast('All owner settings are required.');dbLocal.settings={ownerId:id,ownerPassword:pass,ownerCode:code};queueSave();log('SETTINGS_SAVE','Owner settings updated');toast('Owner settings saved.')}
-function downloadBackup(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(dbLocal,null,2)],{type:'application/json'}));a.download='dhanalakshmi-dairy-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
-function restoreBackup(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);dbLocal=Object.assign(clone(DEFAULT),d);saveLocal();pushCloud();log('BACKUP_RESTORE',f.name);renderPage();toast('Backup restored.')}catch(e){toast('Invalid backup file.')}};r.readAsText(f)}
-const c=document.getElementById('content');
-window.addEventListener('beforeunload',saveLocal);
-document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
-window.addEventListener('online',()=>{if(cloudReady)pushCloud()});
-setLoginMode('owner');
-cloudInit().finally(()=>{document.getElementById('loading').classList.add('hidden')});
-if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+const firebaseConfig={
+  apiKey:"AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",
+  authDomain:"dhanalakshmi-milk-dairy.firebaseapp.com",
+  projectId:"dhanalakshmi-milk-dairy",
+  storageBucket:"dhanalakshmi-milk-dairy.firebasestorage.app",
+  messagingSenderId:"548531175682",
+  appId:"1:548531175682:web:39bf5359670e1056ac421b",
+  measurementId:"G-Y12H5PGSGT"
+};
+let firebaseReady=false,firebaseSyncStarted=false;
+
+function firebaseConfigured(){
+  return !!(firebaseConfig.apiKey&&!firebaseConfig.apiKey.startsWith("PASTE_")&&firebaseConfig.projectId&&!firebaseConfig.projectId.startsWith("PASTE_")&&firebaseConfig.appId&&!firebaseConfig.appId.startsWith("PASTE_"));
+}
+function normalizeDatabase(d){
+  d=d||{};
+  return{
+    customers:Array.isArray(d.customers)?d.customers:[],
+    bills:Array.isArray(d.bills)?d.bills:[],
+    users:Array.isArray(d.users)?d.users:[],
+    requests:Array.isArray(d.requests)?d.requests:[],
+    activity:Array.isArray(d.activity)?d.activity:[],
+    notifications:Array.isArray(d.notifications)?d.notifications:[]
+  };
+}
+function showCloudStatus(message){
+  let el=document.getElementById("cloudStatus");
+  if(!el){
+    el=document.createElement("div");el.id="cloudStatus";
+    el.style.cssText="position:fixed;left:20px;bottom:20px;z-index:199;padding:9px 12px;border-radius:10px;background:#102840;border:1px solid var(--border);color:#dbeafe;font-size:12px;box-shadow:0 12px 35px #0005";
+    document.body.appendChild(el);
+  }
+  el.textContent=message;
+  const inline=document.getElementById("cloudStatusInline");
+  if(inline)inline.textContent=message;
+}
+async function startFirebaseSync(){
+  if(firebaseSyncStarted)return;
+  firebaseSyncStarted=true;
+  if(!firebaseConfigured()){firebaseReady=false;showCloudStatus("⚠️ Firebase configuration missing");return;}
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+    const root=firebase.firestore().collection("dairy");
+    const names=["customers","bills","users","requests","activity","notifications"];
+
+    const mainSnap=await root.doc("main").get();
+    if(mainSnap.exists){
+      const oldData=normalizeDatabase(mainSnap.data());
+      for(const name of names){
+        const snap=await root.doc(name).get();
+        if(!snap.exists)await root.doc(name).set({items:oldData[name]||[]});
+      }
+    }else{
+      for(const name of names){
+        const snap=await root.doc(name).get();
+        if(!snap.exists)await root.doc(name).set({items:Array.isArray(database[name])?database[name]:[]});
+      }
+    }
+
+    names.forEach(name=>{
+      root.doc(name).onSnapshot(snap=>{
+        if(snap.exists){
+          const data=snap.data()||{};
+          database[name]=Array.isArray(data.items)?data.items:[];
+          localStorage.setItem(STORAGE_KEY,JSON.stringify(database));
+          updateDashboard();
+          renderCustomerList();
+          renderA4CustomerSlots();
+          if(typeof renderAccess==="function"&&currentUserIsOwner())renderAccess();
+          if(typeof renderActivity==="function"&&currentUserIsOwner())renderActivity();
+          if(typeof renderNotifications==="function")renderNotifications();
+        }
+        firebaseReady=true;
+        showCloudStatus("☁️ Cloud connected • Live sync ON");
+      },err=>{
+        console.error("Firestore "+name+" listener:",err);
+        showCloudStatus("❌ Cloud read failed");
+      });
+    });
+    firebaseReady=true;
+    showCloudStatus("☁️ Cloud connected • Live sync ON");
+  }catch(err){
+    console.error("Firebase start error:",err);
+    firebaseReady=false;
+    showCloudStatus("❌ Firebase connection error");
+  }
+}
+async function cloudSaveDatabase(){
+  if(!firebaseReady)return;
+  clearTimeout(cloudWriteTimer);
+  cloudWriteTimer=setTimeout(async()=>{
+    if(cloudWriteBusy)return;cloudWriteBusy=true;
+    try{
+      const root=firebase.firestore().collection("dairy");
+      const names=["customers","bills","users","requests","activity","notifications"];
+      for(const name of names){await root.doc(name).set({items:Array.isArray(database[name])?database[name]:[]},{merge:true})}
+      showCloudStatus("☁️ Cloud connected • Saved");
+    }catch(err){
+      console.error("Cloud save error:",err);showCloudStatus("⚠️ Cloud save retrying...");
+      setTimeout(()=>cloudSaveDatabase(),2000);
+    }finally{cloudWriteBusy=false}
+  },250);
+}
+</script>
+
+<script>
+const OWNER_ID="ACHALKUMAR";
+const PASSWORD="31122";
+const OWNER_SECURITY_CODE="11223";
+const STORAGE_KEY="dhanalakshmi_milk_dairy_database_v3";
+const LEGACY_STORAGE_KEY="dhanalakshmi_milk_dairy_database_v2";
+const LEGACY_PASSWORD="31122";
+
+let database=loadDatabase();
+let currentCustomer=null;
+let currentLogin="";
+let securityCodeMode=false;
+let loginMode="owner";
+let a4CustomerCodes=[];
+let cloudWriteTimer=null;
+let cloudWriteBusy=false;
+
+function loadDatabase(){
+  try{
+    const current=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(current&&Array.isArray(current.customers))return normalizeDatabase(current);
+    const legacy=JSON.parse(localStorage.getItem(LEGACY_STORAGE_KEY));
+    if(legacy&&Array.isArray(legacy.customers)){const migrated=normalizeDatabase(legacy);localStorage.setItem(STORAGE_KEY,JSON.stringify(migrated));return migrated}
+  }catch(e){console.error("Local database load error:",e)}
+  return{customers:[],bills:[],users:[],requests:[],activity:[],notifications:[]};
+}
+function saveDatabase(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(database));
+  updateDashboard();
+  cloudSaveDatabase();
+}
+function currentUserIsOwner(){return currentLogin===OWNER_ID}
+function activityCategory(action){
+  const a=String(action).toUpperCase();
+  if(a.includes("LOGIN")||a.includes("LOGOUT"))return "LOGIN / LOGOUT";
+  if(a.includes("MILK"))return "MILK CHANGES";
+  if(a.includes("CUSTOMER"))return "CUSTOMER CHANGES";
+  if(a.includes("CREDIT"))return "CREDIT CHANGES";
+  if(a.includes("BILL")||a.includes("PRINT"))return "BILL CHANGES";
+  if(a.includes("USER")||a.includes("ACCESS")||a.includes("PASSWORD")||a.includes("ANNOUNCEMENT"))return "ACCESS / NOTIFICATIONS";
+  return "OTHER";
+}
+function logAction(action,details="",category=null){
+  database.activity.unshift({id:Date.now()+Math.random(),loginId:currentLogin||"SYSTEM",action,category:category||activityCategory(action),details,date:new Date().toISOString()});
+  if(database.activity.length>1000)database.activity.length=1000;
+  saveDatabase();
+}
+function setLoginMode(mode){
+  loginMode=mode;securityCodeMode=false;
+  document.getElementById("securityCodeInput").classList.toggle("hidden",mode!=="owner");
+  document.getElementById("securityCodeNote").classList.toggle("hidden",mode!=="owner");
+  document.getElementById("requestAccessBtn").classList.toggle("hidden",mode!=="employee");
+  document.getElementById("ownerLoginBtn").className="btn"+(mode==="owner"?" active":" dark");
+  document.getElementById("employeeLoginBtn").className="btn"+(mode==="employee"?" active":" dark");
+  document.getElementById("loginIdInput").placeholder=mode==="owner"?"Owner Login ID":"Employee Login ID";
+  document.getElementById("loginModeText").textContent=mode==="owner"?"Owner login • owner-only controls available after verification":"Employee login • access is available only after owner approval";
+  document.getElementById("loginError").textContent="";
+}
+async function sha256(text){const data=new TextEncoder().encode(text);const hash=await crypto.subtle.digest("SHA-256",data);return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}
+async function login(){
+  const id=document.getElementById("loginIdInput").value.trim().toUpperCase();
+  const pass=document.getElementById("passwordInput").value;
+  const securityCode=document.getElementById("securityCodeInput").value.trim();
+  const err=document.getElementById("loginError");
+  if(!id||!pass){err.textContent="Enter Login ID and Password.";return}
+  if(loginMode==="owner"){
+    if(id!==OWNER_ID){err.textContent="Use OWNER LOGIN for the owner account.";return}
+    if(pass!==PASSWORD){err.textContent="Incorrect owner password.";return}
+    if(!securityCodeMode){securityCodeMode=true;document.getElementById("securityCodeInput").classList.remove("hidden");document.getElementById("securityCodeNote").classList.remove("hidden");document.getElementById("securityCodeInput").focus();return}
+    if(securityCode!==OWNER_SECURITY_CODE){err.textContent="Incorrect Owner Security Code.";return}
+    currentLogin=OWNER_ID;enterApp();logAction("OWNER LOGIN","Owner login successful.");return;
+  }
+  const user=database.users.find(u=>u.id===id&&u.status==="approved");
+  if(!user){
+    const pending=database.requests.find(r=>r.id===id&&r.status==="pending");
+    err.textContent=pending?"Your access request is waiting for owner approval.":"Employee account not approved. Use REQUEST EMPLOYEE ACCESS.";return;
+  }
+  const hash=await sha256(pass);
+  if(user.passwordHash&&user.passwordHash!==hash){err.textContent="Incorrect employee password.";return}
+  if(!user.passwordHash&&pass!==LEGACY_PASSWORD){err.textContent="Incorrect employee password.";return}
+  currentLogin=id;enterApp();logAction("EMPLOYEE LOGIN","Employee login successful.");
+}
+function openEmployeeRequest(){document.getElementById("employeeRequestModal").classList.add("open");document.getElementById("requestName").focus()}
+function closeEmployeeRequest(){document.getElementById("employeeRequestModal").classList.remove("open")}
+async function submitEmployeeRequest(){
+  const name=document.getElementById("requestName").value.trim(),id=document.getElementById("requestLoginId").value.trim().toUpperCase(),p=document.getElementById("requestPassword").value,p2=document.getElementById("requestPassword2").value;
+  if(!name||!id||!p)return toast("Enter name, Login ID and password.");
+  if(p.length<4)return toast("Password must be at least 4 characters.");
+  if(p!==p2)return toast("Passwords do not match.");
+  if(id===OWNER_ID)return toast("That Login ID is reserved for the owner.");
+  if(database.users.some(u=>u.id===id)||database.requests.some(r=>r.id===id&&r.status==="pending"))return toast("This Login ID is already used or pending.");
+  const passwordHash=await sha256(p);database.requests.push({id,name,passwordHash,status:"pending",date:new Date().toISOString()});saveDatabase();closeEmployeeRequest();toast("Request sent. Wait for owner approval.");
+}
+function enterApp(){
+  localStorage.setItem("dairyAuthenticated","true");
+  localStorage.setItem("dairyLogin",currentLogin);
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("loggedInAs").textContent=currentLogin;
+  setOwnerUI();updateDashboard();buildWeekGrid();renderA4CustomerSlots();renderNotifications();
+}
+function setOwnerUI(){
+  document.querySelectorAll(".owner-only,.owner-only-page").forEach(x=>x.classList.toggle("hidden",!currentUserIsOwner()));
+}
+function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");localStorage.removeItem("dairyAuthenticated");localStorage.removeItem("dairyLogin");sessionStorage.clear();location.reload()}
+
+document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}});
+document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
+document.getElementById("securityCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
+
+document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+function showPage(id){
+  if((id==="access"||id==="activity")&&!currentUserIsOwner()){toast("Owner access required.");return}
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+  if(id==="customers")renderCustomerList();
+  if(id==="access")renderAccess();
+  if(id==="activity")renderActivity();
+  if(id==="dashboard")updateDashboard();
+}
+function updateDashboard(){
+  let milk=0,credit=0,today=new Date(),cycle=getCurrentCycle();
+  database.customers.forEach(c=>{
+    const r=(c.milkRecords||[]).find(x=>x.startDate===cycle.start);
+    if(r){
+      const i=findDayIndex(r.days,today);
+      if(i>=0){milk+=(+r.days[i].morning||0);milk+=(+r.days[i].evening||0)}
+    }
+    credit+=getOutstandingCredit(c);
+  });
+  document.getElementById("statCustomers").textContent=database.customers.length;
+  document.getElementById("statMilk").textContent=formatNumber(milk)+" L";
+  document.getElementById("statCredit").textContent=money(credit);
+  document.getElementById("statBills").textContent=database.bills.length;
+  document.getElementById("cycleInfo").innerHTML=`<b style="font-size:22px">${formatDate(cycle.start)} → ${formatDate(cycle.end)}</b><div style="color:var(--muted);margin-top:7px">Thursday → Wednesday</div>`;
+}
+function openAddCustomer(){
+  document.getElementById("customerModal").classList.add("open");
+  ["newCustomerCode","newCustomerName"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("newCustomerPricingType").value="fixed";
+  setTimeout(()=>document.getElementById("newCustomerCode").focus(),100);
+}
+function closeModal(){document.getElementById("customerModal").classList.remove("open")}
+function saveCustomer(){
+  const code=document.getElementById("newCustomerCode").value.trim(),name=document.getElementById("newCustomerName").value.trim(),pricingType=document.getElementById("newCustomerPricingType").value;
+  if(!code||!name)return toast("Customer Code and Name are required.");
+  if(getCustomer(code))return toast("Customer Code already exists.");
+  const c={code,name,pricingType,milkRecords:[],creditTransactions:[],createdAt:new Date().toISOString()};
+  database.customers.push(c);saveDatabase();logAction("ADD CUSTOMER",`${code} - ${name}`);
+  closeModal();showPage("customers");openCustomer(code);toast("Customer saved.");
+}
+function getCustomer(code){return database.customers.find(c=>c.code===String(code).trim())}
+function searchCustomer(){const code=document.getElementById("customerSearch").value.trim();if(code)openCustomer(code);else toast("Enter a Customer Code.")}
+function focusSearch(){setTimeout(()=>document.getElementById("customerSearch").focus(),100)}
+function openCustomer(code){
+  const c=getCustomer(code);if(!c){toast("Customer not found.");return}
+  currentCustomer=c;const bal=calculateCustomerBalance(c),p=document.getElementById("customerProfile");p.classList.remove("hidden");
+  p.innerHTML=`<div class="customer-header"><div><div class="customer-code">CUSTOMER CODE: ${escapeHtml(c.code)}</div><div class="customer-name">${escapeHtml(c.name)}</div><div style="color:var(--muted);font-size:13px;margin-top:5px">${c.pricingType==="fat"?"🥛 Fat Based Pricing":"💰 Fixed Price"}</div></div><div class="balance"><small>OUTSTANDING BALANCE</small><strong class="${bal<0?"negative":"positive"}">${formatBalance(bal)}</strong></div></div>
+  <div class="tabs"><button class="tab-btn active" onclick="openCustomerTab('overview',this)">Overview</button><button class="tab-btn" onclick="openCustomerTab('milkHistory',this)">🥛 Milk</button><button class="tab-btn" onclick="openCustomerTab('creditHistory',this)">💰 Credit</button><button class="tab-btn" onclick="openCustomerTab('billHistory',this)">🧾 Bills</button></div>
+  <div id="overview" class="tab-content active">${customerOverview(c)}</div><div id="milkHistory" class="tab-content">${milkHistory(c)}</div><div id="creditHistory" class="tab-content">${creditHistory(c)}</div><div id="billHistory" class="tab-content">${billHistory(c)}</div>`;
+  renderCustomerList();
+}
+function openCustomerTab(id,b){document.querySelectorAll("#customerProfile .tab-content").forEach(x=>x.classList.remove("active"));document.querySelectorAll("#customerProfile .tab-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");b.classList.add("active")}
+function customerOverview(c){
+  const r=(c.milkRecords||[]).find(x=>x.startDate===getCurrentCycle().start),bal=calculateCustomerBalance(c);
+  return`<div class="stats"><div class="stat"><span>CURRENT 7-DAY MILK</span><strong>${formatNumber(r?getRecordTotal(r):0)} L</strong></div><div class="stat"><span>MILK RECORD</span><strong>${r?"ACTIVE":"NOT SET"}</strong></div><div class="stat"><span>CREDIT TAKEN</span><strong>${money(getTotalCredit(c))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(bal)}</strong></div></div><div class="panel"><h3>⚡ Customer Actions</h3><div class="form-actions"><button class="btn" onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">🥛 Enter Milk</button><button class="btn yellow" onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">💰 Add Credit</button><button class="btn green" onclick="prepareBillForCustomer('${escapeJs(c.code)}')">🧾 View Bill</button><button class="btn dark" onclick="printCustomerBills('${escapeJs(c.code)}')">🖨️ Print</button><button class="btn red" onclick="deleteCustomerProfile('${escapeJs(c.code)}')">🗑️ DELETE CUSTOMER</button></div></div>`;
+}
+function milkHistory(c){
+  if(!(c.milkRecords||[]).length)return`<p style="color:var(--muted)">No milk records.</p>`;
+  return`<div class="table-wrap"><table><tr><th>Cycle</th><th>Start</th><th>End</th><th>Total Milk</th><th>Bill</th></tr>${c.milkRecords.map(r=>`<tr><td>Thu → Wed</td><td>${formatDate(r.startDate)}</td><td>${formatDate(r.endDate)}</td><td>${formatNumber(getRecordTotal(r))} L</td><td>${money(calculateMilkBill(r))}</td></tr>`).join("")}</table></div>`;
+}
+function creditHistory(c){
+  if(!(c.creditTransactions||[]).length)return`<p style="color:var(--muted)">No credit records.</p>`;
+  return`<div class="table-wrap"><table><tr><th>Date</th><th>Reason</th><th>Amount</th></tr>${c.creditTransactions.map(t=>`<tr><td>${formatDateTime(t.date)}</td><td>${escapeHtml(t.reason)}</td><td class="negative">-${money(t.amount)}</td></tr>`).join("")}</table></div>`;
+}
+function billHistory(c){
+  const b=database.bills.filter(x=>x.customerCode===c.code);if(!b.length)return`<p style="color:var(--muted)">No saved bills.</p>`;
+  return`<div class="table-wrap"><table><tr><th>Created</th><th>Cycle</th><th>Milk</th><th>Bill</th><th>Balance</th></tr>${b.map(x=>`<tr><td>${formatDateTime(x.createdAt)}</td><td>${formatDate(x.startDate)} → ${formatDate(x.endDate)}</td><td>${formatNumber(x.totalMilk)} L</td><td>${money(x.milkBill)}</td><td>${formatBalance(x.finalBalance)}</td></tr>`).join("")}</table></div>`;
+}
+function renderCustomerList(){
+  const box=document.getElementById("customerList");if(!database.customers.length){box.innerHTML=`<div style="padding:30px;text-align:center;color:var(--muted)">No customers yet.</div>`;return}
+  box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${database.customers.map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button></td></tr>`}).join("")}</table></div>`;
+}
+function deleteCustomerProfile(code){
+  const c=getCustomer(code);if(!c||!confirm(`Delete ${c.name} (${c.code})?`))return;
+  database.customers=database.customers.filter(x=>x.code!==c.code);database.bills=database.bills.filter(x=>x.customerCode!==c.code);
+  saveDatabase();logAction("DELETE CUSTOMER",`${c.code} - ${c.name}`);document.getElementById("customerProfile").classList.add("hidden");renderCustomerList();toast("Customer deleted.");
+}
+function getCurrentCycle(){
+  const n=new Date(),d=n.getDay(),diff=d-4<0?d-4+7:d-4;
+  const s=new Date(n);s.setHours(0,0,0,0);s.setDate(s.getDate()-diff);
+  const e=new Date(s);e.setDate(e.getDate()+6);return{start:dateInputValue(s),end:dateInputValue(e)};
+}
+function buildWeekGrid(startValue){
+  const start=parseDate(startValue||getCurrentCycle().start),days=["Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday"],c=getCustomer(document.getElementById("milkCustomerCode").value.trim()),fat=c?.pricingType==="fat";
+  document.getElementById("weekGrid").innerHTML=days.map((day,i)=>{const d=new Date(start);d.setDate(d.getDate()+i);return`<div class="day-card"><h4>${day}</h4><small>${formatDate(dateInputValue(d))}</small><label style="display:block;font-size:11px;margin-top:7px">🌅 Morning L</label><input class="morning-input" data-index="${i}" type="number" min="0" step=".01" value="0">${fat?`<label style="display:block;font-size:11px;margin-top:7px">🥛 Morning Fat</label><input class="morning-fat-input" data-index="${i}" type="number" min="0" step=".1" placeholder="6.0">`:""}<label style="display:block;font-size:11px;margin-top:7px">🌆 Evening L</label><input class="evening-input" data-index="${i}" type="number" min="0" step=".01" value="0">${fat?`<label style="display:block;font-size:11px;margin-top:7px">🥛 Evening Fat</label><input class="evening-fat-input" data-index="${i}" type="number" min="0" step=".1" placeholder="6.0">`:""}</div>`}).join("");
+}
+document.getElementById("milkStartDate").addEventListener("change",function(){const d=parseDate(this.value);if(d.getDay()!==4){toast("Start Date must be Thursday.");this.value=getCurrentCycle().start}buildWeekGrid(this.value)});
+function updateMilkPricingFields(c){const fat=c.pricingType==="fat";document.getElementById("milkRateField").classList.toggle("hidden",fat);document.getElementById("milkFatField").classList.toggle("hidden",!fat)}
+function loadMilkCustomer(){
+  const code=document.getElementById("milkCustomerCode").value.trim(),c=getCustomer(code);if(!c)return toast("Customer not found.");
+  document.getElementById("milkCustomerName").value=c.name;updateMilkPricingFields(c);
+  const cycle=getCurrentCycle();document.getElementById("milkStartDate").value=cycle.start;buildWeekGrid(cycle.start);
+  const r=(c.milkRecords||[]).find(x=>x.startDate===cycle.start);
+  if(r){
+    document.getElementById("milkRate").value=r.rate??"";
+    r.days.forEach((d,i)=>{
+      const m=document.querySelector(`.morning-input[data-index="${i}"]`),e=document.querySelector(`.evening-input[data-index="${i}"]`),mf=document.querySelector(`.morning-fat-input[data-index="${i}"]`),ef=document.querySelector(`.evening-fat-input[data-index="${i}"]`);
+      if(m)m.value=d.morning??0;if(e)e.value=d.evening??0;if(mf)mf.value=d.morningFat??"";if(ef)ef.value=d.eveningFat??"";
+    });
+    toast("Existing record loaded.");
+  }else toast("Customer loaded.");
+}
+function saveMilkRecord(){
+  const code=document.getElementById("milkCustomerCode").value.trim(),c=getCustomer(code);if(!c)return toast("Customer not found.");
+  const sv=document.getElementById("milkStartDate").value,s=parseDate(sv);if(s.getDay()!==4)return toast("Start date must be Thursday.");
+  let rate=null;if(c.pricingType!=="fat"){rate=Number(document.getElementById("milkRate").value);if(!isFinite(rate)||rate<0)return toast("Enter milk price per litre.")}
+  const e=new Date(s);e.setDate(e.getDate()+6);const days=[];
+  for(let i=0;i<7;i++){
+    const m=Number(document.querySelector(`.morning-input[data-index="${i}"]`).value)||0,v=Number(document.querySelector(`.evening-input[data-index="${i}"]`).value)||0;
+    let mf=null,ef=null;
+    if(c.pricingType==="fat"){
+      mf=Number(document.querySelector(`.morning-fat-input[data-index="${i}"]`)?.value);ef=Number(document.querySelector(`.evening-fat-input[data-index="${i}"]`)?.value);
+      if(m>0&&(!isFinite(mf)||mf<=0))return toast("Enter Morning Fat for day "+(i+1));
+      if(v>0&&(!isFinite(ef)||ef<=0))return toast("Enter Evening Fat for day "+(i+1));
+      if(!m)mf=null;if(!v)ef=null;
+    }
+    const d=new Date(s);d.setDate(d.getDate()+i);days.push({date:dateInputValue(d),morning:m,evening:v,morningFat:mf,eveningFat:ef});
+  }
+  const r={startDate:sv,endDate:dateInputValue(e),rate,pricingType:c.pricingType,days};
+  const i=c.milkRecords.findIndex(x=>x.startDate===sv);if(i>=0)c.milkRecords[i]=r;else c.milkRecords.push(r);
+  saveDatabase();logAction("SAVE MILK RECORD",`${c.code} - ${c.name} - ${getRecordTotal(r)} L`);currentCustomer=c;toast("7-day milk record saved.");openCustomer(c.code);
+}
+document.getElementById("creditReason").addEventListener("change",function(){document.getElementById("otherReasonField").classList.toggle("hidden",this.value!=="Other")});
+function addCredit(){
+  const code=document.getElementById("creditCustomerCode").value.trim(),c=getCustomer(code),amount=Number(document.getElementById("creditAmount").value);let reason=document.getElementById("creditReason").value;
+  if(!c)return toast("Customer not found.");if(!amount||amount<=0)return toast("Enter a valid credit amount.");
+  if(reason==="Other"){reason=document.getElementById("otherReason").value.trim();if(!reason)return toast("Enter the other reason.")}
+  c.creditTransactions.push({amount,reason,date:new Date().toISOString()});saveDatabase();logAction("ADD CREDIT",`${c.code} - ${money(amount)} - ${reason}`);
+  document.getElementById("creditAmount").value="";loadCreditCustomer();toast("Credit saved.");
+}
+function loadCreditCustomer(){
+  const c=getCustomer(document.getElementById("creditCustomerCode").value.trim());if(!c)return toast("Customer not found.");currentCustomer=c;
+  document.getElementById("creditCustomerInfo").innerHTML=`<div class="stats"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>TOTAL CREDIT</span><strong>${money(getTotalCredit(c))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div><br>${creditHistory(c)}`;
+}
+function getTotalCredit(c){return(c.creditTransactions||[]).reduce((s,t)=>s+Number(t.amount||0),0)}
+function calculateCustomerBalance(c){return(c.milkRecords||[]).reduce((s,r)=>s+calculateMilkBill(r),0)-getTotalCredit(c)}
+function getOutstandingCredit(c){const b=calculateCustomerBalance(c);return b<0?Math.abs(b):0}
+function fatRate(f){f=Number(f||0);return f>0?Math.round((50+(f-6)*4)*100)/100:0}
+function calculateMilkBill(r){if(r.pricingType==="fat")return r.days.reduce((s,d)=>s+Number(d.morning||0)*fatRate(d.morningFat)+Number(d.evening||0)*fatRate(d.eveningFat),0);return getRecordTotal(r)*Number(r.rate||0)}
+function getRecordTotal(r){return r.days.reduce((s,d)=>s+Number(d.morning||0)+Number(d.evening||0),0)}
+function prepareMilkForCustomer(code){showPage("milk");document.getElementById("milkCustomerCode").value=code;loadMilkCustomer()}
+function prepareCreditForCustomer(code){showPage("credit");document.getElementById("creditCustomerCode").value=code;loadCreditCustomer()}
+function prepareBillForCustomer(code){showPage("bills");document.getElementById("billCustomerCode").value=code;loadBillCustomer()}
+function loadBillCustomer(){
+  const c=getCustomer(document.getElementById("billCustomerCode").value.trim());if(!c)return toast("Customer not found.");currentCustomer=c;
+  const r=getBestBillRecord(c);if(!r){document.getElementById("billPreview").innerHTML=`<p style="color:var(--muted)">No milk record available.</p>`;return}
+  document.getElementById("billPreview").innerHTML=`<div class="stats" style="margin-top:15px"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>MILK</span><strong>${formatNumber(getRecordTotal(r))} L</strong></div><div class="stat"><span>BILL</span><strong>${money(calculateMilkBill(r))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div>`;
+}
+function getBestBillRecord(c){if(!c?.milkRecords?.length)return null;const cur=c.milkRecords.find(r=>r.startDate===getCurrentCycle().start);return cur||[...c.milkRecords].sort((a,b)=>parseDate(b.startDate)-parseDate(a.startDate))[0]}
+function printCurrentCustomer(){const c=currentCustomer||getCustomer(document.getElementById("billCustomerCode").value.trim());if(c)printSix([c]);else toast("Open a customer first.")}
+function printCustomerBills(code){const c=getCustomer(code);if(c)printSix([c])}
+function addA4CustomerSlot(){if(a4CustomerCodes.length>=6)return toast("Maximum 6 customers.");a4CustomerCodes.push("");renderA4CustomerSlots()}
+function removeA4CustomerSlot(i){a4CustomerCodes.splice(i,1);renderA4CustomerSlots()}
+function clearA4CustomerSlots(){a4CustomerCodes=[];renderA4CustomerSlots()}
+function updateA4CustomerCode(i,v){a4CustomerCodes[i]=v.trim();renderA4CustomerSlots()}
+function renderA4CustomerSlots(){
+  const box=document.getElementById("a4CustomerSlots");if(!box)return;
+  if(!a4CustomerCodes.length){box.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:18px">Click ADD CUSTOMER to choose customers.</div>`;return}
+  box.innerHTML=a4CustomerCodes.map((code,i)=>{const c=getCustomer(code),r=c?getBestBillRecord(c):null;return`<div class="a4-slot"><div class="a4-slot-head"><span class="a4-slot-title">CUSTOMER ${i+1}</span><button class="btn red" style="padding:7px 10px" onclick="removeA4CustomerSlot(${i})">✕</button></div><input value="${escapeHtml(code)}" placeholder="Customer Code" oninput="updateA4CustomerCode(${i},this.value)"><div class="a4-slot-actions"><button class="btn green" style="padding:9px 12px" onclick="loadA4CustomerSlot(${i})">🔎 LOAD</button></div><div class="a4-slot-preview">${c?(r?`${escapeHtml(c.name)} • ${formatNumber(getRecordTotal(r))} L • ${money(calculateMilkBill(r))}`:`${escapeHtml(c.name)} • No milk record`):(code?"Customer not found":"Enter Customer Code")}</div></div>`}).join("");
+}
+function loadA4CustomerSlot(i){const c=getCustomer(a4CustomerCodes[i]);if(!c)return toast("Customer not found.");if(!getBestBillRecord(c))return toast("No milk record for this customer.");toast(c.name+" loaded.")}
+function printSixCustomerBills(){
+  const cs=[];
+  for(const code of a4CustomerCodes){
+    if(!code)continue;const c=getCustomer(code);if(!c)return toast(`Customer ${code} not found.`);
+    if(cs.some(x=>x.code===c.code))return toast("Duplicate customer selected.");
+    if(!getBestBillRecord(c))return toast(c.name+" has no milk record.");cs.push(c);
+  }
+  if(!cs.length)return toast("Add at least one customer.");printSix(cs);
+}
+function printSix(customers){
+  const arr=customers.slice(0,6);while(arr.length<6)arr.push(null);
+  document.getElementById("printArea").innerHTML=arr.map(c=>c?createPrintableBill(c,getBestBillRecord(c)):"").join("");
+  logAction("PRINT BILLS",`${customers.length} customer bill(s)`);
+  setTimeout(()=>window.print(),100);
+}
+function createPrintableBill(c,r){
+  const mt=getRecordTotal(r),bill=calculateMilkBill(r),bal=calculateBalanceThroughRecord(c,r),mor=r.days.reduce((s,d)=>s+Number(d.morning||0),0),eve=r.days.reduce((s,d)=>s+Number(d.evening||0),0),fat=r.pricingType==="fat";
+  const rows=r.days.map(d=>{const n=parseDate(d.date).toLocaleDateString("en-IN",{weekday:"short"});return`<tr><td>${n}</td><td><b>${formatNumber(d.morning)} L</b>${fat?`<br><small>F:${formatNumber(d.morningFat)}</small>`:""}</td><td><b>${formatNumber(d.evening)} L</b>${fat?`<br><small>F:${formatNumber(d.eveningFat)}</small>`:""}</td><td><b>${formatNumber(Number(d.morning)+Number(d.evening))} L</b></td></tr>`}).join("");
+  const credits=(c.creditTransactions||[]).filter(t=>{const d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${escapeHtml(t.reason)}</b><b>-${money(t.amount)}</b></div>`).join("");
+  return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}<div class="print-line print-total"><span>${bal<0?"BALANCE":"AMOUNT"}</span><span>${money(Math.abs(bal))}</span></div></div>`;
+}
+function calculateBalanceThroughRecord(c,target){
+  let b=0;
+  for(const r of [...(c.milkRecords||[])].sort((a,b)=>parseDate(a.startDate)-parseDate(b.startDate))){b+=calculateMilkBill(r);if(r.startDate===target.startDate)break}
+  b-=(c.creditTransactions||[]).filter(t=>new Date(t.date)<=new Date(parseDate(target.endDate).setHours(23,59,59))).reduce((s,t)=>s+Number(t.amount||0),0);
+  return b;
+}
+function renderAccess(){
+  if(!currentUserIsOwner())return;
+  const p=database.requests.filter(r=>r.status==="pending"),a=database.users.filter(u=>u.status==="approved");
+  document.getElementById("pendingRequests").innerHTML=p.length?`<div class="table-wrap"><table><tr><th>Name</th><th>Login ID</th><th>Requested</th><th>Action</th></tr>${p.map(r=>`<tr><td>${escapeHtml(r.name||r.id)}</td><td><b>${escapeHtml(r.id)}</b></td><td>${formatDateTime(r.date)}</td><td><button class="btn green" onclick="approveUser('${escapeJs(r.id)}')">✅ APPROVE</button> <button class="btn red" onclick="rejectUser('${escapeJs(r.id)}')">❌ REJECT</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No pending requests.</p>`;
+  document.getElementById("approvedUsers").innerHTML=a.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Status</th><th>Password</th><th>Actions</th></tr>${a.map(u=>`<tr><td><b>${escapeHtml(u.id)}</b></td><td><span class="badge green">APPROVED</span></td><td><button class="btn yellow" style="padding:7px 10px" onclick="changeEmployeePassword('${escapeJs(u.id)}')">🔑 CHANGE PASSWORD</button></td><td><button class="btn red" style="padding:7px 10px" onclick="removeUser('${escapeJs(u.id)}')">🗑️ REMOVE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No approved employees.</p>`;
+}
+function approveUser(id){
+  if(!currentUserIsOwner())return;const r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;
+  if(!database.users.some(u=>u.id===id))database.users.push({id,name:r.name||id,passwordHash:r.passwordHash||"",status:"approved",approvedAt:new Date().toISOString()});
+  r.status="approved";r.approvedAt=new Date().toISOString();saveDatabase();logAction("APPROVE USER",`${id} approved`);renderAccess();toast(id+" approved.");
+}
+function rejectUser(id){if(!currentUserIsOwner())return;const r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;r.status="rejected";r.rejectedAt=new Date().toISOString();saveDatabase();logAction("REJECT USER",id);renderAccess();toast(id+" rejected.")}
+function removeUser(id){if(!currentUserIsOwner())return;database.users=database.users.filter(u=>u.id!==id);saveDatabase();logAction("REMOVE USER",id);renderAccess();toast(id+" removed.")}
+async function changeEmployeePassword(id){
+  if(!currentUserIsOwner())return;const p=prompt(`Enter new password for ${id}:`);if(p===null)return;if(p.length<4)return toast("Password must be at least 4 characters.");
+  const u=database.users.find(x=>x.id===id);if(!u)return;u.passwordHash=await sha256(p);u.passwordChangedAt=new Date().toISOString();saveDatabase();logAction("CHANGE EMPLOYEE PASSWORD",id);renderAccess();toast("Employee password changed.");
+}
+function openAnnouncement(){if(!currentUserIsOwner())return;document.getElementById("announcementTitle").value="";document.getElementById("announcementMessage").value="";document.getElementById("announcementModal").classList.add("open");document.getElementById("announcementTitle").focus()}
+function closeAnnouncement(){document.getElementById("announcementModal").classList.remove("open")}
+function saveAnnouncement(){
+  if(!currentUserIsOwner())return;const title=document.getElementById("announcementTitle").value.trim(),message=document.getElementById("announcementMessage").value.trim();if(!title||!message)return toast("Enter title and message.");
+  database.notifications.unshift({id:Date.now()+Math.random(),title,message,from:OWNER_ID,date:new Date().toISOString()});if(database.notifications.length>100)database.notifications.length=100;saveDatabase();logAction("NEW ANNOUNCEMENT",title);closeAnnouncement();renderNotifications();toast("Announcement published.");
+}
+function renderNotifications(){
+  const box=document.getElementById("notificationCenter");if(!box)return;const dismissed=JSON.parse(localStorage.getItem("dairyDismissedNotifications")||"[]");const list=database.notifications.filter(n=>currentUserIsOwner()||!dismissed.includes(String(n.id)));
+  box.innerHTML=list.length?list.map(n=>`<div class="notice-card"><div><span class="category-pill">ANNOUNCEMENT</span><b>${escapeHtml(n.title)}</b></div><div style="margin-top:7px">${escapeHtml(n.message)}</div><small>${formatDateTime(n.date)} • ${escapeHtml(n.from||OWNER_ID)}</small><div class="form-actions"><button class="btn dark" style="padding:7px 10px" onclick="dismissNotification('${escapeJs(n.id)}')">🗑️ ${currentUserIsOwner()?"DELETE":"DISMISS"}</button></div></div>`).join(""):`<p style="color:var(--muted)">No new notifications.</p>`;
+}
+function dismissNotification(id){
+  if(currentUserIsOwner()){database.notifications=database.notifications.filter(n=>String(n.id)!==String(id));saveDatabase();renderNotifications();toast("Notification deleted.");return}
+  const a=JSON.parse(localStorage.getItem("dairyDismissedNotifications")||"[]");if(!a.includes(String(id)))a.push(String(id));localStorage.setItem("dairyDismissedNotifications",JSON.stringify(a));renderNotifications();toast("Notification dismissed.");
+}
+function renderActivity(){
+  if(!currentUserIsOwner())return;const a=database.activity;
+  document.getElementById("activityList").innerHTML=a.length?`<div class="form-actions" style="margin-bottom:15px"><select id="activityFilter" onchange="renderActivity()" style="max-width:260px"><option value="ALL">ALL CATEGORIES</option><option>LOGIN / LOGOUT</option><option>MILK CHANGES</option><option>CUSTOMER CHANGES</option><option>CREDIT CHANGES</option><option>BILL CHANGES</option><option>ACCESS / NOTIFICATIONS</option><option>OTHER</option></select><button class="btn red" onclick="deleteAllActivity()">🗑️ DELETE ALL HISTORY</button></div><div class="table-wrap"><table><tr><th>Date & Time</th><th>Login ID</th><th>Category</th><th>Action</th><th>Details</th><th>Delete</th></tr>${a.filter(x=>{const f=document.getElementById("activityFilter")?.value||"ALL";return f==="ALL"||((x.category||activityCategory(x.action))===f)}).map(x=>`<tr><td>${formatDateTime(x.date)}</td><td><b>${escapeHtml(x.loginId)}</b></td><td><span class="category-pill">${escapeHtml(x.category||activityCategory(x.action))}</span></td><td>${escapeHtml(x.action)}</td><td>${escapeHtml(x.details)}</td><td><button class="btn red" style="padding:7px 10px" onclick="deleteActivity('${escapeJs(x.id)}')">🗑️</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No activity yet.</p>`;
+}
+function deleteActivity(id){
+  if(!currentUserIsOwner())return toast("Owner access required.");
+  if(!confirm("Delete this activity record?"))return;
+  const before=database.activity.length;database.activity=database.activity.filter(x=>String(x.id)!==String(id));if(database.activity.length===before)return toast("Activity record not found.");
+  saveDatabase();renderActivity();toast("Activity record deleted.");
+}
+function deleteAllActivity(){
+  if(!currentUserIsOwner())return;if(!database.activity.length)return toast("No activity history to delete.");
+  if(!confirm("Delete ALL activity history? This cannot be undone."))return;database.activity=[];saveDatabase();renderActivity();toast("All activity history deleted.");
+}
+function backupData(){
+  const blob=new Blob([JSON.stringify(database,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="dhanalakshmi-dairy-backup.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Backup downloaded.");
+}
+function money(v){return"₹"+Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function formatBalance(v){const n=Number(v||0);return n<0?"-"+money(Math.abs(n)):money(n)}
+function formatNumber(v){return Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function dateInputValue(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function parseDate(v){if(v instanceof Date)return new Date(v.getFullYear(),v.getMonth(),v.getDate());const p=String(v).split("-").map(Number);return new Date(p[0],p[1]-1,p[2])}
+function formatDate(v){return parseDate(v).toLocaleDateString("en-IN",{day:"2-digit",month:"2-digit",year:"numeric"})}
+function formatDateTime(v){return new Date(v).toLocaleString("en-IN",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}
+function findDayIndex(days,date){return(days||[]).findIndex(d=>d.date===dateInputValue(date))}
+function escapeHtml(v){return String(v).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function escapeJs(v){return String(v).replaceAll("\\","\\\\").replaceAll("'","\\'")}
+function toast(m){const e=document.getElementById("toast");e.textContent=m;e.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>e.classList.remove("show"),2500)}
+
+(function init(){
+  document.getElementById("milkStartDate").value=getCurrentCycle().start;
+  setLoginMode("owner");buildWeekGrid();renderCustomerList();addA4CustomerSlot();renderNotifications();
+  const a=localStorage.getItem("dairyAuthenticated"),id=localStorage.getItem("dairyLogin");
+  if(a==="true"&&id){
+    currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
+    document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard();
+  }
+  document.documentElement.classList.remove("auth-checking");
+  showCloudStatus("☁️ Connecting to cloud...");
+  startFirebaseSync();
+})();
+
+/* ENTER = NEXT FIELD, SHIFT+ENTER = PREVIOUS */
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter")return;
+  const el=document.activeElement;
+  if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput"||el.id==="securityCodeInput")return;
+  if(el.readOnly||el.disabled)return;
+  e.preventDefault();
+  const f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null);
+  const i=f.indexOf(el),n=e.shiftKey?i-1:i+1;
+  if(f[n]){f[n].focus();if(typeof f[n].select==="function")f[n].select()}
+});
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Dhanalakshmi Dairy PWA ready"))
+      .catch(error => console.error("Service Worker failed:", error));
+  });
+}
 </script>
 </body>
 </html>
