@@ -69,6 +69,9 @@ button{cursor:pointer}
 .login-card h1{font-size:27px;margin-bottom:8px}
 .login-card p{color:var(--muted);margin-bottom:24px}
 
+.login-fields{display:grid;gap:10px}
+.login-fields .employee-only{display:block}
+
 input,select{
  width:100%;
  padding:13px 15px;
@@ -83,9 +86,6 @@ input:focus,select:focus{
  border-color:var(--accent);
  box-shadow:0 0 0 3px #61dafb14;
 }
-
-.login-fields{display:grid;gap:10px}
-.login-fields .employee-only{display:none}
 
 .btn{
  border:0;
@@ -152,6 +152,7 @@ input:focus,select:focus{
  display:flex;
  gap:10px;
  flex-wrap:wrap;
+ align-items:center;
 }
 
 .layout{
@@ -498,12 +499,6 @@ td{font-size:14px}
  opacity:1;
 }
 
-/* =========================================================
-   FIXED 6 EQUAL BILL SLOTS
-   A4 is always divided into 2 columns x 3 rows.
-   Actual bills NEVER become larger/smaller.
-   ========================================================= */
-
 .print-area{display:none}
 
 @media print{
@@ -533,12 +528,9 @@ td{font-size:14px}
   top:0;
   width:100%;
   height:287mm;
-
   grid-template-columns:1fr 1fr;
   grid-template-rows:repeat(3,1fr);
-
   gap:2.5mm;
-
   background:#fff;
  }
 
@@ -548,16 +540,12 @@ td{font-size:14px}
   width:100%;
   height:100%;
   min-height:0;
-
   border:1px solid #000;
   padding:2.8mm;
-
   color:#000;
   background:#fff;
-
   font-family:Arial,sans-serif;
   font-size:9px;
-
   overflow:hidden;
  }
 
@@ -676,18 +664,12 @@ td{font-size:14px}
 
 <body>
 
-<!-- =========================================================
-     LOGIN
-     ========================================================= -->
-
 <section id="loginScreen">
-
 <div class="login-card">
 
 <div class="logo">🥛</div>
 
 <h1>DHANALAKSHMI MILK DAIRY</h1>
-
 <p>Digital Dairy Management System</p>
 
 <div class="login-fields">
@@ -724,11 +706,6 @@ Owner ID: ACHALKUMAR
 </div>
 </section>
 
-
-<!-- =========================================================
-     APP
-     ========================================================= -->
-
 <div id="app" class="hidden">
 
 <div
@@ -759,7 +736,6 @@ Logged in as
 </small>
 
 </div>
-
 </div>
 
 <div class="top-actions">
@@ -767,7 +743,7 @@ Logged in as
 <span
  id="cloudStatusInline"
  style="color:var(--green);font-size:12px">
-☁️ Live sync
+☁️ Connecting...
 </span>
 
 <button class="btn dark" onclick="backupData()">
@@ -779,9 +755,7 @@ Logged in as
 </button>
 
 </div>
-
 </header>
-
 
 <div class="layout">
 
@@ -817,12 +791,7 @@ Logged in as
 
 </aside>
 
-
 <main class="main">
-
-<!-- =========================================================
-     DASHBOARD
-     ========================================================= -->
 
 <section id="dashboard" class="page active">
 
@@ -854,7 +823,6 @@ Logged in as
 </div>
 
 </div>
-
 
 <div class="dashboard-grid">
 
@@ -897,23 +865,13 @@ Logged in as
 </div>
 </div>
 
-
 <div class="panel">
-
 <h3>📅 Current Cycle</h3>
-
 <div id="cycleInfo"></div>
-
 </div>
 
 </div>
-
 </section>
-
-
-<!-- =========================================================
-     CUSTOMERS
-     ========================================================= -->
 
 <section id="customers" class="page">
 
@@ -941,17 +899,10 @@ Logged in as
 </div>
 
 <div id="customerProfile" class="hidden"></div>
-
 <div id="customerList"></div>
 
 </div>
-
 </section>
-
-
-<!-- =========================================================
-     MILK
-     ========================================================= -->
 
 <section id="milk" class="page">
 
@@ -984,7 +935,6 @@ Logged in as
 
 </div>
 
-
 <div class="field">
 
 <label>Start Date — Thursday</label>
@@ -992,7 +942,6 @@ Logged in as
 <input id="milkStartDate" type="date">
 
 </div>
-
 
 <div class="field" id="milkRateField">
 
@@ -1006,7 +955,6 @@ Logged in as
 
 </div>
 
-
 <div class="field hidden" id="milkFatField">
 
 <label>Fat Based Entry</label>
@@ -1016,7 +964,6 @@ Logged in as
 </div>
 
 </div>
-
 
 <div class="field">
 
@@ -1028,17 +975,11 @@ Logged in as
 
 </div>
 
-
 <div style="margin-top:20px">
-
 <h3>7-Day Milk Record</h3>
-
 <br>
-
 <div id="weekGrid" class="week-grid"></div>
-
 </div>
-
 
 <div class="form-actions">
 
@@ -1049,13 +990,7 @@ Logged in as
 </div>
 
 </div>
-
 </section>
-
-
-<!-- =========================================================
-     CREDIT
-     ========================================================= -->
 
 <section id="credit" class="page">
 
@@ -1085,9 +1020,7 @@ Logged in as
 </button>
 
 </div>
-
 </div>
-
 
 <div class="field">
 
@@ -1100,7 +1033,6 @@ Logged in as
  step=".01">
 
 </div>
-
 
 <div class="field">
 
@@ -1119,17 +1051,14 @@ Logged in as
 
 </div>
 
-
 <div class="field hidden" id="otherReasonField">
 
 <label>Other Reason</label>
-
 <input id="otherReason">
 
 </div>
 
 </div>
-
 
 <div class="form-actions">
 
@@ -1142,13 +1071,7 @@ Logged in as
 <div id="creditCustomerInfo" style="margin-top:20px"></div>
 
 </div>
-
 </section>
-
-
-<!-- =========================================================
-     BILLS
-     ========================================================= -->
 
 <section id="bills" class="page">
 
@@ -1163,7 +1086,6 @@ Every printed bill has exactly the same fixed size.
 
 </div>
 
-
 <div class="panel">
 
 <h3>🧾 6 CUSTOMER A4 BILL SHEET</h3>
@@ -1173,33 +1095,25 @@ Choose up to 6 customers.
 A4 always uses six equal-size bill positions.
 </p>
 
-
-<div id="a4CustomerSlots"
- class="a4-customer-slots">
-</div>
-
+<div id="a4CustomerSlots" class="a4-customer-slots"></div>
 
 <div class="form-actions">
 
-<button class="btn"
- onclick="addA4CustomerSlot()">
+<button class="btn" onclick="addA4CustomerSlot()">
 ➕ ADD CUSTOMER
 </button>
 
-<button class="btn green"
- onclick="printSixCustomerBills()">
+<button class="btn green" onclick="printSixCustomerBills()">
 🖨️ PRINT ON ONE A4
 </button>
 
-<button class="btn dark"
- onclick="clearA4CustomerSlots()">
+<button class="btn dark" onclick="clearA4CustomerSlots()">
 ✕ CLEAR ALL
 </button>
 
 </div>
 
 </div>
-
 
 <div class="panel" style="margin-top:18px">
 
@@ -1211,13 +1125,11 @@ A4 always uses six equal-size bill positions.
  id="billCustomerCode"
  placeholder="Enter Customer Code">
 
-<button class="btn green"
- onclick="loadBillCustomer()">
+<button class="btn green" onclick="loadBillCustomer()">
 🔎 LOAD BILL
 </button>
 
-<button class="btn"
- onclick="printCurrentCustomer()">
+<button class="btn" onclick="printCurrentCustomer()">
 🖨️ PRINT CUSTOMER
 </button>
 
@@ -1228,11 +1140,6 @@ A4 always uses six equal-size bill positions.
 </div>
 
 </section>
-
-
-<!-- =========================================================
-     ACCESS MANAGEMENT
-     ========================================================= -->
 
 <section id="access" class="page owner-only-page">
 
@@ -1246,13 +1153,10 @@ Only the OWNER can approve, remove or restore employees.
 
 </div>
 
-
 <div class="panel">
 
 <h3>⏳ Pending Requests</h3>
-
 <div id="pendingRequests"></div>
-
 
 <h3 style="margin-top:25px">
 👥 Approved Employees
@@ -1261,42 +1165,26 @@ Only the OWNER can approve, remove or restore employees.
 <div id="approvedUsers"></div>
 
 </div>
-
 </section>
-
-
-<!-- =========================================================
-     ACTIVITY
-     ========================================================= -->
 
 <section id="activity" class="page owner-only-page">
 
 <div class="page-title">
 
 <h1>📝 Activity History</h1>
-
 <p>See who changed what and when.</p>
 
 </div>
 
 <div class="panel">
-
 <div id="activityList"></div>
-
 </div>
 
 </section>
 
 </main>
-
 </div>
-
 </div>
-
-
-<!-- =========================================================
-     ADD CUSTOMER MODAL
-     ========================================================= -->
 
 <div id="customerModal" class="modal">
 
@@ -1312,26 +1200,21 @@ Only the OWNER can approve, remove or restore employees.
 
 </div>
 
-
 <div class="form-grid">
 
 <div class="field">
 
 <label>Customer Code</label>
-
 <input id="newCustomerCode">
 
 </div>
 
-
 <div class="field">
 
 <label>Customer Name</label>
-
 <input id="newCustomerName">
 
 </div>
-
 
 <div class="field">
 
@@ -1339,20 +1222,14 @@ Only the OWNER can approve, remove or restore employees.
 
 <select id="newCustomerPricingType">
 
-<option value="fixed">
-Fixed Price
-</option>
-
-<option value="fat">
-Fat Based
-</option>
+<option value="fixed">Fixed Price</option>
+<option value="fat">Fat Based</option>
 
 </select>
 
 </div>
 
 </div>
-
 
 <div class="form-actions">
 
@@ -1363,27 +1240,21 @@ Fat Based
 </div>
 
 </div>
-
 </div>
 
-
 <div id="printArea" class="print-area"></div>
-
 <div id="toast"></div>
 
-
-<!-- =========================================================
-     FIREBASE
-     ========================================================= -->
-
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
-
 
 <script>
 
-const firebaseConfig = {
+/* =========================================================
+   FIREBASE
+   ========================================================= */
+
+const firebaseConfig={
  apiKey:"AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",
  authDomain:"dhanalakshmi-milk-dairy.firebaseapp.com",
  projectId:"dhanalakshmi-milk-dairy",
@@ -1395,15 +1266,15 @@ const firebaseConfig = {
 
 let firebaseReady=false;
 let firebaseSyncStarted=false;
+let firebaseRoot=null;
 
 function firebaseConfigured(){
 
- return firebaseConfig.apiKey &&
- !firebaseConfig.apiKey.startsWith("PASTE_") &&
- firebaseConfig.projectId &&
- !firebaseConfig.projectId.startsWith("PASTE_") &&
- firebaseConfig.appId &&
- !firebaseConfig.appId.startsWith("PASTE_");
+ return Boolean(
+  firebaseConfig.apiKey &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId
+ );
 
 }
 
@@ -1411,8 +1282,29 @@ function normalizeDatabase(d){
 
  d=d||{};
 
- return {
-  customers:Array.isArray(d.customers)?d.customers:[],
+ const customers=
+  Array.isArray(d.customers)
+  ?d.customers.map(c=>({
+    ...c,
+    code:String(c.code||"").trim(),
+    name:String(c.name||"").trim(),
+    pricingType:c.pricingType==="fat"?"fat":"fixed",
+    milkRecords:Array.isArray(c.milkRecords)
+     ?c.milkRecords.map(r=>({
+       ...r,
+       days:Array.isArray(r.days)?r.days:[],
+       pricingType:r.pricingType==="fat"?"fat":"fixed"
+      }))
+     :[],
+    creditTransactions:
+     Array.isArray(c.creditTransactions)
+     ?c.creditTransactions
+     :[]
+   }))
+  :[];
+
+ return{
+  customers,
   bills:Array.isArray(d.bills)?d.bills:[],
   users:Array.isArray(d.users)?d.users:[],
   requests:Array.isArray(d.requests)?d.requests:[],
@@ -1421,12 +1313,15 @@ function normalizeDatabase(d){
 
 }
 
-function showCloudStatus(message){
+function showCloudStatus(message,color){
 
- const inline=document.getElementById("cloudStatusInline");
+ const el=document.getElementById("cloudStatusInline");
 
- if(inline)
-  inline.textContent=message;
+ if(el){
+  el.textContent=message;
+  if(color)
+   el.style.color=color;
+ }
 
 }
 
@@ -1439,9 +1334,7 @@ async function startFirebaseSync(){
  if(!firebaseConfigured()){
 
   firebaseReady=false;
-
-  showCloudStatus("⚠️ Firebase configuration missing");
-
+  showCloudStatus("⚠️ Firebase configuration missing", "var(--yellow)");
   return;
 
  }
@@ -1451,7 +1344,8 @@ async function startFirebaseSync(){
   if(!firebase.apps.length)
    firebase.initializeApp(firebaseConfig);
 
-  const root=firebase.firestore().collection("dairy");
+  firebaseRoot=
+   firebase.firestore().collection("dairy");
 
   const names=[
    "customers",
@@ -1463,7 +1357,8 @@ async function startFirebaseSync(){
 
   names.forEach(name=>{
 
-   root.doc(name).onSnapshot(
+   firebaseRoot.doc(name).onSnapshot(
+
     snap=>{
 
      if(snap.exists){
@@ -1475,36 +1370,40 @@ async function startFirebaseSync(){
        ?data.items
        :[];
 
+      database=normalizeDatabase(database);
+
       localStorage.setItem(
        STORAGE_KEY,
        JSON.stringify(database)
       );
-
-      updateDashboard();
-      renderCustomerList();
-
-      if(name==="users")
-       handleLiveEmployeeStatus();
-
-      if(name==="requests")
-       handleLiveRequestStatus();
-
-      if(name==="users"||name==="requests")
-       if(currentUserIsOwner())
-        renderAccess();
-
-      if(name==="activity"&&currentUserIsOwner())
-       renderActivity();
 
      }
 
      firebaseReady=true;
 
      showCloudStatus(
-      "☁️ Cloud connected • Live sync ON"
+      "☁️ Cloud connected • Live sync ON",
+      "var(--green)"
      );
 
+     updateDashboard();
+     renderCustomerList();
+
+     if(currentUserIsOwner()){
+
+      if(name==="users"||name==="requests")
+       renderAccess();
+
+      if(name==="activity")
+       renderActivity();
+
+     }
+
+     handleLiveEmployeeStatus();
+     handleLiveRequestStatus();
+
     },
+
     err=>{
 
      console.error(
@@ -1513,19 +1412,15 @@ async function startFirebaseSync(){
      );
 
      showCloudStatus(
-      "❌ Cloud read failed"
+      "❌ Cloud read failed",
+      "var(--red)"
      );
 
     }
+
    );
 
   });
-
-  firebaseReady=true;
-
-  showCloudStatus(
-   "☁️ Cloud connected • Live sync ON"
-  );
 
  }catch(err){
 
@@ -1534,7 +1429,8 @@ async function startFirebaseSync(){
   firebaseReady=false;
 
   showCloudStatus(
-   "❌ Firebase configuration error"
+   "❌ Firebase error",
+   "var(--red)"
   );
 
  }
@@ -1543,11 +1439,9 @@ async function startFirebaseSync(){
 
 async function cloudSaveDatabase(){
 
- if(!firebaseReady)return;
+ if(!firebaseReady||!firebaseRoot)return;
 
  try{
-
-  const root=firebase.firestore().collection("dairy");
 
   const names=[
    "customers",
@@ -1557,22 +1451,31 @@ async function cloudSaveDatabase(){
    "activity"
   ];
 
-  await Promise.all(
-   names.map(name=>
-    root.doc(name).set({
-     items:Array.isArray(database[name])
-      ?database[name]
-      :[]
-    })
-   )
+  for(const name of names){
+
+   await firebaseRoot.doc(name).set({
+    items:Array.isArray(database[name])
+     ?database[name]
+     :[]
+   });
+
+  }
+
+  showCloudStatus(
+   "☁️ Cloud connected • Saved",
+   "var(--green)"
   );
 
  }catch(err){
 
-  console.error(err);
+  console.error(
+   "Cloud save failed:",
+   err
+  );
 
   showCloudStatus(
-   "❌ Cloud save failed"
+   "❌ Cloud save failed",
+   "var(--red)"
   );
 
  }
@@ -1584,41 +1487,36 @@ function handleLiveRequestStatus(){
  if(currentUserIsOwner())return;
 
  const watchedId=
-  (
-   currentLogin ||
-   document.getElementById("loginIdInput")?.value ||
+  String(
+   currentLogin||
+   document.getElementById("loginIdInput")?.value||
    ""
-  ).trim().toUpperCase();
+  )
+  .trim()
+  .toUpperCase();
 
  if(!watchedId)return;
 
  const r=database.requests.find(
-  x=>String(x.id).toUpperCase()===watchedId
+  x=>
+   String(x.id||"")
+    .trim()
+    .toUpperCase()===watchedId
  );
 
  if(!r)return;
 
- if(r.status==="approved"){
+ const err=document.getElementById("loginError");
 
-  const err=
-   document.getElementById("loginError");
+ if(!err)return;
 
-  if(err)
-   err.textContent=
-    "✅ Approved by owner. You can now login.";
+ if(r.status==="approved")
+  err.textContent=
+   "✅ Approved by owner. You can now login.";
 
- }
-
- if(r.status==="rejected"){
-
-  const err=
-   document.getElementById("loginError");
-
-  if(err)
-   err.textContent=
-    "❌ Your request was rejected by the owner.";
-
- }
+ if(r.status==="rejected")
+  err.textContent=
+   "❌ Your request was rejected by the owner.";
 
 }
 
@@ -1629,8 +1527,12 @@ function handleLiveEmployeeStatus(){
 
  const u=database.users.find(
   x=>
-   String(x.id).toUpperCase()===
-   String(currentLogin).toUpperCase()
+   String(x.id||"")
+    .trim()
+    .toUpperCase()===
+   String(currentLogin||"")
+    .trim()
+    .toUpperCase()
  );
 
  if(!u)return;
@@ -1640,7 +1542,6 @@ function handleLiveEmployeeStatus(){
   const removedId=currentLogin;
 
   sessionStorage.clear();
-
   currentLogin="";
 
   document.getElementById("app")
@@ -1659,9 +1560,7 @@ function handleLiveEmployeeStatus(){
    .textContent=
     "⚠️ Your access has been removed by the owner.";
 
-  toast(
-   "Your access was removed by the owner."
-  );
+  toast("Your access was removed by the owner.");
 
  }
 
@@ -1669,11 +1568,10 @@ function handleLiveEmployeeStatus(){
 
 </script>
 
-
 <script>
 
 /* =========================================================
-   MAIN SETTINGS
+   SETTINGS
    ========================================================= */
 
 const OWNER_ID="ACHALKUMAR";
@@ -1682,13 +1580,12 @@ const OWNER_SECURITY_CODE="11223";
 const EMPLOYEE_PASSWORD="1080";
 
 const STORAGE_KEY=
- "dhanalakshmi_milk_dairy_database_v3";
+ "dhanalakshmi_milk_dairy_database_v4";
 
 let database=loadDatabase();
 let currentCustomer=null;
 let currentLogin="";
 let a4CustomerCodes=[];
-
 
 /* =========================================================
    DATABASE
@@ -1706,13 +1603,17 @@ function loadDatabase(){
   if(d)
    return normalizeDatabase(d);
 
- }catch(e){}
+ }catch(e){
+  console.error("Local database error:",e);
+ }
 
  return normalizeDatabase({});
 
 }
 
 function saveDatabase(){
+
+ database=normalizeDatabase(database);
 
  localStorage.setItem(
   STORAGE_KEY,
@@ -1727,10 +1628,9 @@ function saveDatabase(){
 
 function currentUserIsOwner(){
 
- return currentLogin===OWNER_ID;
+ return String(currentLogin||"").toUpperCase()===OWNER_ID;
 
 }
-
 
 /* =========================================================
    LOGIN
@@ -1740,7 +1640,8 @@ function login(){
 
  const id=
   document.getElementById("loginIdInput")
-   .value.trim()
+   .value
+   .trim()
    .toUpperCase();
 
  const pass=
@@ -1749,7 +1650,8 @@ function login(){
 
  const name=
   document.getElementById("employeeNameInput")
-   .value.trim();
+   .value
+   .trim();
 
  const err=
   document.getElementById("loginError");
@@ -1765,9 +1667,6 @@ function login(){
 
  }
 
-
- /* OWNER */
-
  if(id===OWNER_ID){
 
   if(pass!==OWNER_PASSWORD){
@@ -1780,16 +1679,11 @@ function login(){
   }
 
   const security=
-   prompt(
-    "🔐 Enter Owner Security Code:"
-   );
+   prompt("🔐 Enter Owner Security Code:");
 
   if(security===null)return;
 
-  if(
-   security.trim()!==
-   OWNER_SECURITY_CODE
-  ){
+  if(security.trim()!==OWNER_SECURITY_CODE){
 
    err.textContent=
     "Incorrect Owner Security Code.";
@@ -1811,9 +1705,6 @@ function login(){
 
  }
 
-
- /* EMPLOYEE */
-
  if(!name){
 
   err.textContent=
@@ -1832,21 +1723,21 @@ function login(){
 
  }
 
-
  const user=
   database.users.find(
    u=>
-    String(u.id).toUpperCase()===id
+    String(u.id||"")
+     .trim()
+     .toUpperCase()===id
   );
 
  const request=
   database.requests.find(
    r=>
-    String(r.id).toUpperCase()===id
+    String(r.id||"")
+     .trim()
+     .toUpperCase()===id
   );
-
-
- /* APPROVED */
 
  if(user?.status==="approved"){
 
@@ -1863,9 +1754,6 @@ function login(){
 
  }
 
-
- /* REMOVED */
-
  if(user?.status==="removed"){
 
   err.textContent=
@@ -1874,9 +1762,6 @@ function login(){
   return;
 
  }
-
-
- /* REJECTED */
 
  if(request?.status==="rejected"){
 
@@ -1887,9 +1772,6 @@ function login(){
 
  }
 
-
- /* PENDING */
-
  if(request?.status==="pending"){
 
   err.textContent=
@@ -1899,17 +1781,11 @@ function login(){
 
  }
 
-
- /* NEW REQUEST */
-
  database.requests.push({
 
-  id:id,
-
-  name:name,
-
+  id,
+  name,
   status:"pending",
-
   date:new Date().toISOString()
 
  });
@@ -1923,7 +1799,6 @@ function login(){
   .value="";
 
 }
-
 
 /* =========================================================
    ENTER APP
@@ -1951,15 +1826,16 @@ function enterApp(){
   .textContent=currentLogin;
 
  setOwnerUI();
-
  updateDashboard();
+
+ document.getElementById("milkStartDate")
+  .value=getCurrentCycle().start;
 
  buildWeekGrid();
 
  renderA4CustomerSlots();
 
 }
-
 
 /* =========================================================
    OWNER UI
@@ -1968,9 +1844,7 @@ function enterApp(){
 function setOwnerUI(){
 
  document
-  .querySelectorAll(
-   ".owner-only,.owner-only-page"
-  )
+  .querySelectorAll(".owner-only,.owner-only-page")
   .forEach(
    x=>
     x.classList.toggle(
@@ -1981,7 +1855,6 @@ function setOwnerUI(){
 
 }
 
-
 /* =========================================================
    LOGOUT
    ========================================================= */
@@ -1989,11 +1862,9 @@ function setOwnerUI(){
 function logout(){
 
  sessionStorage.clear();
-
  location.reload();
 
 }
-
 
 /* =========================================================
    NAVIGATION
@@ -2009,7 +1880,6 @@ document
    )
  );
 
-
 function showPage(id){
 
  if(
@@ -2018,7 +1888,6 @@ function showPage(id){
  ){
 
   toast("Owner access required.");
-
   return;
 
  }
@@ -2058,7 +1927,6 @@ function showPage(id){
 
 }
 
-
 /* =========================================================
    DASHBOARD
    ========================================================= */
@@ -2069,17 +1937,21 @@ function updateDashboard(){
  let credit=0;
 
  const today=new Date();
-
  const cycle=getCurrentCycle();
 
  database.customers.forEach(c=>{
 
+  const records=
+   Array.isArray(c.milkRecords)
+   ?c.milkRecords
+   :[];
+
   const r=
-   c.milkRecords.find(
+   records.find(
     x=>x.startDate===cycle.start
    );
 
-  if(r){
+  if(r&&Array.isArray(r.days)){
 
    const i=
     findDayIndex(
@@ -2089,11 +1961,8 @@ function updateDashboard(){
 
    if(i>=0){
 
-    milk+=
-     Number(r.days[i].morning)||0;
-
-    milk+=
-     Number(r.days[i].evening)||0;
+    milk+=Number(r.days[i].morning)||0;
+    milk+=Number(r.days[i].evening)||0;
 
    }
 
@@ -2103,40 +1972,30 @@ function updateDashboard(){
 
  });
 
- document.getElementById(
-  "statCustomers"
- ).textContent=
-  database.customers.length;
+ document.getElementById("statCustomers")
+  .textContent=database.customers.length;
 
- document.getElementById(
-  "statMilk"
- ).textContent=
-  formatNumber(milk)+" L";
+ document.getElementById("statMilk")
+  .textContent=formatNumber(milk)+" L";
 
- document.getElementById(
-  "statCredit"
- ).textContent=
-  money(credit);
+ document.getElementById("statCredit")
+  .textContent=money(credit);
 
- document.getElementById(
-  "statBills"
- ).textContent=
-  database.bills.length;
+ document.getElementById("statBills")
+  .textContent=database.bills.length;
 
- document.getElementById(
-  "cycleInfo"
- ).innerHTML=
-  `<b style="font-size:22px">
+ document.getElementById("cycleInfo")
+  .innerHTML=`
+   <b style="font-size:22px">
    ${formatDate(cycle.start)}
    →
    ${formatDate(cycle.end)}
-  </b>
-  <div style="color:var(--muted);margin-top:7px">
+   </b>
+   <div style="color:var(--muted);margin-top:7px">
    Thursday → Wednesday
-  </div>`;
+   </div>`;
 
 }
-
 
 /* =========================================================
    CUSTOMER
@@ -2144,35 +2003,23 @@ function updateDashboard(){
 
 function openAddCustomer(){
 
- document
-  .getElementById("customerModal")
+ document.getElementById("customerModal")
   .classList.add("open");
 
- [
-  "newCustomerCode",
-  "newCustomerName"
- ].forEach(
-  id=>
-   document.getElementById(id).value=""
- );
-
- document.getElementById(
-  "newCustomerPricingType"
- ).value="fixed";
+ document.getElementById("newCustomerCode").value="";
+ document.getElementById("newCustomerName").value="";
+ document.getElementById("newCustomerPricingType").value="fixed";
 
  setTimeout(
-  ()=>document.getElementById(
-   "newCustomerCode"
-  ).focus(),
- 100
+  ()=>document.getElementById("newCustomerCode").focus(),
+  100
  );
 
 }
 
 function closeModal(){
 
- document
-  .getElementById("customerModal")
+ document.getElementById("customerModal")
   .classList.remove("open");
 
 }
@@ -2180,36 +2027,27 @@ function closeModal(){
 function saveCustomer(){
 
  const code=
-  document.getElementById(
-   "newCustomerCode"
-  ).value.trim();
+  document.getElementById("newCustomerCode")
+   .value.trim();
 
  const name=
-  document.getElementById(
-   "newCustomerName"
-  ).value.trim();
+  document.getElementById("newCustomerName")
+   .value.trim();
 
  const pricingType=
-  document.getElementById(
-   "newCustomerPricingType"
-  ).value;
+  document.getElementById("newCustomerPricingType")
+   .value;
 
  if(!code||!name){
 
-  toast(
-   "Customer Code and Name are required."
-  );
-
+  toast("Customer Code and Name are required.");
   return;
 
  }
 
  if(getCustomer(code)){
 
-  toast(
-   "Customer Code already exists."
-  );
-
+  toast("Customer Code already exists.");
   return;
 
  }
@@ -2237,31 +2075,42 @@ function saveCustomer(){
  );
 
  closeModal();
-
  showPage("customers");
-
  openCustomer(code);
 
  toast("Customer saved.");
 
 }
 
+/*
+ IMPORTANT FIX:
+ Customer codes are now compared after trimming
+ and converting to uppercase.
+*/
+
 function getCustomer(code){
+
+ const target=
+  String(code||"")
+   .trim()
+   .toUpperCase();
+
+ if(!target)return null;
 
  return database.customers.find(
   c=>
-   c.code===
-   String(code).trim()
- );
+   String(c.code||"")
+    .trim()
+    .toUpperCase()===target
+ )||null;
 
 }
 
 function searchCustomer(){
 
  const code=
-  document.getElementById(
-   "customerSearch"
-  ).value.trim();
+  document.getElementById("customerSearch")
+   .value.trim();
 
  if(code)
   openCustomer(code);
@@ -2273,10 +2122,8 @@ function searchCustomer(){
 function focusSearch(){
 
  setTimeout(
-  ()=>document.getElementById(
-   "customerSearch"
-  ).focus(),
- 100
+  ()=>document.getElementById("customerSearch").focus(),
+  100
  );
 
 }
@@ -2288,20 +2135,14 @@ function openCustomer(code){
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
 
  currentCustomer=c;
 
- const bal=
-  calculateCustomerBalance(c);
-
- const p=
-  document.getElementById(
-   "customerProfile"
-  );
+ const bal=calculateCustomerBalance(c);
+ const p=document.getElementById("customerProfile");
 
  p.classList.remove("hidden");
 
@@ -2345,54 +2186,44 @@ function openCustomer(code){
 
  </div>
 
-
  <div class="tabs">
 
- <button
-  class="tab-btn active"
-  onclick="openCustomerTab('overview',this)">
+ <button class="tab-btn active"
+ onclick="openCustomerTab('overview',this)">
  Overview
  </button>
 
- <button
-  class="tab-btn"
-  onclick="openCustomerTab('milkHistory',this)">
+ <button class="tab-btn"
+ onclick="openCustomerTab('milkHistory',this)">
  🥛 Milk
  </button>
 
- <button
-  class="tab-btn"
-  onclick="openCustomerTab('creditHistory',this)">
+ <button class="tab-btn"
+ onclick="openCustomerTab('creditHistory',this)">
  💰 Credit
  </button>
 
- <button
-  class="tab-btn"
-  onclick="openCustomerTab('billHistory',this)">
+ <button class="tab-btn"
+ onclick="openCustomerTab('billHistory',this)">
  🧾 Bills
  </button>
 
  </div>
 
-
- <div id="overview"
-  class="tab-content active">
-  ${customerOverview(c)}
+ <div id="overview" class="tab-content active">
+ ${customerOverview(c)}
  </div>
 
- <div id="milkHistory"
-  class="tab-content">
-  ${milkHistory(c)}
+ <div id="milkHistory" class="tab-content">
+ ${milkHistory(c)}
  </div>
 
- <div id="creditHistory"
-  class="tab-content">
-  ${creditHistory(c)}
+ <div id="creditHistory" class="tab-content">
+ ${creditHistory(c)}
  </div>
 
- <div id="billHistory"
-  class="tab-content">
-  ${billHistory(c)}
+ <div id="billHistory" class="tab-content">
+ ${billHistory(c)}
  </div>
 
  `;
@@ -2404,17 +2235,13 @@ function openCustomer(code){
 function openCustomerTab(id,b){
 
  document
-  .querySelectorAll(
-   "#customerProfile .tab-content"
-  )
+  .querySelectorAll("#customerProfile .tab-content")
   .forEach(
    x=>x.classList.remove("active")
   );
 
  document
-  .querySelectorAll(
-   "#customerProfile .tab-btn"
-  )
+  .querySelectorAll("#customerProfile .tab-btn")
   .forEach(
    x=>x.classList.remove("active")
   );
@@ -2430,13 +2257,10 @@ function customerOverview(c){
 
  const r=
   c.milkRecords.find(
-   x=>
-    x.startDate===
-    getCurrentCycle().start
+   x=>x.startDate===getCurrentCycle().start
   );
 
- const bal=
-  calculateCustomerBalance(c);
+ const bal=calculateCustomerBalance(c);
 
  return`
 
@@ -2445,35 +2269,26 @@ function customerOverview(c){
  <div class="stat">
  <span>CURRENT 7-DAY MILK</span>
  <strong>
- ${formatNumber(
-  r?getRecordTotal(r):0
- )} L
+ ${formatNumber(r?getRecordTotal(r):0)} L
  </strong>
  </div>
 
  <div class="stat">
  <span>MILK RECORD</span>
- <strong>
- ${r?"ACTIVE":"NOT SET"}
- </strong>
+ <strong>${r?"ACTIVE":"NOT SET"}</strong>
  </div>
 
  <div class="stat">
  <span>CREDIT TAKEN</span>
- <strong>
- ${money(getTotalCredit(c))}
- </strong>
+ <strong>${money(getTotalCredit(c))}</strong>
  </div>
 
  <div class="stat">
  <span>BALANCE</span>
- <strong>
- ${formatBalance(bal)}
- </strong>
+ <strong>${formatBalance(bal)}</strong>
  </div>
 
  </div>
-
 
  <div class="panel">
 
@@ -2516,10 +2331,8 @@ function customerOverview(c){
 
 function milkHistory(c){
 
- if(!c.milkRecords.length)
-  return `<p style="color:var(--muted)">
-   No milk records.
-  </p>`;
+ if(!Array.isArray(c.milkRecords)||!c.milkRecords.length)
+  return `<p style="color:var(--muted)">No milk records.</p>`;
 
  return`
 
@@ -2547,13 +2360,9 @@ function milkHistory(c){
 
    <td>${formatDate(r.endDate)}</td>
 
-   <td>${formatNumber(
-    getRecordTotal(r)
-   )} L</td>
+   <td>${formatNumber(getRecordTotal(r))} L</td>
 
-   <td>${money(
-    calculateMilkBill(r)
-   )}</td>
+   <td>${money(calculateMilkBill(r))}</td>
 
    </tr>
 
@@ -2571,10 +2380,8 @@ function milkHistory(c){
 
 function creditHistory(c){
 
- if(!c.creditTransactions.length)
-  return `<p style="color:var(--muted)">
-   No credit records.
-  </p>`;
+ if(!Array.isArray(c.creditTransactions)||!c.creditTransactions.length)
+  return `<p style="color:var(--muted)">No credit records.</p>`;
 
  return`
 
@@ -2594,17 +2401,11 @@ function creditHistory(c){
 
    <tr>
 
-   <td>
-   ${formatDateTime(t.date)}
-   </td>
+   <td>${formatDateTime(t.date)}</td>
 
-   <td>
-   ${escapeHtml(t.reason)}
-   </td>
+   <td>${escapeHtml(t.reason)}</td>
 
-   <td class="negative">
-   -${money(t.amount)}
-   </td>
+   <td class="negative">-${money(t.amount)}</td>
 
    </tr>
 
@@ -2624,13 +2425,17 @@ function billHistory(c){
 
  const b=
   database.bills.filter(
-   x=>x.customerCode===c.code
+   x=>
+    String(x.customerCode||"")
+     .trim()
+     .toUpperCase()===
+    String(c.code||"")
+     .trim()
+     .toUpperCase()
   );
 
  if(!b.length)
-  return `<p style="color:var(--muted)">
-   No saved bills.
-  </p>`;
+  return `<p style="color:var(--muted)">No saved bills.</p>`;
 
  return`
 
@@ -2652,9 +2457,7 @@ function billHistory(c){
 
    <tr>
 
-   <td>
-   ${formatDateTime(x.createdAt)}
-   </td>
+   <td>${formatDateTime(x.createdAt)}</td>
 
    <td>
    ${formatDate(x.startDate)}
@@ -2662,17 +2465,11 @@ function billHistory(c){
    ${formatDate(x.endDate)}
    </td>
 
-   <td>
-   ${formatNumber(x.totalMilk)} L
-   </td>
+   <td>${formatNumber(x.totalMilk)} L</td>
 
-   <td>
-   ${money(x.milkBill)}
-   </td>
+   <td>${money(x.milkBill)}</td>
 
-   <td>
-   ${formatBalance(x.finalBalance)}
-   </td>
+   <td>${formatBalance(x.finalBalance)}</td>
 
    </tr>
 
@@ -2690,10 +2487,7 @@ function billHistory(c){
 
 function renderCustomerList(){
 
- const box=
-  document.getElementById(
-   "customerList"
-  );
+ const box=document.getElementById("customerList");
 
  if(!database.customers.length){
 
@@ -2726,24 +2520,17 @@ function renderCustomerList(){
   database.customers.map(
    c=>{
 
-    const b=
-     calculateCustomerBalance(c);
+    const b=calculateCustomerBalance(c);
 
     return`
 
     <tr>
 
-    <td>
-    <b>${escapeHtml(c.code)}</b>
-    </td>
+    <td><b>${escapeHtml(c.code)}</b></td>
 
-    <td>
-    ${escapeHtml(c.name)}
-    </td>
+    <td>${escapeHtml(c.name)}</td>
 
-    <td class="${
-     b<0?"negative":"positive"
-    }">
+    <td class="${b<0?"negative":"positive"}">
     ${formatBalance(b)}
     </td>
 
@@ -2779,20 +2566,30 @@ function deleteCustomerProfile(code){
 
  if(
   !c||
-  !confirm(
-   `Delete ${c.name} (${c.code})?`
-  )
+  !confirm(`Delete ${c.name} (${c.code})?`)
  )
   return;
 
  database.customers=
   database.customers.filter(
-   x=>x.code!==c.code
+   x=>
+    String(x.code||"")
+     .trim()
+     .toUpperCase()!==
+    String(c.code||"")
+     .trim()
+     .toUpperCase()
   );
 
  database.bills=
   database.bills.filter(
-   x=>x.customerCode!==c.code
+   x=>
+    String(x.customerCode||"")
+     .trim()
+     .toUpperCase()!==
+    String(c.code||"")
+     .trim()
+     .toUpperCase()
   );
 
  saveDatabase();
@@ -2802,16 +2599,14 @@ function deleteCustomerProfile(code){
   `${c.code} - ${c.name}`
  );
 
- document.getElementById(
-  "customerProfile"
- ).classList.add("hidden");
+ document.getElementById("customerProfile")
+  .classList.add("hidden");
 
  renderCustomerList();
 
  toast("Customer deleted.");
 
 }
-
 
 /* =========================================================
    MILK
@@ -2820,7 +2615,6 @@ function deleteCustomerProfile(code){
 function getCurrentCycle(){
 
  const n=new Date();
-
  const d=n.getDay();
 
  let diff=d-4;
@@ -2831,15 +2625,11 @@ function getCurrentCycle(){
 
  s.setHours(0,0,0,0);
 
- s.setDate(
-  s.getDate()-diff
- );
+ s.setDate(s.getDate()-diff);
 
  const e=new Date(s);
 
- e.setDate(
-  e.getDate()+6
- );
+ e.setDate(e.getDate()+6);
 
  return{
   start:dateInputValue(s),
@@ -2850,11 +2640,9 @@ function getCurrentCycle(){
 
 function buildWeekGrid(startValue){
 
- const start=
-  parseDate(
-   startValue||
-   getCurrentCycle().start
-  );
+ const start=parseDate(
+  startValue||getCurrentCycle().start
+ );
 
  const days=[
   "Thursday",
@@ -2866,28 +2654,25 @@ function buildWeekGrid(startValue){
   "Wednesday"
  ];
 
- const c=
-  getCustomer(
-   document.getElementById(
-    "milkCustomerCode"
-   ).value.trim()
-  );
+ const code=
+  document.getElementById("milkCustomerCode")
+   ?.value
+   .trim();
 
- const fat=
-  c?.pricingType==="fat";
+ const c=getCustomer(code);
+ const fat=c?.pricingType==="fat";
 
- document.getElementById(
-  "weekGrid"
- ).innerHTML=
+ const grid=document.getElementById("weekGrid");
+
+ if(!grid)return;
+
+ grid.innerHTML=
 
  days.map(
   (day,i)=>{
 
    const d=new Date(start);
-
-   d.setDate(
-    d.getDate()+i
-   );
+   d.setDate(d.getDate()+i);
 
    return`
 
@@ -2896,11 +2681,8 @@ function buildWeekGrid(startValue){
    <h4>${day}</h4>
 
    <small>
-   ${formatDate(
-    dateInputValue(d)
-   )}
+   ${formatDate(dateInputValue(d))}
    </small>
-
 
    <label style="
     display:block;
@@ -2916,7 +2698,6 @@ function buildWeekGrid(startValue){
     min="0"
     step=".01"
     value="0">
-
 
    ${
     fat
@@ -2939,7 +2720,6 @@ function buildWeekGrid(startValue){
     :""
    }
 
-
    <label style="
     display:block;
     font-size:11px;
@@ -2954,7 +2734,6 @@ function buildWeekGrid(startValue){
     min="0"
     step=".01"
     value="0">
-
 
    ${
     fat
@@ -2986,61 +2765,69 @@ function buildWeekGrid(startValue){
 
 }
 
-document.getElementById(
- "milkStartDate"
-).addEventListener(
- "change",
- function(){
+document.getElementById("milkStartDate")
+ .addEventListener(
+  "change",
+  function(){
 
-  const d=parseDate(this.value);
+   if(!this.value)return;
 
-  if(d.getDay()!==4){
+   const d=parseDate(this.value);
 
-   toast(
-    "Start Date must be Thursday."
-   );
+   if(d.getDay()!==4){
 
-   this.value=
-    getCurrentCycle().start;
+    toast("Start Date must be Thursday.");
+
+    this.value=getCurrentCycle().start;
+
+   }
+
+   buildWeekGrid(this.value);
 
   }
-
-  buildWeekGrid(this.value);
-
- }
-);
+ );
 
 function updateMilkPricingFields(c){
 
- const fat=
-  c.pricingType==="fat";
+ const fat=c.pricingType==="fat";
 
- document.getElementById(
-  "milkRateField"
- ).classList.toggle(
-  "hidden",
-  fat
- );
+ document.getElementById("milkRateField")
+  .classList.toggle("hidden",fat);
 
- document.getElementById(
-  "milkFatField"
- ).classList.toggle(
-  "hidden",
-  !fat
- );
+ document.getElementById("milkFatField")
+  .classList.toggle("hidden",!fat);
 
 }
 
+/*
+ =========================================================
+ FIXED LOAD CUSTOMER FUNCTION
+ =========================================================
+*/
+
 function loadMilkCustomer(){
 
+ const input=
+  document.getElementById("milkCustomerCode");
+
  const code=
-  document.getElementById(
-   "milkCustomerCode"
-  ).value.trim();
+  input.value.trim();
+
+ if(!code){
+
+  toast("Enter Customer Code.");
+
+  input.focus();
+
+  return;
+
+ }
 
  const c=getCustomer(code);
 
  if(!c){
+
+  document.getElementById("milkCustomerName").value="";
 
   toast("Customer not found.");
 
@@ -3048,107 +2835,127 @@ function loadMilkCustomer(){
 
  }
 
- document.getElementById(
-  "milkCustomerName"
- ).value=c.name;
+ currentCustomer=c;
+
+ document.getElementById("milkCustomerName")
+  .value=c.name||"";
 
  updateMilkPricingFields(c);
 
  const cycle=getCurrentCycle();
 
- document.getElementById(
-  "milkStartDate"
- ).value=cycle.start;
+ document.getElementById("milkStartDate")
+  .value=cycle.start;
 
  buildWeekGrid(cycle.start);
 
+ const records=
+  Array.isArray(c.milkRecords)
+  ?c.milkRecords
+  :[];
+
  const r=
-  c.milkRecords.find(
-   x=>x.startDate===cycle.start
+  records.find(
+   x=>
+    x&&
+    x.startDate===cycle.start
   );
 
- if(r){
+ if(!r){
 
-  document.getElementById(
-   "milkRate"
-  ).value=r.rate||"";
+  document.getElementById("milkRate")
+   .value=
+    c.pricingType==="fat"
+    ?""
+    :"";
 
-  r.days.forEach(
-   (d,i)=>{
-
-    const m=
-     document.querySelector(
-      `.morning-input[data-index="${i}"]`
-     );
-
-    const e=
-     document.querySelector(
-      `.evening-input[data-index="${i}"]`
-     );
-
-    if(m)m.value=d.morning??0;
-
-    if(e)e.value=d.evening??0;
-
-    const mf=
-     document.querySelector(
-      `.morning-fat-input[data-index="${i}"]`
-     );
-
-    const ef=
-     document.querySelector(
-      `.evening-fat-input[data-index="${i}"]`
-     );
-
-    if(mf)
-     mf.value=d.morningFat??"";
-
-    if(ef)
-     ef.value=d.eveningFat??"";
-
-   }
+  toast(
+   "✅ Customer loaded. New 7-day record."
   );
 
-  toast("Existing record loaded.");
-
- }else{
-
-  toast("Customer loaded.");
+  return;
 
  }
+
+ document.getElementById("milkRate")
+  .value=r.rate??"";
+
+ const days=
+  Array.isArray(r.days)
+  ?r.days
+  :[];
+
+ days.forEach(
+  (d,i)=>{
+
+   const m=
+    document.querySelector(
+     `.morning-input[data-index="${i}"]`
+    );
+
+   const e=
+    document.querySelector(
+     `.evening-input[data-index="${i}"]`
+    );
+
+   if(m)m.value=Number(d.morning||0);
+
+   if(e)e.value=Number(d.evening||0);
+
+   const mf=
+    document.querySelector(
+     `.morning-fat-input[data-index="${i}"]`
+    );
+
+   const ef=
+    document.querySelector(
+     `.evening-fat-input[data-index="${i}"]`
+    );
+
+   if(mf)
+    mf.value=d.morningFat??"";
+
+   if(ef)
+    ef.value=d.eveningFat??"";
+
+  }
+ );
+
+ toast("✅ Existing customer record loaded.");
 
 }
 
 function saveMilkRecord(){
 
  const code=
-  document.getElementById(
-   "milkCustomerCode"
-  ).value.trim();
+  document.getElementById("milkCustomerCode")
+   .value.trim();
 
  const c=getCustomer(code);
 
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
 
  const sv=
-  document.getElementById(
-   "milkStartDate"
-  ).value;
+  document.getElementById("milkStartDate")
+   .value;
+
+ if(!sv){
+
+  toast("Select start date.");
+  return;
+
+ }
 
  const s=parseDate(sv);
 
  if(s.getDay()!==4){
 
-  toast(
-   "Start date must be Thursday."
-  );
-
+  toast("Start date must be Thursday.");
   return;
 
  }
@@ -3159,17 +2966,12 @@ function saveMilkRecord(){
 
   rate=
    Number(
-    document.getElementById(
-     "milkRate"
-    ).value
+    document.getElementById("milkRate").value
    );
 
   if(!isFinite(rate)||rate<0){
 
-   toast(
-    "Enter milk price per litre."
-   );
-
+   toast("Enter milk price per litre.");
    return;
 
   }
@@ -3177,10 +2979,7 @@ function saveMilkRecord(){
  }
 
  const e=new Date(s);
-
- e.setDate(
-  e.getDate()+6
- );
+ e.setDate(e.getDate()+6);
 
  const days=[];
 
@@ -3190,14 +2989,14 @@ function saveMilkRecord(){
    Number(
     document.querySelector(
      `.morning-input[data-index="${i}"]`
-    ).value
+    )?.value
    )||0;
 
   const v=
    Number(
     document.querySelector(
      `.evening-input[data-index="${i}"]`
-    ).value
+    )?.value
    )||0;
 
   let mf=null;
@@ -3205,42 +3004,29 @@ function saveMilkRecord(){
 
   if(c.pricingType==="fat"){
 
-   mf=
-    Number(
-     document.querySelector(
-      `.morning-fat-input[data-index="${i}"]`
-     )?.value
+   const mfEl=
+    document.querySelector(
+     `.morning-fat-input[data-index="${i}"]`
     );
 
-   ef=
-    Number(
-     document.querySelector(
-      `.evening-fat-input[data-index="${i}"]`
-     )?.value
+   const efEl=
+    document.querySelector(
+     `.evening-fat-input[data-index="${i}"]`
     );
 
-   if(
-    m>0&&
-    (!isFinite(mf)||mf<=0)
-   ){
+   mf=Number(mfEl?.value);
+   ef=Number(efEl?.value);
 
-    toast(
-     "Enter Morning Fat for day "+(i+1)
-    );
+   if(m>0&&(!isFinite(mf)||mf<=0)){
 
+    toast("Enter Morning Fat for day "+(i+1));
     return;
 
    }
 
-   if(
-    v>0&&
-    (!isFinite(ef)||ef<=0)
-   ){
+   if(v>0&&(!isFinite(ef)||ef<=0)){
 
-    toast(
-     "Enter Evening Fat for day "+(i+1)
-    );
-
+    toast("Enter Evening Fat for day "+(i+1));
     return;
 
    }
@@ -3251,21 +3037,14 @@ function saveMilkRecord(){
   }
 
   const d=new Date(s);
-
-  d.setDate(
-   d.getDate()+i
-  );
+  d.setDate(d.getDate()+i);
 
   days.push({
 
    date:dateInputValue(d),
-
    morning:m,
-
    evening:v,
-
    morningFat:mf,
-
    eveningFat:ef
 
   });
@@ -3275,16 +3054,15 @@ function saveMilkRecord(){
  const r={
 
   startDate:sv,
-
   endDate:dateInputValue(e),
-
   rate,
-
   pricingType:c.pricingType,
-
   days
 
  };
+
+ if(!Array.isArray(c.milkRecords))
+  c.milkRecords=[];
 
  const i=
   c.milkRecords.findIndex(
@@ -3305,70 +3083,56 @@ function saveMilkRecord(){
 
  currentCustomer=c;
 
- toast(
-  "7-day milk record saved."
- );
+ toast("✅ 7-day milk record saved.");
 
  openCustomer(c.code);
 
 }
 
-
 /* =========================================================
    CREDIT
    ========================================================= */
 
-document.getElementById(
- "creditReason"
-).addEventListener(
- "change",
- function(){
+document.getElementById("creditReason")
+ .addEventListener(
+  "change",
+  function(){
 
-  document.getElementById(
-   "otherReasonField"
-  ).classList.toggle(
-   "hidden",
-   this.value!=="Other"
-  );
+   document.getElementById("otherReasonField")
+    .classList.toggle(
+     "hidden",
+     this.value!=="Other"
+    );
 
- }
-);
+  }
+ );
 
 function addCredit(){
 
  const code=
-  document.getElementById(
-   "creditCustomerCode"
-  ).value.trim();
+  document.getElementById("creditCustomerCode")
+   .value.trim();
 
  const c=getCustomer(code);
 
  const amount=
   Number(
-   document.getElementById(
-    "creditAmount"
-   ).value
+   document.getElementById("creditAmount").value
   );
 
  let reason=
-  document.getElementById(
-   "creditReason"
-  ).value;
+  document.getElementById("creditReason").value;
 
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
 
  if(!amount||amount<=0){
 
-  toast(
-   "Enter a valid credit amount."
-  );
-
+  toast("Enter a valid credit amount.");
   return;
 
  }
@@ -3376,28 +3140,25 @@ function addCredit(){
  if(reason==="Other"){
 
   reason=
-   document.getElementById(
-    "otherReason"
-   ).value.trim();
+   document.getElementById("otherReason")
+    .value.trim();
 
   if(!reason){
 
-   toast(
-    "Enter the other reason."
-   );
-
+   toast("Enter the other reason.");
    return;
 
   }
 
  }
 
+ if(!Array.isArray(c.creditTransactions))
+  c.creditTransactions=[];
+
  c.creditTransactions.push({
 
   amount,
-
   reason,
-
   date:new Date().toISOString()
 
  });
@@ -3409,9 +3170,7 @@ function addCredit(){
   `${c.code} - ${money(amount)} - ${reason}`
  );
 
- document.getElementById(
-  "creditAmount"
- ).value="";
+ document.getElementById("creditAmount").value="";
 
  loadCreditCustomer();
 
@@ -3423,48 +3182,37 @@ function loadCreditCustomer(){
 
  const c=
   getCustomer(
-   document.getElementById(
-    "creditCustomerCode"
-   ).value.trim()
+   document.getElementById("creditCustomerCode")
+    .value.trim()
   );
 
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
 
  currentCustomer=c;
 
- document.getElementById(
-  "creditCustomerInfo"
- ).innerHTML=`
+ document.getElementById("creditCustomerInfo")
+  .innerHTML=`
 
  <div class="stats">
 
  <div class="stat">
  <span>CUSTOMER</span>
- <strong>
- ${escapeHtml(c.name)}
- </strong>
+ <strong>${escapeHtml(c.name)}</strong>
  </div>
 
  <div class="stat">
  <span>TOTAL CREDIT</span>
- <strong>
- ${money(getTotalCredit(c))}
- </strong>
+ <strong>${money(getTotalCredit(c))}</strong>
  </div>
 
  <div class="stat">
  <span>BALANCE</span>
- <strong>
- ${formatBalance(
-  calculateCustomerBalance(c)
- )}
- </strong>
+ <strong>${formatBalance(calculateCustomerBalance(c))}</strong>
  </div>
 
  </div>
@@ -3477,14 +3225,18 @@ function loadCreditCustomer(){
 
 }
 
-
 /* =========================================================
    BILL CALCULATIONS
    ========================================================= */
 
 function getTotalCredit(c){
 
- return c.creditTransactions.reduce(
+ const transactions=
+  Array.isArray(c.creditTransactions)
+  ?c.creditTransactions
+  :[];
+
+ return transactions.reduce(
   (s,t)=>
    s+Number(t.amount||0),
   0
@@ -3494,24 +3246,25 @@ function getTotalCredit(c){
 
 function calculateCustomerBalance(c){
 
- return c.milkRecords.reduce(
+ const records=
+  Array.isArray(c.milkRecords)
+  ?c.milkRecords
+  :[];
+
+ return records.reduce(
   (s,r)=>
    s+calculateMilkBill(r),
   0
- )
- -
+ )-
  getTotalCredit(c);
 
 }
 
 function getOutstandingCredit(c){
 
- const b=
-  calculateCustomerBalance(c);
+ const b=calculateCustomerBalance(c);
 
- return b<0
-  ?Math.abs(b)
-  :0;
+ return b<0?Math.abs(b):0;
 
 }
 
@@ -3529,9 +3282,16 @@ function fatRate(f){
 
 function calculateMilkBill(r){
 
+ if(!r)return 0;
+
  if(r.pricingType==="fat"){
 
-  return r.days.reduce(
+  const days=
+   Array.isArray(r.days)
+   ?r.days
+   :[];
+
+  return days.reduce(
    (s,d)=>
     s+
     Number(d.morning||0)*
@@ -3550,6 +3310,9 @@ function calculateMilkBill(r){
 
 function getRecordTotal(r){
 
+ if(!r||!Array.isArray(r.days))
+  return 0;
+
  return r.days.reduce(
   (s,d)=>
    s+
@@ -3560,18 +3323,16 @@ function getRecordTotal(r){
 
 }
 
-
 /* =========================================================
-   PREPARE FOR CUSTOMER
+   PREPARE CUSTOMER ACTIONS
    ========================================================= */
 
 function prepareMilkForCustomer(code){
 
  showPage("milk");
 
- document.getElementById(
-  "milkCustomerCode"
- ).value=code;
+ document.getElementById("milkCustomerCode")
+  .value=code;
 
  loadMilkCustomer();
 
@@ -3581,9 +3342,8 @@ function prepareCreditForCustomer(code){
 
  showPage("credit");
 
- document.getElementById(
-  "creditCustomerCode"
- ).value=code;
+ document.getElementById("creditCustomerCode")
+  .value=code;
 
  loadCreditCustomer();
 
@@ -3593,14 +3353,12 @@ function prepareBillForCustomer(code){
 
  showPage("bills");
 
- document.getElementById(
-  "billCustomerCode"
- ).value=code;
+ document.getElementById("billCustomerCode")
+  .value=code;
 
  loadBillCustomer();
 
 }
-
 
 /* =========================================================
    BILL PREVIEW
@@ -3610,15 +3368,13 @@ function loadBillCustomer(){
 
  const c=
   getCustomer(
-   document.getElementById(
-    "billCustomerCode"
-   ).value.trim()
+   document.getElementById("billCustomerCode")
+    .value.trim()
   );
 
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
@@ -3629,56 +3385,39 @@ function loadBillCustomer(){
 
  if(!r){
 
-  document.getElementById(
-   "billPreview"
-  ).innerHTML=`
-   <p style="color:var(--muted)">
-   No milk record available.
-   </p>`;
+  document.getElementById("billPreview")
+   .innerHTML=`
+    <p style="color:var(--muted)">
+    No milk record available.
+    </p>`;
 
   return;
 
  }
 
- document.getElementById(
-  "billPreview"
- ).innerHTML=`
+ document.getElementById("billPreview")
+  .innerHTML=`
 
- <div class="stats"
-  style="margin-top:15px">
+ <div class="stats" style="margin-top:15px">
 
  <div class="stat">
  <span>CUSTOMER</span>
- <strong>
- ${escapeHtml(c.name)}
- </strong>
+ <strong>${escapeHtml(c.name)}</strong>
  </div>
 
  <div class="stat">
  <span>MILK</span>
- <strong>
- ${formatNumber(
-  getRecordTotal(r)
- )} L
- </strong>
+ <strong>${formatNumber(getRecordTotal(r))} L</strong>
  </div>
 
  <div class="stat">
  <span>BILL</span>
- <strong>
- ${money(
-  calculateMilkBill(r)
- )}
- </strong>
+ <strong>${money(calculateMilkBill(r))}</strong>
  </div>
 
  <div class="stat">
  <span>BALANCE</span>
- <strong>
- ${formatBalance(
-  calculateCustomerBalance(c)
- )}
- </strong>
+ <strong>${formatBalance(calculateCustomerBalance(c))}</strong>
  </div>
 
  </div>
@@ -3694,9 +3433,7 @@ function getBestBillRecord(c){
 
  const cur=
   c.milkRecords.find(
-   r=>
-    r.startDate===
-    getCurrentCycle().start
+   r=>r.startDate===getCurrentCycle().start
   );
 
  return cur||
@@ -3714,9 +3451,8 @@ function printCurrentCustomer(){
  const c=
   currentCustomer||
   getCustomer(
-   document.getElementById(
-    "billCustomerCode"
-   ).value.trim()
+   document.getElementById("billCustomerCode")
+    .value.trim()
   );
 
  if(c)
@@ -3735,25 +3471,20 @@ function printCustomerBills(code){
 
 }
 
-
 /* =========================================================
-   A4 CUSTOMER SELECTION
+   A4 BILL CUSTOMERS
    ========================================================= */
 
 function addA4CustomerSlot(){
 
  if(a4CustomerCodes.length>=6){
 
-  toast(
-   "Maximum 6 customers."
-  );
-
+  toast("Maximum 6 customers.");
   return;
 
  }
 
  a4CustomerCodes.push("");
-
  renderA4CustomerSlots();
 
 }
@@ -3761,7 +3492,6 @@ function addA4CustomerSlot(){
 function removeA4CustomerSlot(i){
 
  a4CustomerCodes.splice(i,1);
-
  renderA4CustomerSlots();
 
 }
@@ -3769,15 +3499,13 @@ function removeA4CustomerSlot(i){
 function clearA4CustomerSlots(){
 
  a4CustomerCodes=[];
-
  renderA4CustomerSlots();
 
 }
 
 function updateA4CustomerCode(i,v){
 
- a4CustomerCodes[i]=v.trim();
-
+ a4CustomerCodes[i]=String(v||"").trim();
  renderA4CustomerSlots();
 
 }
@@ -3785,9 +3513,7 @@ function updateA4CustomerCode(i,v){
 function renderA4CustomerSlots(){
 
  const box=
-  document.getElementById(
-   "a4CustomerSlots"
-  );
+  document.getElementById("a4CustomerSlots");
 
  if(!box)return;
 
@@ -3816,9 +3542,7 @@ function renderA4CustomerSlots(){
   (code,i)=>{
 
    const c=getCustomer(code);
-
-   const r=
-    c?getBestBillRecord(c):null;
+   const r=c?getBestBillRecord(c):null;
 
    return`
 
@@ -3839,7 +3563,6 @@ function renderA4CustomerSlots(){
 
    </div>
 
-
    <input
     value="${escapeHtml(code)}"
     placeholder="Customer Code"
@@ -3848,7 +3571,6 @@ function renderA4CustomerSlots(){
       ${i},
       this.value
      )">
-
 
    <div class="a4-slot-actions">
 
@@ -3861,7 +3583,6 @@ function renderA4CustomerSlots(){
 
    </div>
 
-
    <div class="a4-slot-preview">
 
    ${
@@ -3869,12 +3590,8 @@ function renderA4CustomerSlots(){
     ?(
      r
      ?`${escapeHtml(c.name)}
-       • ${formatNumber(
-        getRecordTotal(r)
-       )} L
-       • ${money(
-        calculateMilkBill(r)
-       )}`
+       • ${formatNumber(getRecordTotal(r))} L
+       • ${money(calculateMilkBill(r))}`
      :`${escapeHtml(c.name)}
        • No milk record`
     )
@@ -3897,47 +3614,35 @@ function renderA4CustomerSlots(){
 
 function loadA4CustomerSlot(i){
 
- const c=
-  getCustomer(
-   a4CustomerCodes[i]
-  );
+ const c=getCustomer(a4CustomerCodes[i]);
 
  if(!c){
 
   toast("Customer not found.");
-
   return;
 
  }
 
  if(!getBestBillRecord(c)){
 
-  toast(
-   "No milk record for this customer."
-  );
-
+  toast("No milk record for this customer.");
   return;
 
  }
 
- toast(
-  c.name+" loaded."
- );
+ toast(c.name+" loaded.");
 
 }
 
-
 /* =========================================================
-   PRINT 6 EQUAL SIZE BILLS
+   PRINT
    ========================================================= */
 
 function printSixCustomerBills(){
 
  const cs=[];
 
- for(
-  const code of a4CustomerCodes
- ){
+ for(const code of a4CustomerCodes){
 
   if(!code)continue;
 
@@ -3945,35 +3650,27 @@ function printSixCustomerBills(){
 
   if(!c){
 
-   toast(
-    `Customer ${code} not found.`
-   );
-
+   toast(`Customer ${code} not found.`);
    return;
 
   }
 
   if(
    cs.some(
-    x=>x.code===c.code
+    x=>
+     String(x.code).toUpperCase()===
+     String(c.code).toUpperCase()
    )
   ){
 
-   toast(
-    "Duplicate customer selected."
-   );
-
+   toast("Duplicate customer selected.");
    return;
 
   }
 
   if(!getBestBillRecord(c)){
 
-   toast(
-    c.name+
-    " has no milk record."
-   );
-
+   toast(c.name+" has no milk record.");
    return;
 
   }
@@ -3984,10 +3681,7 @@ function printSixCustomerBills(){
 
  if(!cs.length){
 
-  toast(
-   "Add at least one customer."
-  );
-
+  toast("Add at least one customer.");
   return;
 
  }
@@ -3996,39 +3690,48 @@ function printSixCustomerBills(){
 
 }
 
-
-/*
- IMPORTANT:
- We create ONLY the requested customer bills.
- The print CSS always provides six equal physical
- positions on the A4 page.
-*/
-
 function printSix(customers){
 
- const arr=
-  customers.slice(0,6);
+ const arr=customers.slice(0,6);
 
  const printArea=
-  document.getElementById(
-   "printArea"
-  );
+  document.getElementById("printArea");
 
- printArea.innerHTML=
-  arr.map(
-   c=>
+ /*
+   IMPORTANT:
+   Each bill gets one physical position.
+   Empty positions are added so that
+   1,2,3,4,5 and 6 bills all have identical size.
+ */
+
+ let html="";
+
+ for(let i=0;i<6;i++){
+
+  if(arr[i]){
+
+   html+=
     createPrintableBill(
-     c,
-     getBestBillRecord(c)
-    )
-  ).join("");
+     arr[i],
+     getBestBillRecord(arr[i])
+    );
 
+  }else{
+
+   html+=`
+    <div class="print-bill print-empty"></div>
+   `;
+
+  }
+
+ }
+
+ printArea.innerHTML=html;
 
  logAction(
   "PRINT BILLS",
   `${customers.length} customer bill(s)`
  );
-
 
  setTimeout(
   ()=>window.print(),
@@ -4037,42 +3740,31 @@ function printSix(customers){
 
 }
 
-
 /* =========================================================
-   PRINT BILL CONTENT
+   PRINT BILL
    ========================================================= */
 
 function createPrintableBill(c,r){
 
- const mt=
-  getRecordTotal(r);
-
- const bill=
-  calculateMilkBill(r);
+ const mt=getRecordTotal(r);
+ const bill=calculateMilkBill(r);
 
  const bal=
-  calculateBalanceThroughRecord(
-   c,
-   r
-  );
+  calculateBalanceThroughRecord(c,r);
 
  const mor=
   r.days.reduce(
-   (s,d)=>
-    s+Number(d.morning||0),
+   (s,d)=>s+Number(d.morning||0),
    0
   );
 
  const eve=
   r.days.reduce(
-   (s,d)=>
-    s+Number(d.evening||0),
+   (s,d)=>s+Number(d.evening||0),
    0
   );
 
- const fat=
-  r.pricingType==="fat";
-
+ const fat=r.pricingType==="fat";
 
  const rows=
   r.days.map(
@@ -4089,87 +3781,49 @@ function createPrintableBill(c,r){
 
     <tr>
 
-    <td>
-    ${n}
-    </td>
+    <td>${n}</td>
 
     <td>
-    <b>
-    ${formatNumber(d.morning)} L
-    </b>
-
+    <b>${formatNumber(d.morning)} L</b>
     ${
      fat
-     ?`
-      <br>
-      <small>
-      F:${formatNumber(
-       d.morningFat
-      )}
-      </small>
-     `
+     ?`<br><small>F:${formatNumber(d.morningFat)}</small>`
      :""
     }
-
     </td>
 
     <td>
-
-    <b>
-    ${formatNumber(d.evening)} L
-    </b>
-
+    <b>${formatNumber(d.evening)} L</b>
     ${
      fat
-     ?`
-      <br>
-      <small>
-      F:${formatNumber(
-       d.eveningFat
-      )}
-      </small>
-     `
+     ?`<br><small>F:${formatNumber(d.eveningFat)}</small>`
      :""
     }
-
     </td>
 
     <td>
-
     <b>
     ${formatNumber(
-     Number(d.morning)+
-     Number(d.evening)
+     Number(d.morning)+Number(d.evening)
     )} L
     </b>
-
     </td>
 
-    </tr>
-
-    `;
+    </tr>`;
 
    }
   ).join("");
 
-
  const credits=
-  c.creditTransactions
+  (c.creditTransactions||[])
    .filter(
     t=>{
 
-     const d=
-      new Date(t.date);
+     const d=new Date(t.date);
+     const s=parseDate(r.startDate);
+     const e=parseDate(r.endDate);
 
-     const s=
-      parseDate(r.startDate);
-
-     const e=
-      parseDate(r.endDate);
-
-     e.setHours(
-      23,59,59
-     );
+     e.setHours(23,59,59);
 
      return d>=s&&d<=e;
 
@@ -4180,44 +3834,34 @@ function createPrintableBill(c,r){
 
     <div class="print-line">
 
-    <b>
-    ${escapeHtml(t.reason)}
-    </b>
+    <b>${escapeHtml(t.reason)}</b>
 
-    <b>
-    -${money(t.amount)}
-    </b>
+    <b>-${money(t.amount)}</b>
 
     </div>
 
     `
    ).join("");
 
-
  return`
 
  <div class="print-bill">
 
- <h2>
- DHANALAKSHMI MILK DAIRY
- </h2>
+ <h2>DHANALAKSHMI MILK DAIRY</h2>
 
  <div class="print-sub">
  7-DAY MILK BILL
  </div>
-
 
  <div class="print-line">
  <span>Customer Code</span>
  <b>${escapeHtml(c.code)}</b>
  </div>
 
-
  <div class="print-line">
  <span>Customer Name</span>
  <b>${escapeHtml(c.name)}</b>
  </div>
-
 
  <div class="print-sub">
  ${formatDate(r.startDate)}
@@ -4225,46 +3869,33 @@ function createPrintableBill(c,r){
  ${formatDate(r.endDate)}
  </div>
 
-
  <table class="print-week">
 
  <tr>
-
  <th>DAY</th>
  <th>MORNING</th>
  <th>EVENING</th>
  <th>TOTAL</th>
-
  </tr>
 
  ${rows}
 
  </table>
 
-
  <div class="print-line print-total">
  <span>Morning</span>
- <span>
- ${formatNumber(mor)} L
- </span>
+ <span>${formatNumber(mor)} L</span>
  </div>
-
 
  <div class="print-line print-total">
  <span>Evening</span>
- <span>
- ${formatNumber(eve)} L
- </span>
+ <span>${formatNumber(eve)} L</span>
  </div>
-
 
  <div class="print-line print-total">
  <span>TOTAL MILK</span>
- <span>
- ${formatNumber(mt)} L
- </span>
+ <span>${formatNumber(mt)} L</span>
  </div>
-
 
  ${
   credits
@@ -4280,7 +3911,6 @@ function createPrintableBill(c,r){
   :""
  }
 
-
  <div class="print-line print-total">
 
  <span>
@@ -4293,50 +3923,43 @@ function createPrintableBill(c,r){
 
  </div>
 
-
  </div>
 
  `;
 
 }
 
-
 function calculateBalanceThroughRecord(c,target){
 
  let b=0;
 
- for(
-  const r of
-  [...c.milkRecords].sort(
-   (a,b)=>
-    parseDate(a.startDate)-
-    parseDate(b.startDate)
-  )
- ){
+ const records=
+  [...(c.milkRecords||[])]
+   .sort(
+    (a,b)=>
+     parseDate(a.startDate)-
+     parseDate(b.startDate)
+   );
+
+ for(const r of records){
 
   b+=calculateMilkBill(r);
 
-  if(
-   r.startDate===
-   target.startDate
-  )
+  if(r.startDate===target.startDate)
    break;
 
  }
 
- b-=
+ const endDate=
+  parseDate(target.endDate);
 
-  c.creditTransactions
+ endDate.setHours(23,59,59);
+
+ b-=
+  (c.creditTransactions||[])
    .filter(
     t=>
-     new Date(t.date)<=
-     new Date(
-      parseDate(
-       target.endDate
-      ).setHours(
-       23,59,59
-      )
-     )
+     new Date(t.date)<=endDate
    )
    .reduce(
     (s,t)=>
@@ -4348,16 +3971,14 @@ function calculateBalanceThroughRecord(c,target){
 
 }
 
-
 /* =========================================================
-   OWNER ACCESS MANAGEMENT
+   ACCESS MANAGEMENT
    ========================================================= */
 
 function renderAccess(){
 
  if(!currentUserIsOwner())
   return;
-
 
  const p=
   database.requests.filter(
@@ -4379,12 +4000,8 @@ function renderAccess(){
    u=>u.status==="removed"
   );
 
-
- /* PENDING */
-
- document.getElementById(
-  "pendingRequests"
- ).innerHTML=
+ document.getElementById("pendingRequests")
+  .innerHTML=
 
  p.length
 
@@ -4408,40 +4025,24 @@ function renderAccess(){
    <tr>
 
    <td>
-   <b>
-   ${escapeHtml(
-    r.name||r.id
-   )}
-   </b>
+   <b>${escapeHtml(r.name||r.id)}</b>
    </td>
 
-   <td>
-   <b>
-   ${escapeHtml(r.id)}
-   </b>
-   </td>
+   <td><b>${escapeHtml(r.id)}</b></td>
 
-   <td>
-   ${formatDateTime(r.date)}
-   </td>
+   <td>${formatDateTime(r.date)}</td>
 
    <td>
 
    <button
     class="btn green"
-    onclick="
-     approveUser(
-      '${escapeJs(r.id)}'
-     )">
+    onclick="approveUser('${escapeJs(r.id)}')">
     ✅ APPROVE
    </button>
 
    <button
     class="btn red"
-    onclick="
-     rejectUser(
-      '${escapeJs(r.id)}'
-     )">
+    onclick="rejectUser('${escapeJs(r.id)}')">
     ❌ REJECT
    </button>
 
@@ -4458,21 +4059,13 @@ function renderAccess(){
  </div>
 
  `
-
  :`
-
  <p style="color:var(--muted)">
  No pending requests.
- </p>
+ </p>`;
 
- `;
-
-
- /* APPROVED */
-
- document.getElementById(
-  "approvedUsers"
- ).innerHTML=
+ document.getElementById("approvedUsers")
+  .innerHTML=
 
  `<h4 style="
   margin:15px 0 10px;
@@ -4481,83 +4074,65 @@ function renderAccess(){
  </h4>`+
 
  (
+  approved.length
 
- approved.length
+  ?
 
- ?
+  `<div class="table-wrap">
 
- `<div class="table-wrap">
+  <table>
 
- <table>
+  <tr>
+  <th>Employee Name</th>
+  <th>Employee ID</th>
+  <th>Status</th>
+  <th>Action</th>
+  </tr>
 
- <tr>
+  ${
+   approved.map(
+    u=>`
 
- <th>Employee Name</th>
- <th>Employee ID</th>
- <th>Status</th>
- <th>Action</th>
+    <tr>
 
- </tr>
+    <td>
+    <b>${escapeHtml(u.name||u.id)}</b>
+    </td>
 
- ${
-  approved.map(
-   u=>`
+    <td><b>${escapeHtml(u.id)}</b></td>
 
-   <tr>
+    <td>
+    <span class="badge green">
+    APPROVED
+    </span>
+    </td>
 
-   <td>
-   <b>
-   ${escapeHtml(
-    u.name||u.id
-   )}
-   </b>
-   </td>
+    <td>
 
-   <td>
-   <b>
-   ${escapeHtml(u.id)}
-   </b>
-   </td>
+    <button
+     class="btn red"
+     onclick="removeUser('${escapeJs(u.id)}')">
+     🔴 REMOVE
+    </button>
 
-   <td>
-   <span class="badge green">
-   APPROVED
-   </span>
-   </td>
+    </td>
 
-   <td>
+    </tr>
 
-   <button
-    class="btn red"
-    onclick="
-     removeUser(
-      '${escapeJs(u.id)}'
-     )">
-    🔴 REMOVE
-   </button>
+    `
+   ).join("")
+  }
 
-   </td>
+  </table>
 
-   </tr>
+  </div>`
 
-   `
-  ).join("")
- }
+  :
 
- </table>
-
- </div>`
-
- :
-
- `<p style="color:var(--muted)">
- No approved employees.
- </p>`
-
+  `<p style="color:var(--muted)">
+  No approved employees.
+  </p>`
  )+
-
-
- /* REMOVED */
 
  `<h4 style="
   margin:22px 0 10px;
@@ -4566,92 +4141,74 @@ function renderAccess(){
  </h4>`+
 
  (
+  removed.length
 
- removed.length
+  ?
 
- ?
+  `<div class="table-wrap">
 
- `<div class="table-wrap">
+  <table>
 
- <table>
+  <tr>
+  <th>Employee Name</th>
+  <th>Employee ID</th>
+  <th>Status</th>
+  <th>Removed</th>
+  <th>Action</th>
+  </tr>
 
- <tr>
+  ${
+   removed.map(
+    u=>`
 
- <th>Employee Name</th>
- <th>Employee ID</th>
- <th>Status</th>
- <th>Removed</th>
- <th>Action</th>
+    <tr>
 
- </tr>
+    <td>
+    <b>${escapeHtml(u.name||u.id)}</b>
+    </td>
 
- ${
-  removed.map(
-   u=>`
+    <td><b>${escapeHtml(u.id)}</b></td>
 
-   <tr>
+    <td>
+    <span class="badge red">
+    REMOVED
+    </span>
+    </td>
 
-   <td>
-   <b>
-   ${escapeHtml(
-    u.name||u.id
-   )}
-   </b>
-   </td>
+    <td>
+    ${
+     u.removedAt
+     ?formatDateTime(u.removedAt)
+     :"—"
+    }
+    </td>
 
-   <td>
-   <b>
-   ${escapeHtml(u.id)}
-   </b>
-   </td>
+    <td>
 
-   <td>
-   <span class="badge red">
-   REMOVED
-   </span>
-   </td>
+    <button
+     class="btn green"
+     onclick="restoreUser('${escapeJs(u.id)}')">
+     ♻️ RESTORE
+    </button>
 
-   <td>
-   ${
-    u.removedAt
-    ?formatDateTime(u.removedAt)
-    :"—"
-   }
-   </td>
+    </td>
 
-   <td>
+    </tr>
 
-   <button
-    class="btn green"
-    onclick="
-     restoreUser(
-      '${escapeJs(u.id)}'
-     )">
-    ♻️ RESTORE
-   </button>
+    `
+   ).join("")
+  }
 
-   </td>
+  </table>
 
-   </tr>
+  </div>`
 
-   `
-  ).join("")
- }
+  :
 
- </table>
-
- </div>`
-
- :
-
- `<p style="color:var(--muted)">
- No removed employees.
- </p>`
-
+  `<p style="color:var(--muted)">
+  No removed employees.
+  </p>`
  )+
-
-
- /* REJECTED */
 
  `<h4 style="
   margin:22px 0 10px;
@@ -4660,130 +4217,107 @@ function renderAccess(){
  </h4>`+
 
  (
+  rejected.length
 
- rejected.length
+  ?
 
- ?
+  `<div class="table-wrap">
 
- `<div class="table-wrap">
+  <table>
 
- <table>
+  <tr>
+  <th>Employee Name</th>
+  <th>Employee ID</th>
+  <th>Rejected</th>
+  <th>Action</th>
+  </tr>
 
- <tr>
+  ${
+   rejected.map(
+    r=>`
 
- <th>Employee Name</th>
- <th>Employee ID</th>
- <th>Rejected</th>
- <th>Action</th>
+    <tr>
 
- </tr>
+    <td>
+    <b>${escapeHtml(r.name||r.id)}</b>
+    </td>
 
- ${
-  rejected.map(
-   r=>`
+    <td><b>${escapeHtml(r.id)}</b></td>
 
-   <tr>
+    <td>
+    ${
+     r.rejectedAt
+     ?formatDateTime(r.rejectedAt)
+     :formatDateTime(r.date)
+    }
+    </td>
 
-   <td>
-   <b>
-   ${escapeHtml(
-    r.name||r.id
-   )}
-   </b>
-   </td>
+    <td>
 
-   <td>
-   <b>
-   ${escapeHtml(r.id)}
-   </b>
-   </td>
+    <button
+     class="btn green"
+     onclick="approveUser('${escapeJs(r.id)}')">
+     ✅ APPROVE
+    </button>
 
-   <td>
-   ${
-    r.rejectedAt
-    ?formatDateTime(r.rejectedAt)
-    :formatDateTime(r.date)
-   }
-   </td>
+    </td>
 
-   <td>
+    </tr>
 
-   <button
-    class="btn green"
-    onclick="
-     approveUser(
-      '${escapeJs(r.id)}'
-     )">
-    ✅ APPROVE
-   </button>
+    `
+   ).join("")
+  }
 
-   </td>
+  </table>
 
-   </tr>
+  </div>`
 
-   `
-  ).join("")
- }
+  :
 
- </table>
-
- </div>`
-
- :
-
- `<p style="color:var(--muted)">
- No rejected requests.
- </p>`
-
+  `<p style="color:var(--muted)">
+  No rejected requests.
+  </p>`
  );
 
 }
-
-
-/* =========================================================
-   APPROVE
-   ========================================================= */
 
 function approveUser(id){
 
  if(!currentUserIsOwner())
   return;
 
+ const normalizedId=
+  String(id).trim().toUpperCase();
 
  const r=
   database.requests.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===normalizedId
   );
-
 
  let u=
   database.users.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===normalizedId
   );
-
 
  const employeeName=
   r?.name||
   u?.name||
   id;
 
-
  if(!u){
 
   u={
 
-   id:String(id).toUpperCase(),
-
+   id:normalizedId,
    name:employeeName,
-
    status:"approved",
-
-   approvedAt:
-    new Date().toISOString()
+   approvedAt:new Date().toISOString()
 
   };
 
@@ -4791,30 +4325,19 @@ function approveUser(id){
 
  }else{
 
-  u.name=
-   employeeName||
-   u.name||
-   u.id;
-
+  u.name=employeeName||u.name||u.id;
   u.status="approved";
-
-  u.approvedAt=
-   new Date().toISOString();
+  u.approvedAt=new Date().toISOString();
 
   delete u.removedAt;
 
  }
 
-
  if(r){
 
-  r.name=
-   employeeName;
-
+  r.name=employeeName;
   r.status="approved";
-
-  r.approvedAt=
-   new Date().toISOString();
+  r.approvedAt=new Date().toISOString();
 
   delete r.rejectedAt;
 
@@ -4822,42 +4345,28 @@ function approveUser(id){
 
   database.requests.push({
 
-   id:String(id).toUpperCase(),
-
+   id:normalizedId,
    name:employeeName,
-
    status:"approved",
-
    date:new Date().toISOString(),
-
-   approvedAt:
-    new Date().toISOString()
+   approvedAt:new Date().toISOString()
 
   });
 
  }
 
-
  saveDatabase();
 
  logAction(
   "APPROVE EMPLOYEE",
-  `${employeeName} (${id})`
+  `${employeeName} (${normalizedId})`
  );
 
  renderAccess();
 
- toast(
-  employeeName+
-  " approved."
- );
+ toast(employeeName+" approved.");
 
 }
-
-
-/* =========================================================
-   REJECT
-   ========================================================= */
 
 function rejectUser(id){
 
@@ -4867,16 +4376,16 @@ function rejectUser(id){
  const r=
   database.requests.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===
+    String(id).trim().toUpperCase()
   );
 
  if(!r)return;
 
  r.status="rejected";
-
- r.rejectedAt=
-  new Date().toISOString();
+ r.rejectedAt=new Date().toISOString();
 
  saveDatabase();
 
@@ -4887,16 +4396,9 @@ function rejectUser(id){
 
  renderAccess();
 
- toast(
-  `${r.name||id} rejected.`
- );
+ toast(`${r.name||id} rejected.`);
 
 }
-
-
-/* =========================================================
-   REMOVE
-   ========================================================= */
 
 function removeUser(id){
 
@@ -4906,8 +4408,10 @@ function removeUser(id){
  const u=
   database.users.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===
+    String(id).trim().toUpperCase()
   );
 
  if(!u)return;
@@ -4919,12 +4423,8 @@ function removeUser(id){
  )
   return;
 
-
  u.status="removed";
-
- u.removedAt=
-  new Date().toISOString();
-
+ u.removedAt=new Date().toISOString();
 
  saveDatabase();
 
@@ -4935,16 +4435,9 @@ function removeUser(id){
 
  renderAccess();
 
- toast(
-  `${u.name||u.id} removed.`
- );
+ toast(`${u.name||u.id} removed.`);
 
 }
-
-
-/* =========================================================
-   RESTORE
-   ========================================================= */
 
 function restoreUser(id){
 
@@ -4954,36 +4447,33 @@ function restoreUser(id){
  const u=
   database.users.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===
+    String(id).trim().toUpperCase()
   );
 
  if(!u)return;
 
  u.status="approved";
-
- u.restoredAt=
-  new Date().toISOString();
+ u.restoredAt=new Date().toISOString();
 
  delete u.removedAt;
-
 
  const r=
   database.requests.find(
    x=>
-    String(x.id).toUpperCase()===
-    String(id).toUpperCase()
+    String(x.id||"")
+     .trim()
+     .toUpperCase()===
+    String(id).trim().toUpperCase()
   );
 
  if(r){
 
   r.status="approved";
-
-  r.name=
-   u.name||r.name||u.id;
-
-  r.approvedAt=
-   new Date().toISOString();
+  r.name=u.name||r.name||u.id;
+  r.approvedAt=new Date().toISOString();
 
   delete r.rejectedAt;
 
@@ -4992,20 +4482,14 @@ function restoreUser(id){
   database.requests.push({
 
    id:u.id,
-
    name:u.name||u.id,
-
    status:"approved",
-
    date:new Date().toISOString(),
-
-   approvedAt:
-    new Date().toISOString()
+   approvedAt:new Date().toISOString()
 
   });
 
  }
-
 
  saveDatabase();
 
@@ -5016,12 +4500,9 @@ function restoreUser(id){
 
  renderAccess();
 
- toast(
-  `${u.name||u.id} restored.`
- );
+ toast(`${u.name||u.id} restored.`);
 
 }
-
 
 /* =========================================================
    ACTIVITY
@@ -5032,13 +4513,9 @@ function logAction(action,details=""){
  database.activity.unshift({
 
   id:Date.now()+Math.random(),
-
-  loginId:currentLogin,
-
+  loginId:currentLogin||"SYSTEM",
   action,
-
   details,
-
   date:new Date().toISOString()
 
  });
@@ -5046,7 +4523,20 @@ function logAction(action,details=""){
  if(database.activity.length>500)
   database.activity.length=500;
 
- saveDatabase();
+ /*
+   Save directly here.
+   This is intentional so activity is also
+   stored in Firebase.
+ */
+
+ database=normalizeDatabase(database);
+
+ localStorage.setItem(
+  STORAGE_KEY,
+  JSON.stringify(database)
+ );
+
+ cloudSaveDatabase();
 
 }
 
@@ -5057,9 +4547,8 @@ function renderActivity(){
 
  const a=database.activity;
 
- document.getElementById(
-  "activityList"
- ).innerHTML=
+ document.getElementById("activityList")
+  .innerHTML=
 
  a.length
 
@@ -5081,13 +4570,11 @@ function renderActivity(){
   <table>
 
   <tr>
-
   <th>Date & Time</th>
   <th>Login ID</th>
   <th>Action</th>
   <th>Details</th>
   <th>Delete</th>
-
   </tr>
 
   ${
@@ -5096,31 +4583,20 @@ function renderActivity(){
 
     <tr>
 
-    <td>
-    ${formatDateTime(x.date)}
-    </td>
+    <td>${formatDateTime(x.date)}</td>
 
-    <td>
-    <b>${escapeHtml(x.loginId)}</b>
-    </td>
+    <td><b>${escapeHtml(x.loginId)}</b></td>
 
-    <td>
-    ${escapeHtml(x.action)}
-    </td>
+    <td>${escapeHtml(x.action)}</td>
 
-    <td>
-    ${escapeHtml(x.details)}
-    </td>
+    <td>${escapeHtml(x.details)}</td>
 
     <td>
 
     <button
      class="btn red"
      style="padding:7px 10px"
-     onclick="
-      deleteActivity(
-       '${escapeJs(x.id)}'
-      )">
+     onclick="deleteActivity('${escapeJs(x.id)}')">
      🗑️ DELETE
     </button>
 
@@ -5149,26 +4625,18 @@ function deleteActivity(id){
  if(!currentUserIsOwner())
   return;
 
- if(
-  !confirm(
-   "Delete this activity record?"
-  )
- )
+ if(!confirm("Delete this activity record?"))
   return;
 
  database.activity=
   database.activity.filter(
-   x=>String(x.id)!==
-      String(id)
+   x=>String(x.id)!==String(id)
   );
 
  saveDatabase();
-
  renderActivity();
 
- toast(
-  "Activity record deleted."
- );
+ toast("Activity record deleted.");
 
 }
 
@@ -5179,33 +4647,22 @@ function deleteAllActivity(){
 
  if(!database.activity.length){
 
-  toast(
-   "No activity history to delete."
-  );
-
+  toast("No activity history to delete.");
   return;
 
  }
 
- if(
-  !confirm(
-   "Delete ALL activity history?"
-  )
- )
+ if(!confirm("Delete ALL activity history?"))
   return;
 
  database.activity=[];
 
  saveDatabase();
-
  renderActivity();
 
- toast(
-  "All activity history deleted."
- );
+ toast("All activity history deleted.");
 
 }
-
 
 /* =========================================================
    BACKUP
@@ -5228,24 +4685,23 @@ function backupData(){
  const url=
   URL.createObjectURL(blob);
 
- const a=
-  document.createElement("a");
+ const a=document.createElement("a");
 
  a.href=url;
+ a.download="dhanalakshmi-dairy-backup.json";
 
- a.download=
-  "dhanalakshmi-dairy-backup.json";
-
+ document.body.appendChild(a);
  a.click();
+ a.remove();
 
- URL.revokeObjectURL(url);
-
- toast(
-  "Backup downloaded."
+ setTimeout(
+  ()=>URL.revokeObjectURL(url),
+  1000
  );
 
-}
+ toast("Backup downloaded.");
 
+}
 
 /* =========================================================
    HELPERS
@@ -5257,9 +4713,7 @@ function money(v){
   Number(v||0)
    .toLocaleString(
     "en-IN",
-    {
-     maximumFractionDigits:2
-    }
+    {maximumFractionDigits:2}
    );
 
 }
@@ -5279,9 +4733,7 @@ function formatNumber(v){
  return Number(v||0)
   .toLocaleString(
    "en-IN",
-   {
-    maximumFractionDigits:2
-   }
+   {maximumFractionDigits:2}
   );
 
 }
@@ -5290,19 +4742,15 @@ function dateInputValue(d){
 
  return`
  ${d.getFullYear()}-
- ${String(
-  d.getMonth()+1
- ).padStart(2,"0")}-
- ${String(
-  d.getDate()
- ).padStart(2,"0")}
+ ${String(d.getMonth()+1).padStart(2,"0")}-
+ ${String(d.getDate()).padStart(2,"0")}
  `.replace(/\s/g,"");
 
 }
 
 function parseDate(v){
 
- if(v instanceof Date)
+ if(v instanceof Date){
 
   return new Date(
    v.getFullYear(),
@@ -5310,10 +4758,20 @@ function parseDate(v){
    v.getDate()
   );
 
+ }
+
  const p=
-  String(v)
+  String(v||"")
    .split("-")
    .map(Number);
+
+ if(
+  p.length!==3||
+  !p[0]||
+  !p[1]||
+  !p[2]
+ )
+  return new Date(NaN);
 
  return new Date(
   p[0],
@@ -5325,47 +4783,59 @@ function parseDate(v){
 
 function formatDate(v){
 
- return parseDate(v)
-  .toLocaleDateString(
-   "en-IN",
-   {
-    day:"2-digit",
-    month:"2-digit",
-    year:"numeric"
-   }
-  );
+ const d=parseDate(v);
+
+ if(isNaN(d.getTime()))
+  return "—";
+
+ return d.toLocaleDateString(
+  "en-IN",
+  {
+   day:"2-digit",
+   month:"2-digit",
+   year:"numeric"
+  }
+ );
 
 }
 
 function formatDateTime(v){
 
- return new Date(v)
-  .toLocaleString(
-   "en-IN",
-   {
-    day:"2-digit",
-    month:"short",
-    year:"numeric",
-    hour:"2-digit",
-    minute:"2-digit"
-   }
-  );
+ const d=new Date(v);
+
+ if(isNaN(d.getTime()))
+  return "—";
+
+ return d.toLocaleString(
+  "en-IN",
+  {
+   day:"2-digit",
+   month:"short",
+   year:"numeric",
+   hour:"2-digit",
+   minute:"2-digit"
+  }
+ );
 
 }
 
 function findDayIndex(days,date){
 
+ if(!Array.isArray(days))
+  return -1;
+
+ const target=
+  dateInputValue(date);
+
  return days.findIndex(
-  d=>
-   d.date===
-   dateInputValue(date)
+  d=>d.date===target
  );
 
 }
 
 function escapeHtml(v){
 
- return String(v)
+ return String(v??"")
   .replaceAll("&","&amp;")
   .replaceAll("<","&lt;")
   .replaceAll(">","&gt;")
@@ -5376,7 +4846,7 @@ function escapeHtml(v){
 
 function escapeJs(v){
 
- return String(v)
+ return String(v??"")
   .replaceAll("\\","\\\\")
   .replaceAll("'","\\'");
 
@@ -5384,8 +4854,9 @@ function escapeJs(v){
 
 function toast(m){
 
- const e=
-  document.getElementById("toast");
+ const e=document.getElementById("toast");
+
+ if(!e)return;
 
  e.textContent=m;
 
@@ -5401,17 +4872,16 @@ function toast(m){
 
 }
 
-
 /* =========================================================
    INITIALIZATION
    ========================================================= */
 
 (function init(){
 
- document.getElementById(
-  "milkStartDate"
- ).value=
-  getCurrentCycle().start;
+ const cycle=getCurrentCycle();
+
+ document.getElementById("milkStartDate")
+  .value=cycle.start;
 
  buildWeekGrid();
 
@@ -5419,8 +4889,7 @@ function toast(m){
 
  addA4CustomerSlot();
 
-
- const a=
+ const authenticated=
   sessionStorage.getItem(
    "dairyAuthenticated"
   );
@@ -5430,42 +4899,36 @@ function toast(m){
    "dairyLogin"
   );
 
-
- if(a==="true"&&id){
+ if(authenticated==="true"&&id){
 
   currentLogin=id;
 
-  document.getElementById(
-   "loginScreen"
-  ).classList.add("hidden");
+  document.getElementById("loginScreen")
+   .classList.add("hidden");
 
-  document.getElementById(
-   "app"
-  ).classList.remove("hidden");
+  document.getElementById("app")
+   .classList.remove("hidden");
 
-  document.getElementById(
-   "loggedInAs"
-  ).textContent=id;
+  document.getElementById("loggedInAs")
+   .textContent=id;
 
   setOwnerUI();
-
   updateDashboard();
 
  }
 
-
  showCloudStatus(
-  "☁️ Connecting to cloud..."
+  "☁️ Connecting to cloud...",
+  "var(--yellow)"
  );
 
  startFirebaseSync();
 
 })();
 
-
 /* =========================================================
    ENTER = NEXT FIELD
-   SHIFT+ENTER = PREVIOUS
+   SHIFT + ENTER = PREVIOUS
    ========================================================= */
 
 document.addEventListener(
@@ -5475,21 +4938,16 @@ document.addEventListener(
   if(e.key!=="Enter")
    return;
 
-  const el=
-   document.activeElement;
+  const el=document.activeElement;
 
   if(
    !el||
-   !["INPUT","SELECT"]
-    .includes(el.tagName)||
+   !["INPUT","SELECT"].includes(el.tagName)||
    el.id==="passwordInput"
   )
    return;
 
-  if(
-   el.readOnly||
-   el.disabled
-  )
+  if(el.readOnly||el.disabled)
    return;
 
   e.preventDefault();
@@ -5506,16 +4964,13 @@ document.addEventListener(
 
   const i=f.indexOf(el);
 
-  const n=
-   e.shiftKey
-   ?i-1
-   :i+1;
+  const n=e.shiftKey?i-1:i+1;
 
   if(f[n]){
 
    f[n].focus();
 
-   if(f[n].select)
+   if(typeof f[n].select==="function")
     f[n].select();
 
   }
