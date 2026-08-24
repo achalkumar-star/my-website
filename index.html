@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- CACHE BUSTER: always request the newest GitHub Pages HTML -->
+<script>
+(function(){
+  try {
+    const u=new URL(location.href);
+    if(!u.searchParams.has("fresh")){
+      u.searchParams.set("fresh",Date.now().toString());
+      location.replace(u.href);
+    }
+  } catch(e) {}
+})();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Dhanalakshmi Milk Dairy • Cloud Sync</title>
 <style>
-html.auth-checking #loginScreen{visibility:hidden}
-html.auth-checking #app{visibility:hidden}
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#07111f;--panel:#0d1b2e;--panel2:#12243b;--border:#28415f;--text:#f4f8ff;--muted:#91a5bc;--accent:#61dafb;--green:#39e58c;--red:#ff6675;--yellow:#ffd166}
 body{font-family:Inter,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at 15% 10%,#61dafb1f,transparent 30%),radial-gradient(circle at 85% 80%,#39e58c14,transparent 30%),var(--bg);color:var(--text);min-height:100vh}
@@ -50,9 +60,6 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 </style>
 </head>
 <body>
-<script>
-(function(){try{const a=localStorage.getItem("dairyAuthenticated"),id=localStorage.getItem("dairyLogin");if(a==="true"&&id){document.documentElement.classList.add("auth-checking")}}catch(e){}})();
-</script>
 
 <section id="loginScreen">
 <div class="login-card">
@@ -407,8 +414,8 @@ async function submitEmployeeRequest(){
   const passwordHash=await sha256(p);database.requests.push({id,name,passwordHash,status:"pending",date:new Date().toISOString()});saveDatabase();closeEmployeeRequest();toast("Request sent. Wait for owner approval.");
 }
 function enterApp(){
-  localStorage.setItem("dairyAuthenticated","true");
-  localStorage.setItem("dairyLogin",currentLogin);
+  sessionStorage.setItem("dairyAuthenticated","true");
+  sessionStorage.setItem("dairyLogin",currentLogin);
   document.getElementById("loginScreen").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
   document.getElementById("loggedInAs").textContent=currentLogin;
@@ -417,7 +424,7 @@ function enterApp(){
 function setOwnerUI(){
   document.querySelectorAll(".owner-only,.owner-only-page").forEach(x=>x.classList.toggle("hidden",!currentUserIsOwner()));
 }
-function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");localStorage.removeItem("dairyAuthenticated");localStorage.removeItem("dairyLogin");sessionStorage.clear();location.reload()}
+function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");sessionStorage.clear();location.reload()}
 
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}});
 document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
@@ -677,12 +684,11 @@ function toast(m){const e=document.getElementById("toast");e.textContent=m;e.cla
 (function init(){
   document.getElementById("milkStartDate").value=getCurrentCycle().start;
   setLoginMode("owner");buildWeekGrid();renderCustomerList();addA4CustomerSlot();renderNotifications();
-  const a=localStorage.getItem("dairyAuthenticated"),id=localStorage.getItem("dairyLogin");
+  const a=sessionStorage.getItem("dairyAuthenticated"),id=sessionStorage.getItem("dairyLogin");
   if(a==="true"&&id){
     currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
     document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard();
   }
-  document.documentElement.classList.remove("auth-checking");
   showCloudStatus("☁️ Connecting to cloud...");
   startFirebaseSync();
 })();
