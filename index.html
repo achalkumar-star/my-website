@@ -512,11 +512,11 @@ function openCustomer(code){
 function openCustomerTab(id,b){document.querySelectorAll("#customerProfile .tab-content").forEach(x=>x.classList.remove("active"));document.querySelectorAll("#customerProfile .tab-btn").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");b.classList.add("active")}
 function customerOverview(c){
   const r=(c.milkRecords||[]).find(x=>x.startDate===getCurrentCycle().start),bal=calculateCustomerBalance(c);
-  return`<div class="stats"><div class="stat"><span>CURRENT 7-DAY MILK</span><strong>${formatNumber(r?getRecordTotal(r):0)} L</strong></div><div class="stat"><span>MILK RECORD</span><strong>${r?"ACTIVE":"NOT SET"}</strong></div><div class="stat"><span>CREDIT TAKEN</span><strong>${money(getTotalCredit(c))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(bal)}</strong></div></div><div class="panel"><h3>⚡ Customer Actions</h3><div class="form-actions"><button class="btn" onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">🥛 Enter Milk</button><button class="btn yellow" onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">💰 Add Credit</button><button class="btn green" onclick="prepareBillForCustomer('${escapeJs(c.code)}')">🧾 View Bill</button><button class="btn dark" onclick="printCustomerBills('${escapeJs(c.code)}')">🖨️ Print</button><button class="btn red" onclick="deleteCustomerProfile('${escapeJs(c.code)}')">🗑️ DELETE CUSTOMER</button></div></div>`;
+  return`<div class="stats"><div class="stat"><span>CURRENT 7-DAY MILK</span><strong>${formatNumber(r?getRecordTotal(r):0)} L</strong></div><div class="stat"><span>MILK RECORD</span><strong>${r?"ACTIVE":"NOT SET"}</strong></div><div class="stat"><span>CREDIT TAKEN</span><strong>${money(getTotalCredit(c))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(bal)}</strong></div></div><div class="panel"><h3>⚡ Customer Actions</h3><div class="form-actions"><button class="btn" onclick="prepareMilkForCustomer('${escapeJs(c.code)}')">🥛 Enter Milk</button><button class="btn yellow" onclick="prepareCreditForCustomer('${escapeJs(c.code)}')">💰 Add Credit</button><button class="btn green" onclick="prepareBillForCustomer('${escapeJs(c.code)}')">🧾 View Bill</button><button class="btn dark" onclick="printCustomerBills('${escapeJs(c.code)}')">🖨️ Print</button>${currentUserIsOwner()?`<button class="btn red" onclick="deleteCustomerProfile('${escapeJs(c.code)}')">🗑️ DELETE CUSTOMER</button>`:""}</div></div>`;
 }
 function milkHistory(c){
   if(!(c.milkRecords||[]).length)return`<p style="color:var(--muted)">No milk records.</p>`;
-  return`<div class="table-wrap"><table><tr><th>Cycle</th><th>Start</th><th>End</th><th>Total Milk</th><th>Bill</th></tr>${c.milkRecords.map(r=>`<tr><td>Thu → Wed</td><td>${formatDate(r.startDate)}</td><td>${formatDate(r.endDate)}</td><td>${formatNumber(getRecordTotal(r))} L</td><td>${money(calculateMilkBill(r))}</td></tr>`).join("")}</table></div>`;
+  return`<div class="table-wrap"><table><tr><th>Cycle</th><th>Start</th><th>End</th><th>Total Milk</th><th>Bill</th><th>Status</th></tr>${(()=>{const st=billStatuses(c);return c.milkRecords.map(r=>{const q=st[r.startDate]||{status:"Pending",balance:0};return`<tr><td>Thu → Wed</td><td>${formatDate(r.startDate)}</td><td>${formatDate(r.endDate)}</td><td>${formatNumber(getRecordTotal(r))} L</td><td>${money(calculateMilkBill(r))}</td><td class="${q.status==="Paid"?"positive":"negative"}"><b>${q.status==="Paid"?"✅ PAID":q.status}</b><br><small>${formatBalance(q.balance)}</small></td></tr>`}).join("")})()}</table></div>`;
 }
 function creditHistory(c){
   if(!(c.creditTransactions||[]).length)return`<p style="color:var(--muted)">No credit records.</p>`;
@@ -526,11 +526,27 @@ function billHistory(c){
   const b=database.bills.filter(x=>x.customerCode===c.code);if(!b.length)return`<p style="color:var(--muted)">No saved bills.</p>`;
   return`<div class="table-wrap"><table><tr><th>Created</th><th>Cycle</th><th>Milk</th><th>Bill</th><th>Balance</th></tr>${b.map(x=>`<tr><td>${formatDateTime(x.createdAt)}</td><td>${formatDate(x.startDate)} → ${formatDate(x.endDate)}</td><td>${formatNumber(x.totalMilk)} L</td><td>${money(x.milkBill)}</td><td>${formatBalance(x.finalBalance)}</td></tr>`).join("")}</table></div>`;
 }
+function billStatuses(c){
+  const recs=[...(c.milkRecords||[])].sort((a,b)=>parseDate(a.startDate)-parseDate(b.startDate)),out={};
+  if(!recs.length)return out;
+  const ends=recs.map(r=>{const e=parseDate(r.endDate);e.setHours(23,59,59,999);return e}),credit=recs.map(()=>0);
+  (c.creditTransactions||[]).forEach(t=>{const d=new Date(t.date),i=ends.findIndex(e=>d<=e);if(i>=0)credit[i]+=Number(t.amount||0)});
+  let recv=0,paid=0;(c.paymentTransactions||[]).forEach(t=>{if(t.direction==="received")recv+=Number(t.amount||0);else paid+=Number(t.amount||0)});
+  let R=0;
+  recs.forEach((r,i)=>{
+    const before=Math.round(R*100)/100;R+=calculateMilkBill(r)-credit[i];let applied=0;
+    if(R<-0.004&&recv>0){const x=Math.min(-R,recv);R+=x;recv-=x;applied=x}
+    else if(R>0.004&&paid>0){const x=Math.min(R,paid);R-=x;paid-=x;applied=x}
+    R=Math.round(R*100)/100;
+    out[r.startDate]={before,balance:R,status:R===0?"Paid":(applied>0?"Part paid":"Pending")};
+  });
+  return out;
+}
 function byName(a,b){return String(a.name||"").localeCompare(String(b.name||""),undefined,{sensitivity:"base"})}
 function nextCustomerCode(){const n=database.customers.map(c=>parseInt(c.code,10)).filter(x=>Number.isFinite(x)&&x>0&&x<=999999);const m=n.length?Math.max(...n):0;return m>=999999?"":String(m+1)}
 function renderCustomerList(){
   const box=document.getElementById("customerList");if(!database.customers.length){box.innerHTML=`<div style="padding:30px;text-align:center;color:var(--muted)">No customers yet.</div>`;return}
-  box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${[...database.customers].sort(byName).map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button></td></tr>`}).join("")}</table></div>`;
+  box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${[...database.customers].sort(byName).map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button>${currentUserIsOwner()?`<button class="btn red" style="margin-left:6px" onclick="deleteCustomerProfile('${escapeJs(c.code)}')">🗑️ Delete</button>`:""}</td></tr>`}).join("")}</table></div>`;
 }
 function deleteCustomerProfile(code){
   if(!currentUserIsOwner())return toast("Only the owner can delete customers.");
@@ -609,7 +625,7 @@ function prepareBillForCustomer(code){showPage("bills");document.getElementById(
 function loadBillCustomer(){
   const c=getCustomer(document.getElementById("billCustomerCode").value.trim());if(!c)return toast("Customer not found.");currentCustomer=c;
   const r=getBestBillRecord(c);if(!r){document.getElementById("billPreview").innerHTML=`<p style="color:var(--muted)">No milk record available.</p>`;return}
-  document.getElementById("billPreview").innerHTML=`<div class="stats" style="margin-top:15px"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>MILK</span><strong>${formatNumber(getRecordTotal(r))} L</strong></div><div class="stat"><span>BILL</span><strong>${money(calculateMilkBill(r))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div><div class="form-actions" style="margin-top:15px">${Math.round(calculateCustomerBalance(c)*100)!==0?`<button class="btn green" onclick="saveClearPayment(true,'${escapeJs(c.code)}')">✅ PAID (clear ${money(Math.abs(calculateCustomerBalance(c)))})</button>`:`<b class="positive">✅ CLEAR - nothing pending</b>`}</div>`;
+  document.getElementById("billPreview").innerHTML=`<div class="stats" style="margin-top:15px"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>MILK</span><strong>${formatNumber(getRecordTotal(r))} L</strong></div><div class="stat"><span>BILL</span><strong>${money(calculateMilkBill(r))}</strong></div><div class="stat"><span>BILL STATUS</span><strong>${(billStatuses(c)[r.startDate]||{status:"Pending"}).status==="Paid"?"✅ PAID":(billStatuses(c)[r.startDate]||{status:"Pending"}).status}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div><div class="form-actions" style="margin-top:15px">${Math.round(calculateCustomerBalance(c)*100)!==0?`<button class="btn green" onclick="saveClearPayment(true,'${escapeJs(c.code)}')">✅ PAID (clear ${money(Math.abs(calculateCustomerBalance(c)))})</button>`:`<b class="positive">✅ CLEAR - nothing pending</b>`}</div>`;
 }
 function loadDailyReport(){
   if(!currentUserIsOwner())return;
@@ -685,8 +701,9 @@ function createPrintableBill(c,r){
   const mt=getRecordTotal(r),bill=calculateMilkBill(r),bal=calculateBalanceThroughRecord(c,r),mor=r.days.reduce((s,d)=>s+Number(d.morning||0),0),eve=r.days.reduce((s,d)=>s+Number(d.evening||0),0),fat=r.pricingType==="fat";
   const rows=r.days.map(d=>{const n=parseDate(d.date).toLocaleDateString("en-IN",{weekday:"short"});return`<tr><td>${n}</td><td><b>${formatNumber(d.morning)} L</b>${fat?`<br><small>F:${formatNumber(d.morningFat)}</small>`:""}</td><td><b>${formatNumber(d.evening)} L</b>${fat?`<br><small>F:${formatNumber(d.eveningFat)}</small>`:""}</td><td><b>${formatNumber(Number(d.morning)+Number(d.evening))} L</b></td></tr>`}).join("");
   const credits=(c.creditTransactions||[]).filter(t=>{const d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${escapeHtml(t.reason)}</b><b>-${money(t.amount)}</b></div>`).join("");
+  const st=billStatuses(c)[r.startDate]||{status:"Pending",balance:bal,before:0};
   const payLines=(c.paymentTransactions||[]).filter(t=>{const d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${t.direction==="received"?"Payment Received":"Paid to Customer"}</b><b>${t.direction==="received"?"+":"-"}${money(t.amount)}</b></div>`).join("");
-  return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}${payLines}<div class="print-line print-total"><span>${bal<0?"BALANCE":"AMOUNT"}</span><span>${money(Math.abs(bal))}</span></div></div>`;
+  return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div><div class="print-line"><span>Milk Amount</span><b>${money(bill)}</b></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}${payLines}<div class="print-line"><span>Previous Balance</span><b>${st.before===0?money(0):(st.before<0?"-":"+")+money(Math.abs(st.before))}</b></div><div class="print-line print-total"><span>${st.status==="Paid"?"BALANCE":st.balance<0?"CUSTOMER GIVES":"DAIRY GIVES"}</span><span>${st.status==="Paid"?money(0):money(Math.abs(st.balance))}</span></div>${st.status==="Paid"?'<div style="margin-top:3px;text-align:center;font-weight:bold;font-size:12px;border:2px solid #000;padding:1px">PAID</div>':""}</div>`;
 }
 function calculateBalanceThroughRecord(c,target){
   let b=0;
@@ -740,7 +757,7 @@ function backupData(){
   a.href=url;a.download="dhanalakshmi-dairy-backup.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast("Backup downloaded.");
 }
 function money(v){return"₹"+Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
-function formatBalance(v){const n=Number(v||0);return n<0?"-"+money(Math.abs(n)):money(n)}
+function formatBalance(v){const n=Math.round(Number(v||0)*100)/100;return n<0?"Gives "+money(-n)+" to dairy":n>0?"Gets "+money(n)+" from dairy":"Clear "+money(0)}
 function formatNumber(v){return Number(v||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
 function dateInputValue(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
 function parseDate(v){if(v instanceof Date)return new Date(v.getFullYear(),v.getMonth(),v.getDate());const p=String(v).split("-").map(Number);return new Date(p[0],p[1]-1,p[2])}
