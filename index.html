@@ -795,9 +795,12 @@ document.addEventListener("keydown",e=>{
 </script>
 <script>
 if ("serviceWorker" in navigator) {
+  const hadController=!!navigator.serviceWorker.controller;let reloaded=false;
+  // New version found: reload at once only if nobody is logged in, so no half-typed entry is lost.
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{if(hadController&&!reloaded&&!currentLogin){reloaded=true;location.reload()}});
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Dhanalakshmi Dairy PWA ready"))
+    navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"})
+      .then(reg => {reg.update();document.addEventListener("visibilitychange",()=>{if(!document.hidden)reg.update()})})
       .catch(error => console.error("Service Worker failed:", error));
   });
 }
