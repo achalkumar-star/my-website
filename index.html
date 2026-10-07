@@ -414,7 +414,6 @@ function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged
 
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}});
 document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
-document.getElementById("securityCodeInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
 
 document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 function showPage(id){
