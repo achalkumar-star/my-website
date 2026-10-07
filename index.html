@@ -57,6 +57,24 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 .print-bill{display:block!important;border:1px solid #000;padding:2.8mm;color:#000;font-family:Arial,sans-serif;font-size:9px;overflow:hidden}.print-bill h2{font-size:12px;text-align:center;margin-bottom:1px}.print-sub{text-align:center;font-size:8px;margin-bottom:2px}
 .print-line{display:flex;justify-content:space-between;border-bottom:1px solid #999;padding:1px 0}.print-total{font-weight:bold;font-size:10px}.print-week{width:100%;border-collapse:collapse;margin-top:2px}.print-week th,.print-week td{border:1px solid #777;padding:1.3px;font-size:7.5px;color:#000}.print-week th{font-size:7px}.print-credit{margin-top:2px;border-top:1px solid #000;padding-top:2px}.print-bill small{font-size:6.5px}
 }
+
+/* LIGHT THEME */
+:root{--bg:#f3f8f4;--panel:#ffffff;--panel2:#e8f3ec;--border:#cfe0d4;--text:#17301f;--muted:#5d7667;--accent:#1f8a4c;--green:#2fa862;--red:#d6404c;--yellow:#f0b429}
+body{background:radial-gradient(circle at 12% 8%,#d9f0e1,transparent 32%),radial-gradient(circle at 88% 85%,#dcebf7,transparent 32%),var(--bg)}
+.login-card,.modal-card{background:#fff}.login-card{box-shadow:0 20px 50px #1f4d3322}
+.logo{background:linear-gradient(135deg,#e8f6ee,#b9e3c9);color:#14532d}
+input,select,textarea{background:#fff!important;color:var(--text)!important}
+input:focus,select:focus{box-shadow:0 0 0 3px #1f8a4c22}input[readonly]{background:#eef5f0!important}
+.btn{color:#fff}.btn.yellow{color:#3b2a00}.btn.dark{background:#e3eee7;color:#1d3a2a}
+.category-pill{background:#e3eee7;color:#1d5a37}.notice-card{background:#f1f8f3}
+.topbar{background:#ffffffee}.brand-icon{background:var(--accent);color:#fff}
+.sidebar{background:#ffffffaa}.nav-btn{color:#3a5646}.nav-btn:hover,.nav-btn.active{background:#e3f1e8;color:#14532d}
+.stat{background:linear-gradient(145deg,#fff,#eef7f1)}.panel{background:#fff;box-shadow:0 8px 24px #1f4d3314}
+.field label{color:#46604f}.customer-header{background:linear-gradient(135deg,#e6f4ec,#fff)}
+.tab-btn{background:#fff;color:#3a5646}.tab-btn.active{background:var(--accent);color:#fff}
+th,td{border-bottom:1px solid #e1ece5}th{color:#5d7667}
+.day-card,.a4-slot{background:#f7fbf8}#toast{background:#17301f;color:#fff}
+.modal{background:#0a1f1488}
 </style>
 </head>
 <body>
@@ -93,7 +111,8 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <button class="nav-btn" data-page="milk">🥛 Milk Entry</button>
 <button class="nav-btn" data-page="credit">💰 Credit</button>
 <button class="nav-btn" data-page="bills">🧾 Bills</button>
-<button class="nav-btn owner-only" data-page="access">🔐 Access Management</button>
+<button class="nav-btn" data-page="clearbill">✅ Clear Bill</button>
+<button class="nav-btn owner-only" data-page="report">📊 Daily Report</button>
 <button class="nav-btn owner-only" data-page="activity">📝 Activity History</button>
 </aside>
 <main class="main">
@@ -123,7 +142,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <section id="customers" class="page">
 <div class="page-title"><h1>👤 Customer Management</h1><p>Customer Code is the main key for every profile.</p></div>
 <div class="panel">
-<div class="search-row"><input id="customerSearch" placeholder="Enter Customer Code"><button class="btn green" onclick="searchCustomer()">🔎 OPEN PROFILE</button><button class="btn" onclick="openAddCustomer()">➕ ADD CUSTOMER</button></div>
+<div class="form-actions" style="margin:0 0 15px"><button class="btn green" onclick="searchCustomer()">🔎 LOAD CUSTOMER</button><button class="btn" onclick="openAddCustomer()">➕ ADD CUSTOMER</button></div><div class="field" style="margin-bottom:15px"><label>Customer Code</label><input id="customerSearch" placeholder="Example: 10001"></div>
 <div id="customerProfile" class="hidden"></div><div id="customerList"></div>
 </div>
 </section>
@@ -131,6 +150,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <section id="milk" class="page">
 <div class="page-title"><h1>🥛 Milk Entry</h1><p>Thursday → Wednesday. Morning and Evening milk.</p></div>
 <div class="panel">
+<div class="form-actions" style="margin:0 0 15px"><button class="btn dark" onclick="loadMilkCustomer()">🔎 LOAD CUSTOMER</button></div>
 <div class="form-grid">
 <div class="field"><label>Customer Code</label><input id="milkCustomerCode" placeholder="Example: 10001"></div>
 <div class="field"><label>Start Date — Thursday</label><input id="milkStartDate" type="date"></div>
@@ -139,20 +159,20 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <div class="field"><label>Customer Name</label><input id="milkCustomerName" readonly></div>
 </div>
 <div style="margin-top:20px"><h3>7-Day Milk Record</h3><br><div id="weekGrid" class="week-grid"></div></div>
-<div class="form-actions"><button class="btn green" onclick="saveMilkRecord()">💾 SAVE 7-DAY RECORD</button><button class="btn dark" onclick="loadMilkCustomer()">🔎 LOAD CUSTOMER</button></div>
+<div class="form-actions"><button class="btn green" onclick="saveMilkRecord()">💾 SAVE 7-DAY RECORD</button></div>
 </div>
 </section>
 
 <section id="credit" class="page">
 <div class="page-title"><h1>💰 Customer Credit</h1><p>Record money taken by the customer from the dairy.</p></div>
 <div class="panel">
+<div class="form-actions" style="margin:0 0 15px"><button class="btn dark" onclick="loadCreditCustomer()">🔎 LOAD CUSTOMER</button></div>
 <div class="form-grid">
 <div class="field"><label>Customer Code</label><input id="creditCustomerCode" placeholder="Example: 10001"></div>
 <div class="field"><label>Credit Amount</label><input id="creditAmount" type="number" min="0" step=".01"></div>
-<div class="field"><label>Reason</label><select id="creditReason"><option>Recharge</option><option>Cattle Food</option><option>Baki</option><option>Shop</option><option>Cylinder</option><option>Other</option></select></div>
-<div class="field hidden" id="otherReasonField"><label>Other Reason</label><input id="otherReason"></div>
+<div class="field"><label>Reason</label><input id="creditReason" placeholder="Type the reason"></div>
 </div>
-<div class="form-actions"><button class="btn yellow" onclick="addCredit()">💰 SAVE CREDIT</button><button class="btn dark" onclick="loadCreditCustomer()">🔎 LOAD CUSTOMER</button></div>
+<div class="form-actions"><button class="btn yellow" onclick="addCredit()">💰 SAVE CREDIT</button></div>
 <div id="creditCustomerInfo" style="margin-top:20px"></div>
 </div>
 </section>
@@ -164,12 +184,25 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <div id="a4CustomerSlots" class="a4-customer-slots"></div>
 <div class="form-actions"><button class="btn" onclick="addA4CustomerSlot()">➕ ADD CUSTOMER</button><button class="btn green" onclick="printSixCustomerBills()">🖨️ PRINT 6 ON ONE A4</button><button class="btn dark" onclick="clearA4CustomerSlots()">✕ CLEAR ALL</button></div>
 </div>
-<div class="panel" style="margin-top:18px"><h3>🔎 Single Customer Bill</h3><div class="search-row"><input id="billCustomerCode" placeholder="Enter Customer Code"><button class="btn green" onclick="loadBillCustomer()">🔎 LOAD BILL</button><button class="btn" onclick="printCurrentCustomer()">🖨️ PRINT CUSTOMER</button></div><div id="billPreview"></div></div>
+<div class="panel" style="margin-top:18px"><h3>🔎 Single Customer Bill</h3><div class="form-actions" style="margin:0 0 15px"><button class="btn green" onclick="loadBillCustomer()">🔎 LOAD CUSTOMER</button><button class="btn" onclick="printCurrentCustomer()">🖨️ PRINT CUSTOMER</button></div><div class="field"><label>Customer Code</label><input id="billCustomerCode" placeholder="Example: 10001"></div><div id="billPreview"></div></div>
 </section>
 
-<section id="access" class="page owner-only-page">
-<div class="page-title"><h1>🔐 Access Management</h1><p>Logins are managed in the Firebase console, not in this page.</p></div>
-<div class="panel"><h3>Pending Requests</h3><div id="pendingRequests"></div><h3 style="margin-top:25px">Approved Users</h3><div id="approvedUsers"></div></div>
+<section id="report" class="page owner-only-page">
+<div class="page-title"><h1>📊 Daily Collection Report</h1><p>Milk collected on one day. Owner only.</p></div>
+<div class="panel">
+<div class="form-actions" style="margin:0 0 15px"><button class="btn dark" onclick="loadDailyReport()">🔎 SHOW REPORT</button></div>
+<div class="field"><label>Date</label><input id="reportDate" type="date"></div>
+<div id="reportBox" style="margin-top:20px"></div>
+</div>
+</section>
+
+<section id="clearbill" class="page">
+<div class="page-title"><h1>✅ Clear Bill</h1><p>Record payments. Negative balance: customer pays the dairy. Positive balance: dairy pays the customer.</p></div>
+<div class="panel">
+<div class="form-actions" style="margin:0 0 15px"><button class="btn dark" onclick="loadClearBill()">🔎 LOAD CUSTOMER</button></div>
+<div class="field"><label>Customer Code</label><input id="clearCode" placeholder="Example: 10001"></div>
+<div id="clearInfo" style="margin-top:20px"></div>
+</div>
 </section>
 
 <section id="activity" class="page owner-only-page">
@@ -182,7 +215,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <div id="customerModal" class="modal"><div class="modal-card">
 <div class="modal-head"><h2>➕ Add Customer</h2><button class="btn dark" onclick="closeModal()">✕</button></div>
 <div class="form-grid">
-<div class="field"><label>Customer Code</label><input id="newCustomerCode"></div>
+<div class="field"><label>Customer Code (automatic)</label><input id="newCustomerCode" readonly></div>
 <div class="field"><label>Customer Name</label><input id="newCustomerName"></div>
 <div class="field"><label>Milk Price Type</label><select id="newCustomerPricingType"><option value="fixed">Fixed Price</option><option value="fat">Fat Based</option></select></div>
 </div>
@@ -410,6 +443,12 @@ function enterApp(){
 function setOwnerUI(){
   document.querySelectorAll(".owner-only,.owner-only-page").forEach(x=>x.classList.toggle("hidden",!currentUserIsOwner()));
 }
+let hiddenAt=null;
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){hiddenAt=Date.now();return}
+  const away=hiddenAt?Date.now()-hiddenAt:0;hiddenAt=null;
+  if(currentLogin&&away>60000){const done=()=>{sessionStorage.clear();localStorage.removeItem(STORAGE_KEY);location.reload()};try{firebase.auth().signOut().then(done,done)}catch(e){done()}}
+});
 function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");setTimeout(()=>{const done=()=>{sessionStorage.clear();localStorage.removeItem(STORAGE_KEY);location.reload()};firebase.auth().signOut().then(done,done)},700)}
 
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}});
@@ -417,9 +456,10 @@ document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key
 
 document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 function showPage(id){
-  if((id==="access"||id==="activity")&&!currentUserIsOwner()){toast("Owner access required.");return}
+  if((id==="access"||id==="activity"||id==="report")&&!currentUserIsOwner()){toast("Owner access required.");return}
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  if(id==="report"){const ri=document.getElementById("reportDate");if(ri&&!ri.value){ri.value=dateInputValue(new Date());loadDailyReport()}}
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
   if(id==="customers")renderCustomerList();
   if(id==="access")renderAccess();
@@ -444,18 +484,19 @@ function updateDashboard(){
 }
 function openAddCustomer(){
   document.getElementById("customerModal").classList.add("open");
-  ["newCustomerCode","newCustomerName"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("newCustomerName").value="";
+  document.getElementById("newCustomerCode").value=nextCustomerCode();
   document.getElementById("newCustomerPricingType").value="fixed";
-  setTimeout(()=>document.getElementById("newCustomerCode").focus(),100);
+  setTimeout(()=>document.getElementById("newCustomerName").focus(),100);
 }
 function closeModal(){document.getElementById("customerModal").classList.remove("open")}
 function saveCustomer(){
-  const code=document.getElementById("newCustomerCode").value.trim(),name=document.getElementById("newCustomerName").value.trim(),pricingType=document.getElementById("newCustomerPricingType").value;
-  if(!code||!name)return toast("Customer Code and Name are required.");
+  const code=nextCustomerCode(),name=document.getElementById("newCustomerName").value.trim(),pricingType=document.getElementById("newCustomerPricingType").value;
+  if(!code)return toast("Maximum 999999 customers reached.");if(!name)return toast("Customer Name is required.");
   if(getCustomer(code))return toast("Customer Code already exists.");
   const c={code,name,pricingType,milkRecords:[],creditTransactions:[],createdAt:new Date().toISOString()};
   database.customers.push(c);saveDatabase();logAction("ADD CUSTOMER",`${code} - ${name}`);
-  closeModal();showPage("customers");openCustomer(code);toast("Customer saved.");
+  closeModal();showPage("customers");openCustomer(code);toast("Customer saved. Code "+code);
 }
 function getCustomer(code){return database.customers.find(c=>c.code===String(code).trim())}
 function searchCustomer(){const code=document.getElementById("customerSearch").value.trim();if(code)openCustomer(code);else toast("Enter a Customer Code.")}
@@ -485,9 +526,11 @@ function billHistory(c){
   const b=database.bills.filter(x=>x.customerCode===c.code);if(!b.length)return`<p style="color:var(--muted)">No saved bills.</p>`;
   return`<div class="table-wrap"><table><tr><th>Created</th><th>Cycle</th><th>Milk</th><th>Bill</th><th>Balance</th></tr>${b.map(x=>`<tr><td>${formatDateTime(x.createdAt)}</td><td>${formatDate(x.startDate)} → ${formatDate(x.endDate)}</td><td>${formatNumber(x.totalMilk)} L</td><td>${money(x.milkBill)}</td><td>${formatBalance(x.finalBalance)}</td></tr>`).join("")}</table></div>`;
 }
+function byName(a,b){return String(a.name||"").localeCompare(String(b.name||""),undefined,{sensitivity:"base"})}
+function nextCustomerCode(){const n=database.customers.map(c=>parseInt(c.code,10)).filter(x=>Number.isFinite(x)&&x>0&&x<=999999);const m=n.length?Math.max(...n):0;return m>=999999?"":String(m+1)}
 function renderCustomerList(){
   const box=document.getElementById("customerList");if(!database.customers.length){box.innerHTML=`<div style="padding:30px;text-align:center;color:var(--muted)">No customers yet.</div>`;return}
-  box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${database.customers.map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button></td></tr>`}).join("")}</table></div>`;
+  box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${[...database.customers].sort(byName).map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button></td></tr>`}).join("")}</table></div>`;
 }
 function deleteCustomerProfile(code){
   if(!currentUserIsOwner())return toast("Only the owner can delete customers.");
@@ -538,23 +581,24 @@ function saveMilkRecord(){
   }
   const r={startDate:sv,endDate:dateInputValue(e),rate,pricingType:c.pricingType,days};
   if(!currentUserIsOwner()){const old=c.milkRecords.find(x=>x.startDate===sv);if(old){if(old.rate!==r.rate)return toast("Only the owner can change a saved rate.");for(let k=0;k<7;k++){const o=(old.days||[])[k],n=days[k];if(o&&((o.morning>0&&n.morning!==o.morning)||(o.evening>0&&n.evening!==o.evening)))return toast("Only the owner can change saved milk entries.")}}}
+  {const prev=c.milkRecords.find(x=>x.startDate===sv);days.forEach((d,k)=>{const o=prev&&(prev.days||[])[k];if(d.morning>0||d.evening>0)d.by=(o&&o.by&&o.morning===d.morning&&o.evening===d.evening)?o.by:currentLogin})}
   const i=c.milkRecords.findIndex(x=>x.startDate===sv);if(i>=0)c.milkRecords[i]=r;else c.milkRecords.push(r);
   saveDatabase();logAction("SAVE MILK RECORD",`${c.code} - ${c.name} - ${getRecordTotal(r)} L`);currentCustomer=c;toast("7-day milk record saved.");openCustomer(c.code);
 }
-document.getElementById("creditReason").addEventListener("change",function(){document.getElementById("otherReasonField").classList.toggle("hidden",this.value!=="Other")});
 function addCredit(){
-  const code=document.getElementById("creditCustomerCode").value.trim(),c=getCustomer(code),amount=Number(document.getElementById("creditAmount").value);let reason=document.getElementById("creditReason").value;
+  const code=document.getElementById("creditCustomerCode").value.trim(),c=getCustomer(code),amount=Number(document.getElementById("creditAmount").value);let reason=document.getElementById("creditReason").value.trim();
   if(!c)return toast("Customer not found.");if(!amount||amount<=0)return toast("Enter a valid credit amount.");
-  if(reason==="Other"){reason=document.getElementById("otherReason").value.trim();if(!reason)return toast("Enter the other reason.")}
+  if(!reason)return toast("Type the reason.");
   c.creditTransactions.push({amount,reason,date:new Date().toISOString()});saveDatabase();logAction("ADD CREDIT",`${c.code} - ${money(amount)} - ${reason}`);
-  document.getElementById("creditAmount").value="";loadCreditCustomer();toast("Credit saved.");
+  document.getElementById("creditAmount").value="";document.getElementById("creditReason").value="";loadCreditCustomer();toast("Credit saved.");
 }
 function loadCreditCustomer(){
   const c=getCustomer(document.getElementById("creditCustomerCode").value.trim());if(!c)return toast("Customer not found.");currentCustomer=c;
   document.getElementById("creditCustomerInfo").innerHTML=`<div class="stats"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>TOTAL CREDIT</span><strong>${money(getTotalCredit(c))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div><br>${creditHistory(c)}`;
 }
 function getTotalCredit(c){return(c.creditTransactions||[]).reduce((s,t)=>s+Number(t.amount||0),0)}
-function calculateCustomerBalance(c){return(c.milkRecords||[]).reduce((s,r)=>s+calculateMilkBill(r),0)-getTotalCredit(c)}
+function paymentNet(c,until){return(c.paymentTransactions||[]).filter(t=>!until||new Date(t.date)<=until).reduce((s,t)=>s+(t.direction==="received"?1:-1)*Number(t.amount||0),0)}
+function calculateCustomerBalance(c){return(c.milkRecords||[]).reduce((s,r)=>s+calculateMilkBill(r),0)-getTotalCredit(c)+paymentNet(c)}
 function getOutstandingCredit(c){const b=calculateCustomerBalance(c);return b<0?Math.abs(b):0}
 function fatRate(f){f=Number(f||0);return f>0?Math.round((50+(f-6)*4)*100)/100:0}
 function calculateMilkBill(r){if(r.pricingType==="fat")return r.days.reduce((s,d)=>s+Number(d.morning||0)*fatRate(d.morningFat)+Number(d.evening||0)*fatRate(d.eveningFat),0);return getRecordTotal(r)*Number(r.rate||0)}
@@ -565,7 +609,49 @@ function prepareBillForCustomer(code){showPage("bills");document.getElementById(
 function loadBillCustomer(){
   const c=getCustomer(document.getElementById("billCustomerCode").value.trim());if(!c)return toast("Customer not found.");currentCustomer=c;
   const r=getBestBillRecord(c);if(!r){document.getElementById("billPreview").innerHTML=`<p style="color:var(--muted)">No milk record available.</p>`;return}
-  document.getElementById("billPreview").innerHTML=`<div class="stats" style="margin-top:15px"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>MILK</span><strong>${formatNumber(getRecordTotal(r))} L</strong></div><div class="stat"><span>BILL</span><strong>${money(calculateMilkBill(r))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div>`;
+  document.getElementById("billPreview").innerHTML=`<div class="stats" style="margin-top:15px"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>MILK</span><strong>${formatNumber(getRecordTotal(r))} L</strong></div><div class="stat"><span>BILL</span><strong>${money(calculateMilkBill(r))}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(calculateCustomerBalance(c))}</strong></div></div><div class="form-actions" style="margin-top:15px">${Math.round(calculateCustomerBalance(c)*100)!==0?`<button class="btn green" onclick="saveClearPayment(true,'${escapeJs(c.code)}')">✅ PAID (clear ${money(Math.abs(calculateCustomerBalance(c)))})</button>`:`<b class="positive">✅ CLEAR - nothing pending</b>`}</div>`;
+}
+function loadDailyReport(){
+  if(!currentUserIsOwner())return;
+  const date=document.getElementById("reportDate").value;if(!date)return toast("Choose a date.");
+  let mor=0,eve=0;const rows=[],emp={};
+  [...database.customers].sort(byName).forEach(c=>{(c.milkRecords||[]).forEach(r=>{(r.days||[]).forEach(d=>{
+    if(d.date!==date)return;const m=Number(d.morning||0),v=Number(d.evening||0);if(!m&&!v)return;
+    mor+=m;eve+=v;rows.push({c,m,v,by:d.by||""});const k=d.by||"Not recorded";emp[k]=(emp[k]||0)+m+v;
+  })})});
+  const box=document.getElementById("reportBox");
+  if(!rows.length){box.innerHTML=`<p style="color:var(--muted)">No milk collected on ${formatDate(date)}.</p>`;return}
+  box.innerHTML=`<div class="stats"><div class="stat"><span>MORNING</span><strong>${formatNumber(mor)} L</strong></div><div class="stat"><span>EVENING</span><strong>${formatNumber(eve)} L</strong></div><div class="stat"><span>TOTAL</span><strong>${formatNumber(mor+eve)} L</strong></div><div class="stat"><span>CUSTOMERS</span><strong>${rows.length}</strong></div></div>
+  <h3 style="margin-top:22px">By Employee</h3><div class="table-wrap"><table><tr><th>Employee</th><th>Total Liters</th></tr>${Object.keys(emp).map(k=>`<tr><td>${escapeHtml(k)}</td><td>${formatNumber(emp[k])} L</td></tr>`).join("")}</table></div>
+  <h3 style="margin-top:22px">By Customer</h3><div class="table-wrap"><table><tr><th>Code</th><th>Name</th><th>Morning</th><th>Evening</th><th>Total</th><th>Entered by</th></tr>${rows.map(x=>`<tr><td><b>${escapeHtml(x.c.code)}</b></td><td>${escapeHtml(x.c.name)}</td><td>${formatNumber(x.m)} L</td><td>${formatNumber(x.v)} L</td><td>${formatNumber(x.m+x.v)} L</td><td>${escapeHtml(x.by||"-")}</td></tr>`).join("")}</table></div>`;
+}
+function loadClearBill(){
+  const c=getCustomer(document.getElementById("clearCode").value.trim()),box=document.getElementById("clearInfo");
+  if(!c){box.innerHTML="";return toast("Customer not found.")}
+  currentCustomer=c;
+  const b=Math.round(calculateCustomerBalance(c)*100)/100;let status,action="";
+  const form=l=>`<div class="form-grid"><div class="field"><label>${l}</label><input id="clearAmount" type="number" min="0" step=".01"></div><div class="field"><label>Note (optional)</label><input id="clearNote" placeholder="Cash, UPI..."></div></div><div class="form-actions"><button class="btn green" onclick="saveClearPayment(false)">💵 SAVE PAYMENT</button><button class="btn" onclick="saveClearPayment(true)">✅ PAID IN FULL - CLEAR</button></div>`;
+  if(b<0){status=`<b class="negative">⏳ PENDING - customer must pay ${money(-b)} to the dairy</b>`;action=form("Amount received from customer")}
+  else if(b>0){status=`<b class="positive">⏳ PENDING - dairy must pay ${money(b)} to the customer</b>`;action=form("Amount paid to customer")}
+  else status=`<b class="positive">✅ CLEAR - nothing pending</b>`;
+  const tx=[...(c.paymentTransactions||[])].reverse();
+  const hist=tx.length?`<h3 style="margin-top:22px">Payment History</h3><div class="table-wrap"><table><tr><th>Date</th><th>Type</th><th>Amount</th><th>Note</th></tr>${tx.map(t=>`<tr><td>${formatDateTime(t.date)}</td><td>${t.direction==="received"?"Received from customer":"Paid to customer"}</td><td>${money(t.amount)}</td><td>${escapeHtml(t.note||"")}</td></tr>`).join("")}</table></div>`:"";
+  box.innerHTML=`<div class="stats"><div class="stat"><span>CUSTOMER</span><strong>${escapeHtml(c.name)}</strong></div><div class="stat"><span>BALANCE</span><strong>${formatBalance(b)}</strong></div></div><p style="margin:15px 0">${status}</p>${action}${hist}`;
+}
+function saveClearPayment(full,codeArg){
+  const c=getCustomer(codeArg||document.getElementById("clearCode").value.trim());if(!c)return toast("Customer not found.");
+  const b=Math.round(calculateCustomerBalance(c)*100)/100;if(b===0)return toast("Nothing pending. Already clear.");
+  const amt=full?Math.abs(b):Math.round(Number(document.getElementById("clearAmount").value)*100)/100;
+  if(!amt||amt<=0)return toast("Enter a valid amount.");
+  if(amt>Math.abs(b)+0.001)return toast("Amount is more than the pending "+money(Math.abs(b))+".");
+  const dir=b<0?"received":"paid";
+  if(full&&!confirm((dir==="received"?"Customer paid ":"Dairy paid ")+money(amt)+" in full for "+c.name+"?"))return;
+  const noteEl=document.getElementById("clearNote");
+  c.paymentTransactions=c.paymentTransactions||[];c.paymentTransactions.push({amount:amt,direction:dir,note:noteEl&&!codeArg?noteEl.value.trim():"",date:new Date().toISOString()});
+  saveDatabase();logAction("PAYMENT "+dir.toUpperCase(),`${c.code} - ${money(amt)}`);
+  toast(Math.round(calculateCustomerBalance(c)*100)===0?"Bill cleared.":"Payment saved.");
+  const cc=document.getElementById("clearCode");if(cc&&cc.value.trim()===c.code)loadClearBill();
+  if(codeArg)loadBillCustomer();
 }
 function getBestBillRecord(c){if(!c?.milkRecords?.length)return null;const cur=c.milkRecords.find(r=>r.startDate===getCurrentCycle().start);return cur||[...c.milkRecords].sort((a,b)=>parseDate(b.startDate)-parseDate(a.startDate))[0]}
 function printCurrentCustomer(){const c=currentCustomer||getCustomer(document.getElementById("billCustomerCode").value.trim());if(c)printSix([c]);else toast("Open a customer first.")}
@@ -599,19 +685,17 @@ function createPrintableBill(c,r){
   const mt=getRecordTotal(r),bill=calculateMilkBill(r),bal=calculateBalanceThroughRecord(c,r),mor=r.days.reduce((s,d)=>s+Number(d.morning||0),0),eve=r.days.reduce((s,d)=>s+Number(d.evening||0),0),fat=r.pricingType==="fat";
   const rows=r.days.map(d=>{const n=parseDate(d.date).toLocaleDateString("en-IN",{weekday:"short"});return`<tr><td>${n}</td><td><b>${formatNumber(d.morning)} L</b>${fat?`<br><small>F:${formatNumber(d.morningFat)}</small>`:""}</td><td><b>${formatNumber(d.evening)} L</b>${fat?`<br><small>F:${formatNumber(d.eveningFat)}</small>`:""}</td><td><b>${formatNumber(Number(d.morning)+Number(d.evening))} L</b></td></tr>`}).join("");
   const credits=(c.creditTransactions||[]).filter(t=>{const d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${escapeHtml(t.reason)}</b><b>-${money(t.amount)}</b></div>`).join("");
-  return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}<div class="print-line print-total"><span>${bal<0?"BALANCE":"AMOUNT"}</span><span>${money(Math.abs(bal))}</span></div></div>`;
+  const payLines=(c.paymentTransactions||[]).filter(t=>{const d=new Date(t.date),s=parseDate(r.startDate),e=parseDate(r.endDate);e.setHours(23,59,59);return d>=s&&d<=e}).map(t=>`<div class="print-line"><b>${t.direction==="received"?"Payment Received":"Paid to Customer"}</b><b>${t.direction==="received"?"+":"-"}${money(t.amount)}</b></div>`).join("");
+  return`<div class="print-bill"><h2>DHANALAKSHMI MILK DAIRY</h2><div class="print-sub">7-DAY MILK BILL</div><div class="print-line"><span>Code</span><b>${escapeHtml(c.code)}</b></div><div class="print-line"><span>Name</span><b>${escapeHtml(c.name)}</b></div><div class="print-sub">${formatDate(r.startDate)} → ${formatDate(r.endDate)}</div><table class="print-week"><tr><th>DAY</th><th>MORNING</th><th>EVENING</th><th>TOTAL</th></tr>${rows}</table><div class="print-line print-total"><span>Morning</span><span>${formatNumber(mor)} L</span></div><div class="print-line print-total"><span>Evening</span><span>${formatNumber(eve)} L</span></div><div class="print-line print-total"><span>TOTAL MILK</span><span>${formatNumber(mt)} L</span></div>${credits?`<div class="print-credit"><b>Credit Taken</b>${credits}</div>`:""}${payLines}<div class="print-line print-total"><span>${bal<0?"BALANCE":"AMOUNT"}</span><span>${money(Math.abs(bal))}</span></div></div>`;
 }
 function calculateBalanceThroughRecord(c,target){
   let b=0;
   for(const r of [...(c.milkRecords||[])].sort((a,b)=>parseDate(a.startDate)-parseDate(b.startDate))){b+=calculateMilkBill(r);if(r.startDate===target.startDate)break}
   b-=(c.creditTransactions||[]).filter(t=>new Date(t.date)<=new Date(parseDate(target.endDate).setHours(23,59,59))).reduce((s,t)=>s+Number(t.amount||0),0);
+  b+=paymentNet(c,new Date(parseDate(target.endDate).setHours(23,59,59)));
   return b;
 }
-function renderAccess(){
-  if(!currentUserIsOwner())return;
-  document.getElementById("pendingRequests").innerHTML='<p style="color:var(--muted)">To add an employee, remove one, or reset a password: Firebase console → Authentication → Users. Email format: loginid@dhanalakshmi-dairy.app</p>';
-  document.getElementById("approvedUsers").innerHTML='';
-}
+function renderAccess(){}
 function approveUser(id){
   if(!currentUserIsOwner())return;const r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;
   if(!database.users.some(u=>u.id===id))database.users.push({id,name:r.name||id,passwordHash:r.passwordHash||"",status:"approved",approvedAt:new Date().toISOString()});
