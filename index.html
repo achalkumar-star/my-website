@@ -74,19 +74,14 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 <div class="login-fields">
 <input id="loginIdInput" type="text" placeholder="Owner Login ID" autocomplete="username">
 <input id="passwordInput" type="password" placeholder="Password" autocomplete="current-password">
-<input id="securityCodeInput" class="hidden" type="password" inputmode="numeric" placeholder="Owner Security Code" autocomplete="one-time-code">
 <button class="btn" onclick="login()">🔐 LOGIN</button>
-<button id="requestAccessBtn" class="btn dark hidden" onclick="openEmployeeRequest()">📝 REQUEST EMPLOYEE ACCESS</button>
+<div style="color:var(--muted);font-size:12px">Employee Login IDs and passwords are created by the owner.</div>
 </div>
-<div id="securityCodeNote" class="hidden" style="margin-top:10px;color:var(--yellow);font-size:13px">Owner verification required.</div>
 <div id="loginError" class="error"></div>
 </div>
 </section>
 
 <div id="app" class="hidden">
-<div id="firebaseSecurityNotice" style="margin:10px 0;padding:10px 12px;border-radius:10px;border:1px solid #6b7280;background:#172033;color:#f8fafc;font-size:12px">
-⚠️ Firebase security is currently in testing mode. Secure Firestore rules before real business use.
-</div>
 <header class="topbar">
 <div class="brand"><div class="brand-icon">🥛</div><div><h2>DHANALAKSHMI MILK DAIRY</h2><small>Logged in as <b id="loggedInAs"></b></small></div></div>
 <div class="top-actions"><span id="cloudStatusInline" style="color:var(--green);font-size:12px">☁️ Connecting...</span><button class="btn dark" onclick="backupData()">💾 Backup</button><button class="btn red" onclick="logout()">🔒 Lock</button></div>
@@ -173,7 +168,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 </section>
 
 <section id="access" class="page owner-only-page">
-<div class="page-title"><h1>🔐 Access Management</h1><p>Only the OWNER can approve or reject Login IDs.</p></div>
+<div class="page-title"><h1>🔐 Access Management</h1><p>Logins are managed in the Firebase console, not in this page.</p></div>
 <div class="panel"><h3>Pending Requests</h3><div id="pendingRequests"></div><h3 style="margin-top:25px">Approved Users</h3><div id="approvedUsers"></div></div>
 </section>
 
@@ -214,6 +209,7 @@ input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #61dafb
 
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.17.1/firebase-auth-compat.js"></script>
 <script>
 const firebaseConfig={
   apiKey:"AIzaSyACG45U-PDxFuXyvhxz0olo0x5S957o-7U",
@@ -258,8 +254,9 @@ async function startFirebaseSync(){
   try{
     if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
     const root=firebase.firestore().collection("dairy");
-    const names=["customers","bills","users","requests","activity","notifications"];
+    const names=currentUserIsOwner()?["customers","bills","users","requests","activity","notifications"]:["customers","bills","activity","notifications"];
 
+    if(currentUserIsOwner()){
     const mainSnap=await root.doc("main").get();
     if(mainSnap.exists){
       const oldData=normalizeDatabase(mainSnap.data());
@@ -273,12 +270,13 @@ async function startFirebaseSync(){
         if(!snap.exists)await root.doc(name).set({items:Array.isArray(database[name])?database[name]:[]});
       }
     }
+    }
 
     names.forEach(name=>{
       root.doc(name).onSnapshot(snap=>{
         if(snap.exists){
           const data=snap.data()||{};
-          database[name]=Array.isArray(data.items)?data.items:[];
+          database[name]=Array.isArray(data.items)?data.items:[];synced[name]=JSON.stringify(database[name]);
           localStorage.setItem(STORAGE_KEY,JSON.stringify(database));
           updateDashboard();
           renderCustomerList();
@@ -309,8 +307,8 @@ async function cloudSaveDatabase(){
     if(cloudWriteBusy)return;cloudWriteBusy=true;
     try{
       const root=firebase.firestore().collection("dairy");
-      const names=["customers","bills","users","requests","activity","notifications"];
-      for(const name of names){await root.doc(name).set({items:Array.isArray(database[name])?database[name]:[]},{merge:true})}
+      const names=currentUserIsOwner()?["customers","bills","users","requests","activity","notifications"]:["customers","bills","activity"];
+      for(const name of names){const items=Array.isArray(database[name])?database[name]:[],j=JSON.stringify(items);if(synced[name]===j)continue;await root.doc(name).set({items});synced[name]=j}
       showCloudStatus("☁️ Cloud connected • Saved");
     }catch(err){
       console.error("Cloud save error:",err);showCloudStatus("⚠️ Cloud save retrying...");
@@ -322,11 +320,9 @@ async function cloudSaveDatabase(){
 
 <script>
 const OWNER_ID="ACHALKUMAR";
-const PASSWORD="31122";
-const OWNER_SECURITY_CODE="11223";
+const AUTH_SUFFIX="@dhanalakshmi-dairy.app";
 const STORAGE_KEY="dhanalakshmi_milk_dairy_database_v3";
 const LEGACY_STORAGE_KEY="dhanalakshmi_milk_dairy_database_v2";
-const LEGACY_PASSWORD="31122";
 
 let database=loadDatabase();
 let currentCustomer=null;
@@ -334,6 +330,7 @@ let currentLogin="";
 let securityCodeMode=false;
 let loginMode="owner";
 let a4CustomerCodes=[];
+const synced={};
 let cloudWriteTimer=null;
 let cloudWriteBusy=false;
 
@@ -369,38 +366,27 @@ function logAction(action,details="",category=null){
 }
 function setLoginMode(mode){
   loginMode=mode;securityCodeMode=false;
-  document.getElementById("securityCodeInput").classList.toggle("hidden",mode!=="owner");
-  document.getElementById("securityCodeNote").classList.toggle("hidden",mode!=="owner");
-  document.getElementById("requestAccessBtn").classList.toggle("hidden",mode!=="employee");
   document.getElementById("ownerLoginBtn").className="btn"+(mode==="owner"?" active":" dark");
   document.getElementById("employeeLoginBtn").className="btn"+(mode==="employee"?" active":" dark");
   document.getElementById("loginIdInput").placeholder=mode==="owner"?"Owner Login ID":"Employee Login ID";
-  document.getElementById("loginModeText").textContent=mode==="owner"?"Owner login • owner-only controls available after verification":"Employee login • access is available only after owner approval";
+  document.getElementById("loginModeText").textContent=mode==="owner"?"Owner login • owner-only controls available after sign-in":"Employee login • use the Login ID and password given by the owner";
   document.getElementById("loginError").textContent="";
 }
 async function sha256(text){const data=new TextEncoder().encode(text);const hash=await crypto.subtle.digest("SHA-256",data);return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}
 async function login(){
   const id=document.getElementById("loginIdInput").value.trim().toUpperCase();
   const pass=document.getElementById("passwordInput").value;
-  const securityCode=document.getElementById("securityCodeInput").value.trim();
   const err=document.getElementById("loginError");
   if(!id||!pass){err.textContent="Enter Login ID and Password.";return}
-  if(loginMode==="owner"){
-    if(id!==OWNER_ID){err.textContent="Use OWNER LOGIN for the owner account.";return}
-    if(pass!==PASSWORD){err.textContent="Incorrect owner password.";return}
-    if(!securityCodeMode){securityCodeMode=true;document.getElementById("securityCodeInput").classList.remove("hidden");document.getElementById("securityCodeNote").classList.remove("hidden");document.getElementById("securityCodeInput").focus();return}
-    if(securityCode!==OWNER_SECURITY_CODE){err.textContent="Incorrect Owner Security Code.";return}
-    currentLogin=OWNER_ID;enterApp();logAction("OWNER LOGIN","Owner login successful.");return;
-  }
-  const user=database.users.find(u=>u.id===id&&u.status==="approved");
-  if(!user){
-    const pending=database.requests.find(r=>r.id===id&&r.status==="pending");
-    err.textContent=pending?"Your access request is waiting for owner approval.":"Employee account not approved. Use REQUEST EMPLOYEE ACCESS.";return;
-  }
-  const hash=await sha256(pass);
-  if(user.passwordHash&&user.passwordHash!==hash){err.textContent="Incorrect employee password.";return}
-  if(!user.passwordHash&&pass!==LEGACY_PASSWORD){err.textContent="Incorrect employee password.";return}
-  currentLogin=id;enterApp();logAction("EMPLOYEE LOGIN","Employee login successful.");
+  if(!/^[A-Z0-9_.-]+$/.test(id)){err.textContent="Login ID can only have letters and numbers.";return}
+  if(loginMode==="owner"&&id!==OWNER_ID){err.textContent="Use EMPLOYEE LOGIN for employee accounts.";return}
+  if(loginMode==="employee"&&id===OWNER_ID){err.textContent="Use OWNER LOGIN for the owner account.";return}
+  err.textContent="Signing in...";
+  try{
+    if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+    await firebase.auth().signInWithEmailAndPassword(id.toLowerCase()+AUTH_SUFFIX,pass);
+    document.getElementById("passwordInput").value="";err.textContent="";
+  }catch(e){err.textContent="Incorrect Login ID or password."}
 }
 function openEmployeeRequest(){document.getElementById("employeeRequestModal").classList.add("open");document.getElementById("requestName").focus()}
 function closeEmployeeRequest(){document.getElementById("employeeRequestModal").classList.remove("open")}
@@ -424,7 +410,7 @@ function enterApp(){
 function setOwnerUI(){
   document.querySelectorAll(".owner-only,.owner-only-page").forEach(x=>x.classList.toggle("hidden",!currentUserIsOwner()));
 }
-function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");sessionStorage.clear();location.reload()}
+function logout(){const who=currentLogin; if(who)logAction("LOGOUT",who+" logged out");setTimeout(()=>{const done=()=>{sessionStorage.clear();localStorage.removeItem(STORAGE_KEY);location.reload()};firebase.auth().signOut().then(done,done)},700)}
 
 document.getElementById("loginIdInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();document.getElementById("passwordInput").focus()}});
 document.getElementById("passwordInput").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();login()}});
@@ -505,6 +491,7 @@ function renderCustomerList(){
   box.innerHTML=`<div class="table-wrap"><table><tr><th>Customer Code</th><th>Name</th><th>Balance</th><th>Action</th></tr>${database.customers.map(c=>{const b=calculateCustomerBalance(c);return`<tr><td><b>${escapeHtml(c.code)}</b></td><td>${escapeHtml(c.name)}</td><td class="${b<0?"negative":"positive"}">${formatBalance(b)}</td><td><button class="btn dark" onclick="openCustomer('${escapeJs(c.code)}')">OPEN</button></td></tr>`}).join("")}</table></div>`;
 }
 function deleteCustomerProfile(code){
+  if(!currentUserIsOwner())return toast("Only the owner can delete customers.");
   const c=getCustomer(code);if(!c||!confirm(`Delete ${c.name} (${c.code})?`))return;
   database.customers=database.customers.filter(x=>x.code!==c.code);database.bills=database.bills.filter(x=>x.customerCode!==c.code);
   saveDatabase();logAction("DELETE CUSTOMER",`${c.code} - ${c.name}`);document.getElementById("customerProfile").classList.add("hidden");renderCustomerList();toast("Customer deleted.");
@@ -551,6 +538,7 @@ function saveMilkRecord(){
     const d=new Date(s);d.setDate(d.getDate()+i);days.push({date:dateInputValue(d),morning:m,evening:v,morningFat:mf,eveningFat:ef});
   }
   const r={startDate:sv,endDate:dateInputValue(e),rate,pricingType:c.pricingType,days};
+  if(!currentUserIsOwner()){const old=c.milkRecords.find(x=>x.startDate===sv);if(old){if(old.rate!==r.rate)return toast("Only the owner can change a saved rate.");for(let k=0;k<7;k++){const o=(old.days||[])[k],n=days[k];if(o&&((o.morning>0&&n.morning!==o.morning)||(o.evening>0&&n.evening!==o.evening)))return toast("Only the owner can change saved milk entries.")}}}
   const i=c.milkRecords.findIndex(x=>x.startDate===sv);if(i>=0)c.milkRecords[i]=r;else c.milkRecords.push(r);
   saveDatabase();logAction("SAVE MILK RECORD",`${c.code} - ${c.name} - ${getRecordTotal(r)} L`);currentCustomer=c;toast("7-day milk record saved.");openCustomer(c.code);
 }
@@ -622,9 +610,8 @@ function calculateBalanceThroughRecord(c,target){
 }
 function renderAccess(){
   if(!currentUserIsOwner())return;
-  const p=database.requests.filter(r=>r.status==="pending"),a=database.users.filter(u=>u.status==="approved");
-  document.getElementById("pendingRequests").innerHTML=p.length?`<div class="table-wrap"><table><tr><th>Name</th><th>Login ID</th><th>Requested</th><th>Action</th></tr>${p.map(r=>`<tr><td>${escapeHtml(r.name||r.id)}</td><td><b>${escapeHtml(r.id)}</b></td><td>${formatDateTime(r.date)}</td><td><button class="btn green" onclick="approveUser('${escapeJs(r.id)}')">✅ APPROVE</button> <button class="btn red" onclick="rejectUser('${escapeJs(r.id)}')">❌ REJECT</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No pending requests.</p>`;
-  document.getElementById("approvedUsers").innerHTML=a.length?`<div class="table-wrap"><table><tr><th>Login ID</th><th>Status</th><th>Password</th><th>Actions</th></tr>${a.map(u=>`<tr><td><b>${escapeHtml(u.id)}</b></td><td><span class="badge green">APPROVED</span></td><td><button class="btn yellow" style="padding:7px 10px" onclick="changeEmployeePassword('${escapeJs(u.id)}')">🔑 CHANGE PASSWORD</button></td><td><button class="btn red" style="padding:7px 10px" onclick="removeUser('${escapeJs(u.id)}')">🗑️ REMOVE</button></td></tr>`).join("")}</table></div>`:`<p style="color:var(--muted)">No approved employees.</p>`;
+  document.getElementById("pendingRequests").innerHTML='<p style="color:var(--muted)">To add an employee, remove one, or reset a password: Firebase console → Authentication → Users. Email format: loginid@dhanalakshmi-dairy.app</p>';
+  document.getElementById("approvedUsers").innerHTML='';
 }
 function approveUser(id){
   if(!currentUserIsOwner())return;const r=database.requests.find(x=>x.id===id&&x.status==="pending");if(!r)return;
@@ -684,20 +671,21 @@ function toast(m){const e=document.getElementById("toast");e.textContent=m;e.cla
 (function init(){
   document.getElementById("milkStartDate").value=getCurrentCycle().start;
   setLoginMode("owner");buildWeekGrid();renderCustomerList();addA4CustomerSlot();renderNotifications();
-  const a=sessionStorage.getItem("dairyAuthenticated"),id=sessionStorage.getItem("dairyLogin");
-  if(a==="true"&&id){
-    currentLogin=id;document.getElementById("loginScreen").classList.add("hidden");document.getElementById("app").classList.remove("hidden");
-    document.getElementById("loggedInAs").textContent=id;setOwnerUI();updateDashboard();
-  }
   showCloudStatus("☁️ Connecting to cloud...");
-  startFirebaseSync();
+  if(firebaseConfigured()){
+    if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(u=>{
+      if(u&&u.email&&u.email.endsWith(AUTH_SUFFIX)){currentLogin=u.email.split("@")[0].toUpperCase();enterApp();startFirebaseSync()}
+      else{showCloudStatus("🔒 Please sign in")}
+    });
+  }
 })();
 
 /* ENTER = NEXT FIELD, SHIFT+ENTER = PREVIOUS */
 document.addEventListener("keydown",e=>{
   if(e.key!=="Enter")return;
   const el=document.activeElement;
-  if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput"||el.id==="securityCodeInput")return;
+  if(!el||!["INPUT","SELECT"].includes(el.tagName)||el.id==="passwordInput")return;
   if(el.readOnly||el.disabled)return;
   e.preventDefault();
   const f=[...document.querySelectorAll("input:not([disabled]):not([readonly]),select:not([disabled])")].filter(x=>x.offsetParent!==null);
